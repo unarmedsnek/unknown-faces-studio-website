@@ -13,6 +13,10 @@ export default {
       },
     },
     extend: {
+      fontFamily: {
+        sans: ['Inter', 'Helvetica Now', 'Neue Haas Grotesk', 'IBM Plex Sans', 'SF Pro', 'sans-serif'],
+        mono: ['IBM Plex Mono', 'Space Mono', 'JetBrains Mono', 'Roboto Mono', 'monospace'],
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
