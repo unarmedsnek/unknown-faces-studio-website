@@ -72,17 +72,31 @@ export default function WhereToFindUs() {
               </Card>
             </div>
 
-            {/* Map Placeholder */}
+            {/* Google Maps Embed */}
             <div className="lg:sticky lg:top-24 lg:self-start">
-              <Card className="border-2 border-dashed border-border shadow-none">
-                <CardContent className="flex aspect-square items-center justify-center p-12 lg:aspect-auto lg:h-full lg:min-h-[600px]">
-                  <div className="text-center">
-                    <MapPin className="mx-auto mb-4 h-12 w-12 text-muted-foreground" />
-                    <p className="font-mono text-sm text-muted-foreground">
-                      Map embed placeholder
-                    </p>
-                    <p className="mt-2 text-muted-foreground">
-                      Google Maps integration will be added here
+              <Card className="overflow-hidden border-2 border-foreground shadow-lg">
+                <CardContent className="p-0">
+                  {/* TODO: Replace src URL with your Google Maps embed URL */}
+                  {/* To get your embed URL: 
+                      1. Go to https://www.google.com/maps
+                      2. Search for your address
+                      3. Click "Share" button
+                      4. Click "Embed a map"
+                      5. Copy the iframe src URL and paste it below
+                  */}
+                  <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3022.9663095919355!2d-74.00425878459394!3d40.74844097932847!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c259a9b3117469%3A0xd134e199a405a163!2sEmpire%20State%20Building!5e0!3m2!1sen!2sus!4v1234567890123!5m2!1sen!2sus"
+                    width="100%"
+                    height="600"
+                    style={{ border: 0 }}
+                    allowFullScreen
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                    title="Studio Location Map"
+                  />
+                  <div className="p-4 bg-muted border-t-2 border-foreground">
+                    <p className="text-xs text-center text-muted-foreground font-mono">
+                      📍 Replace the map src URL with your actual studio location
                     </p>
                   </div>
                 </CardContent>

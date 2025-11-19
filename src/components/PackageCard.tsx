@@ -10,11 +10,15 @@ export interface PackageData {
 interface PackageCardProps {
   package: PackageData;
   className?: string;
+  onClick?: () => void;
 }
 
-export const PackageCard = ({ package: pkg, className = "" }: PackageCardProps) => {
+export const PackageCard = ({ package: pkg, className = "", onClick }: PackageCardProps) => {
   return (
-    <Card className={`manga-panel rounded-none ${className}`}>
+    <Card 
+      className={`manga-panel rounded-none cursor-pointer transition-all hover:scale-105 hover:shadow-lg ${className}`}
+      onClick={onClick}
+    >
       <CardHeader>
         <CardTitle className="text-2xl font-bold uppercase tracking-wide">{pkg.name}</CardTitle>
         <CardDescription className="text-lg font-bold text-foreground">
