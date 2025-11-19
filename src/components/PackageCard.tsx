@@ -14,9 +14,9 @@ interface PackageCardProps {
 
 export const PackageCard = ({ package: pkg, className = "" }: PackageCardProps) => {
   return (
-    <Card className={`border-2 border-foreground shadow-none transition-transform hover:translate-x-1 hover:translate-y-1 ${className}`}>
+    <Card className={`manga-panel rounded-none ${className}`}>
       <CardHeader>
-        <CardTitle className="text-2xl font-bold">{pkg.name}</CardTitle>
+        <CardTitle className="text-2xl font-bold uppercase tracking-wide">{pkg.name}</CardTitle>
         <CardDescription className="text-lg font-bold text-foreground">
           {pkg.price}
         </CardDescription>

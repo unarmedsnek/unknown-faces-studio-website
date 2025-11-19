@@ -45,16 +45,20 @@ export default function Booking() {
       
       <main className="py-16">
         <div className="mx-auto max-w-7xl px-6">
-          <div className="mb-12 text-center">
-            <h1 className="mb-4 text-5xl font-bold">Book Your Session</h1>
-            <p className="text-xl text-muted-foreground">
+          <div className="mb-12 text-center motion-lines py-8">
+            <h1 className="mb-4 text-5xl font-bold">
+              <span className="manga-caption-strip">Book Your Session</span>
+            </h1>
+            <p className="text-xl text-muted-foreground font-mono">
               Choose your package and fill out the form below
             </p>
           </div>
 
           {/* Packages Grid */}
-          <section className="mb-16">
-            <h2 className="mb-8 text-3xl font-bold">Available Packages</h2>
+          <section className="mb-16 motion-lines py-8">
+            <h2 className="mb-8 text-3xl font-bold text-center">
+              <span className="manga-caption-strip">Available Packages</span>
+            </h2>
             <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
               {packages.map((pkg) => (
                 <PackageCard key={pkg.name} package={pkg} />
@@ -63,92 +67,47 @@ export default function Booking() {
           </section>
 
           {/* Booking Form */}
-          <section>
-            <Card className="mx-auto max-w-2xl border-2 border-foreground shadow-none">
-              <CardHeader>
-                <CardTitle className="text-3xl">Booking Form</CardTitle>
-              </CardHeader>
-              <CardContent>
+          <section className="motion-lines py-8">
+            <h2 className="mb-8 text-3xl font-bold text-center">
+              <span className="manga-caption-strip">Booking Form</span>
+            </h2>
+            <Card className="mx-auto max-w-2xl manga-panel rounded-none">
+              <CardContent className="pt-6">
                 <form className="space-y-6">
-                  {/* Name */}
                   <div className="space-y-2">
-                    <Label htmlFor="name">Full Name</Label>
-                    <Input
-                      id="name"
-                      type="text"
-                      placeholder="John Doe"
-                      className="border-2"
-                    />
+                    <Label htmlFor="name" className="uppercase tracking-wide font-mono text-xs">Full Name</Label>
+                    <Input id="name" type="text" placeholder="John Doe" className="border-2 rounded-none" />
                   </div>
-
-                  {/* Phone */}
                   <div className="space-y-2">
-                    <Label htmlFor="phone">Phone Number</Label>
-                    <Input
-                      id="phone"
-                      type="tel"
-                      placeholder="+1 (555) 000-0000"
-                      className="border-2"
-                    />
+                    <Label htmlFor="phone" className="uppercase tracking-wide font-mono text-xs">Phone Number</Label>
+                    <Input id="phone" type="tel" placeholder="+1 (555) 000-0000" className="border-2 rounded-none" />
                   </div>
-
-                  {/* Email */}
                   <div className="space-y-2">
-                    <Label htmlFor="email">Email</Label>
-                    <Input
-                      id="email"
-                      type="email"
-                      placeholder="john@example.com"
-                      className="border-2"
-                    />
+                    <Label htmlFor="email" className="uppercase tracking-wide font-mono text-xs">Email</Label>
+                    <Input id="email" type="email" placeholder="john@example.com" className="border-2 rounded-none" />
                   </div>
-
-                  {/* Package Selection */}
                   <div className="space-y-2">
-                    <Label htmlFor="package">Select Package</Label>
+                    <Label htmlFor="package" className="uppercase tracking-wide font-mono text-xs">Select Package</Label>
                     <Select>
-                      <SelectTrigger id="package" className="border-2">
+                      <SelectTrigger id="package" className="border-2 rounded-none">
                         <SelectValue placeholder="Choose a package" />
                       </SelectTrigger>
                       <SelectContent>
                         {packages.map((pkg) => (
-                          <SelectItem key={pkg.name} value={pkg.name.toLowerCase().replace(/\s+/g, '-')}>
-                            {pkg.name} - {pkg.price}
-                          </SelectItem>
+                          <SelectItem key={pkg.name} value={pkg.name}>{pkg.name} - {pkg.price}</SelectItem>
                         ))}
                       </SelectContent>
                     </Select>
                   </div>
-
-                  {/* Extra Hour */}
                   <div className="flex items-center space-x-2">
-                    <Checkbox
-                      id="extra-hour"
-                      checked={extraHour}
-                      onCheckedChange={(checked) => setExtraHour(checked as boolean)}
-                    />
-                    <Label
-                      htmlFor="extra-hour"
-                      className="cursor-pointer text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                    >
-                      Add an extra hour to my session
-                    </Label>
+                    <Checkbox id="extra-hour" checked={extraHour} onCheckedChange={(checked) => setExtraHour(checked as boolean)} className="rounded-none border-2" />
+                    <Label htmlFor="extra-hour" className="cursor-pointer text-sm font-medium uppercase tracking-wide">Add an extra hour</Label>
                   </div>
-
-                  {/* Preferred Time */}
                   <div className="space-y-2">
-                    <Label htmlFor="time">Preferred Date & Time</Label>
-                    <Input
-                      id="time"
-                      type="datetime-local"
-                      className="border-2"
-                    />
+                    <Label htmlFor="time" className="uppercase tracking-wide font-mono text-xs">Preferred Time</Label>
+                    <Input id="time" type="text" placeholder="e.g., 2:00 PM" className="border-2 rounded-none" />
                   </div>
-
-                  {/* Submit Button */}
-                  <Button type="submit" size="lg" className="w-full border-2">
-                    Submit Booking Request
-                  </Button>
+                  <Button type="submit" size="lg" className="w-full">Submit Booking (UI Only)</Button>
                 </form>
               </CardContent>
             </Card>
