@@ -57,9 +57,11 @@ export default function FAQ() {
       
       <main className="py-16">
         <div className="mx-auto max-w-4xl px-6">
-          <div className="mb-12 text-center">
-            <h1 className="mb-4 text-5xl font-bold">Frequently Asked Questions</h1>
-            <p className="text-xl text-muted-foreground">
+          <div className="mb-12 text-center motion-lines py-8">
+            <h1 className="mb-4 text-5xl font-bold">
+              <span className="manga-caption-strip">Frequently Asked Questions</span>
+            </h1>
+            <p className="text-xl text-muted-foreground font-mono">
               Everything you need to know about booking and recording
             </p>
           </div>
@@ -69,12 +71,12 @@ export default function FAQ() {
               <AccordionItem
                 key={index}
                 value={`item-${index}`}
-                className="border-2 border-foreground bg-card px-6"
+                className="manga-panel rounded-none px-6 hover:shadow-[8px_8px_0_hsl(var(--foreground))]"
               >
-                <AccordionTrigger className="text-left text-lg font-bold hover:no-underline">
+                <AccordionTrigger className="text-left text-lg font-bold uppercase tracking-wide hover:no-underline">
                   {faq.question}
                 </AccordionTrigger>
-                <AccordionContent className="text-muted-foreground">
+                <AccordionContent className="text-foreground/80">
                   {faq.answer}
                 </AccordionContent>
               </AccordionItem>

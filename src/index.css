@@ -111,11 +111,69 @@ All colors MUST be HSL.
       );
   }
 
+  /* Manga panel - comic frame style with offset shadow */
   .manga-panel {
     position: relative;
     border: 3px solid hsl(var(--foreground));
-    box-shadow: 
-      4px 4px 0 hsl(var(--foreground)),
-      8px 8px 0 hsl(var(--border));
+    box-shadow: 6px 6px 0 hsl(var(--foreground));
+    background: hsl(var(--muted));
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .manga-panel:hover {
+    transform: translateY(-2px);
+    box-shadow: 8px 8px 0 hsl(var(--foreground));
+  }
+
+  /* Caption strip for section titles */
+  .manga-caption-strip {
+    display: inline-block;
+    padding: 0.5rem 1.5rem;
+    border: 2px solid hsl(var(--foreground));
+    box-shadow: 3px 3px 0 hsl(var(--foreground));
+    background: hsl(var(--background));
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* Motion lines - speed line effect */
+  .motion-lines {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .motion-lines::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: 
+      repeating-linear-gradient(
+        -45deg,
+        transparent,
+        transparent 20px,
+        rgba(0, 0, 0, 0.03) 20px,
+        rgba(0, 0, 0, 0.03) 22px
+      ),
+      repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 30px,
+        rgba(0, 0, 0, 0.02) 30px,
+        rgba(0, 0, 0, 0.02) 32px
+      );
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .motion-lines > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Subtle dot texture for backgrounds */
+  .manga-dots {
+    background-image: 
+      radial-gradient(circle, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
+    background-size: 8px 8px;
   }
 }
