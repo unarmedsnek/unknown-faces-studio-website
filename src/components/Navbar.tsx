@@ -14,10 +14,10 @@ const navigation = [
 ];
 
 const socialLinks = [
-  { icon: Youtube, href: "#", label: "YouTube" },
-  { icon: Instagram, href: "#", label: "Instagram" },
-  { icon: Facebook, href: "#", label: "Facebook" },
-  { icon: FaTiktok, href: "#", label: "TikTok" },
+  { icon: Youtube, href: "https://www.youtube.com/channel/UCPBinwqK0M6lQ_ifx7BU5fA", label: "YouTube" },
+  { icon: Instagram, href: "https://www.instagram.com/unknownfacesofficial/?hl=en", label: "Instagram" },
+  { icon: Facebook, href: "https://www.facebook.com/unknownfaceso?locale=lt_LT", label: "Facebook" },
+  { icon: FaTiktok, href: "https://www.tiktok.com/@unknownfaces38", label: "TikTok" },
   { icon: Send, href: "#", label: "Telegram" },
 ];
 

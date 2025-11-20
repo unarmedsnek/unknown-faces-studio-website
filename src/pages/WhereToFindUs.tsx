@@ -28,7 +28,7 @@ export default function WhereToFindUs() {
                     <MapPin className="mt-1 h-6 w-6 flex-shrink-0" />
                     <div>
                       <h3 className="mb-2 text-xl font-bold uppercase tracking-wide">Studio Address</h3>
-                      <p className="text-foreground/80 font-mono text-sm">123 Music Street<br />Creative District<br />City, State 12345<br />United States</p>
+                      <p className="text-foreground/80 font-mono text-sm">Laisvės alėja 99<br />Centras<br />Kaunas<br />Lietuva</p>
                     </div>
                   </div>
                 </CardContent>
@@ -85,7 +85,7 @@ export default function WhereToFindUs() {
                       5. Copy the iframe src URL and paste it below
                   */}
                   <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3022.9663095919355!2d-74.00425878459394!3d40.74844097932847!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c259a9b3117469%3A0xd134e199a405a163!2sEmpire%20State%20Building!5e0!3m2!1sen!2sus!4v1234567890123!5m2!1sen!2sus"
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d143.39365979422985!2d23.902043599994254!3d54.89768185880519!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x46e7220c635b38db%3A0xe1fbe336070661e!2sLaisv%C4%97s%20al.%2099%2C%20Kaunas%2C%2044291%20Kauno%20m.%20sav.%2C%20Lithuania!5e0!3m2!1sen!2sde!4v1763639697932!5m2!1sen!2sde"
                     width="100%"
                     height="600"
                     style={{ border: 0 }}

@@ -1,4 +1,4 @@
-import { useState, useEffect, FormEvent } from "react";
+import { useState, FormEvent } from "react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { PackageCard, PackageData } from "@/components/PackageCard";
@@ -8,17 +8,12 @@ import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Card, CardContent } from "@/components/ui/card";
+import { Calendar as CalendarIcon } from "lucide-react";
 import emailjs from "@emailjs/browser";
 import { useToast } from "@/hooks/use-toast";
 import { emailjsConfig } from "@/config/emailjs.config";
 import { getCalLink, calConfig } from "@/config/cal.config";
-
-// Cal.com type declaration
-declare global {
-  interface Window {
-    Cal?: (action: string, options?: Record<string, unknown>) => void;
-  }
-}
+import { createCalComBooking, getEventTypeId } from "@/config/calcom-api.config";
 
 const packages: PackageData[] = [
   {
@@ -51,6 +46,8 @@ export default function Booking() {
   const [selectedPackage, setSelectedPackage] = useState<PackageData | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [extraHour, setExtraHour] = useState(false);
+  const [selectedDate, setSelectedDate] = useState("");
+  const [selectedTime, setSelectedTime] = useState("");
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
@@ -59,35 +56,130 @@ export default function Booking() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
 
-  // No need for complex initialization - using iframe embed instead
-  // Cal.com's inline embed has compatibility issues, iframe is more reliable
-
   const handlePackageClick = (pkg: PackageData) => {
     setSelectedPackage(pkg);
+    setExtraHour(false);
+    setSelectedDate("");
+    setSelectedTime("");
     setIsModalOpen(true);
   };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (!selectedPackage) {
+      toast({
+        title: "No package selected",
+        description: "Please select a package first.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    // Validate form data
+    if (!formData.name || !formData.email) {
+      toast({
+        title: "Missing Information",
+        description: "Please fill in your name and email.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    // Validate date and time
+    if (!selectedDate || !selectedTime) {
+      toast({
+        title: "Missing Date/Time",
+        description: "Please select a date and time for your booking.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setIsSubmitting(true);
 
     try {
-      // Prepare email data with all booking information
+      // Combine date and time into ISO format
+      const bookingDateTime = new Date(`${selectedDate}T${selectedTime}`);
+      const startTime = bookingDateTime.toISOString();
+
+      // Get event type ID based on package and extra hour
+      const eventTypeId = getEventTypeId(selectedPackage.name, extraHour);
+
+      if (!eventTypeId || eventTypeId === 0) {
+        throw new Error("Event Type ID not configured. Please update calcom-api.config.ts with your Cal.com event type IDs.");
+      }
+
+      console.log("📅 Creating booking:", {
+        package: selectedPackage.name,
+        extraHour,
+        eventTypeId,
+        startTime,
+        attendee: formData.name,
+      });
+
+      // Create booking via Cal.com API
+      const booking = await createCalComBooking({
+        eventTypeId,
+        start: startTime,
+        attendee: {
+          name: formData.name,
+          email: formData.email,
+          timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+          phoneNumber: formData.phone || undefined,
+        },
+        metadata: {
+          package: selectedPackage.name,
+          packagePrice: selectedPackage.price,
+          extraHour: extraHour ? "Yes" : "No",
+        },
+      });
+
+      console.log("✅ Booking created:", booking);
+
+      // Format date/time for emails
+      const bookingDate = bookingDateTime.toLocaleDateString("en-US", {
+        weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      });
+
+      const bookingTime = bookingDateTime.toLocaleTimeString("en-US", {
+        hour: "numeric",
+        minute: "2-digit",
+        hour12: true,
+      });
+
+      // Calculate end time
+      const baseDuration = parseInt(selectedPackage.duration.split(" ")[0]);
+      const totalDuration = extraHour ? baseDuration + 1 : baseDuration;
+      const endDateTime = new Date(bookingDateTime.getTime() + totalDuration * 60 * 60 * 1000);
+      const bookingEndTime = endDateTime.toLocaleTimeString("en-US", {
+        hour: "numeric",
+        minute: "2-digit",
+        hour12: true,
+      });
+
+      // Prepare email data
       const emailData = {
-        package_name: selectedPackage?.name,
-        package_price: selectedPackage?.price,
-        package_duration: selectedPackage?.duration,
+        package_name: selectedPackage.name,
+        package_price: selectedPackage.price,
+        package_duration: selectedPackage.duration,
         extra_hour: extraHour ? "Yes (+$50)" : "No",
+        total_duration: extraHour 
+          ? `${selectedPackage.duration} + 1 hour` 
+          : selectedPackage.duration,
+        booking_date: bookingDate,
+        booking_time: `${bookingTime} - ${bookingEndTime}`,
         user_name: formData.name,
         user_phone: formData.phone,
         user_email: formData.email,
-        to_email: formData.email, // For user confirmation email
-        message: `Booking request for ${selectedPackage?.name}`,
+        to_email: formData.email,
+        message: `Booking confirmed for ${selectedPackage.name} on ${bookingDate} at ${bookingTime}`,
       };
 
-      // TODO: Cal.com will handle the actual calendar booking
-      // The date/time selected in Cal.com widget will be sent separately to Cal.com
-      // This email is for notification purposes
+      console.log("📧 Sending emails...");
 
       // Send email to studio owner
       await emailjs.send(
@@ -96,6 +188,7 @@ export default function Booking() {
         emailData,
         emailjsConfig.publicKey
       );
+      console.log("✅ Owner email sent");
 
       // Send confirmation email to user
       await emailjs.send(
@@ -104,21 +197,35 @@ export default function Booking() {
         emailData,
         emailjsConfig.publicKey
       );
+      console.log("✅ User confirmation email sent");
 
+      // Show success
       toast({
-        title: "Booking Request Sent!",
-        description: "We'll confirm your booking shortly via email.",
+        title: "Booking Confirmed! 🎉",
+        description: `Your ${selectedPackage.name} on ${bookingDate} at ${bookingTime} is confirmed. Check your email!`,
       });
 
-      // Reset form
+      // Reset and close
       setFormData({ name: "", phone: "", email: "" });
       setExtraHour(false);
+      setSelectedDate("");
+      setSelectedTime("");
       setIsModalOpen(false);
-    } catch (error) {
-      console.error("Error sending booking:", error);
+
+    } catch (error: any) {
+      console.error("❌ Booking error:", error);
+
+      let errorMessage = "Failed to create booking. Please try again.";
+      
+      if (error.message?.includes("Event Type ID")) {
+        errorMessage = "Cal.com not configured. Please update event type IDs in calcom-api.config.ts";
+      } else if (error.message?.includes("Cal.com API error")) {
+        errorMessage = `Cal.com error: ${error.message}. Please check your API key and event type IDs.`;
+      }
+
       toast({
-        title: "Error",
-        description: "Failed to send booking request. Please try again.",
+        title: "Booking Failed",
+        description: errorMessage,
         variant: "destructive",
       });
     } finally {
@@ -173,40 +280,83 @@ export default function Booking() {
               </DialogHeader>
 
               <div className="grid gap-8 md:grid-cols-2">
-                {/* Cal.com Calendar Widget */}
+                {/* Date & Time Selection - Left Side */}
                 <div className="space-y-4">
-                  <h3 className="text-lg font-semibold uppercase tracking-wide">Select Date & Time</h3>
-                  <Card className="border-2">
+                  <h3 className="text-lg font-semibold uppercase tracking-wide">
+                    Select Date & Time
+                  </h3>
+                  
+                  {/* Date Input */}
+                  <div className="space-y-2">
+                    <Label htmlFor="booking-date" className="uppercase tracking-wide font-mono text-xs">
+                      Date *
+                    </Label>
+                    <Input
+                      id="booking-date"
+                      type="date"
+                      value={selectedDate}
+                      onChange={(e) => setSelectedDate(e.target.value)}
+                      min={new Date().toISOString().split('T')[0]}
+                      className="border-2 rounded-none"
+                      required
+                    />
+                  </div>
+
+                  {/* Time Input */}
+                  <div className="space-y-2">
+                    <Label htmlFor="booking-time" className="uppercase tracking-wide font-mono text-xs">
+                      Time *
+                    </Label>
+                    <Input
+                      id="booking-time"
+                      type="time"
+                      value={selectedTime}
+                      onChange={(e) => setSelectedTime(e.target.value)}
+                      className="border-2 rounded-none"
+                      required
+                    />
+                  </div>
+
+                  {/* Package Info */}
+                  <Card className="border-2 bg-muted">
                     <CardContent className="p-4">
-                      {/* Cal.com embed - using reliable iframe method */}
-                      {selectedPackage ? (
-                        <iframe
-                          key={`cal-embed-${selectedPackage.name}`}
-                          src={`https://cal.com/${getCalLink(selectedPackage.name)}?embed=true&theme=${calConfig.embedConfig.theme}&layout=${calConfig.embedConfig.layout}`}
-                          style={{ 
-                            width: "100%", 
-                            height: "600px", 
-                            border: "none",
-                            borderRadius: "4px"
-                          }}
-                          title={`Book ${selectedPackage.name}`}
-                          loading="lazy"
-                        />
-                      ) : (
-                        <div className="text-center py-12 text-sm text-muted-foreground">
-                          <p>Please select a package</p>
+                      <div className="flex items-start gap-3">
+                        <CalendarIcon className="h-5 w-5 mt-0.5" />
+                        <div className="space-y-1">
+                          <p className="font-semibold">{selectedPackage?.name}</p>
+                          <p className="text-sm text-muted-foreground">
+                            Duration: {selectedPackage?.duration}
+                            {extraHour && " + 1 hour"}
+                          </p>
+                          <p className="text-sm font-medium">
+                            Price: {selectedPackage?.price}
+                            {extraHour && " + $50"}
+                          </p>
                         </div>
-                      )}
+                      </div>
                     </CardContent>
                   </Card>
+
+                  {/* Cal.com Link */}
                   <p className="text-xs text-muted-foreground">
-                    * Select an available time slot from the calendar. Cal.com will handle the booking.
+                    💡 <strong>Tip:</strong> Check your{" "}
+                    <a
+                      href={`https://cal.com/${getCalLink(selectedPackage?.name || "", extraHour)}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="underline hover:text-foreground"
+                    >
+                      Cal.com availability
+                    </a>{" "}
+                    before booking
                   </p>
                 </div>
 
-                {/* Booking Form */}
+                {/* Booking Form - Right Side */}
                 <div className="space-y-4">
-                  <h3 className="text-lg font-semibold uppercase tracking-wide">Your Information</h3>
+                  <h3 className="text-lg font-semibold uppercase tracking-wide">
+                    Step 2: Enter Your Information
+                  </h3>
                   <form onSubmit={handleSubmit} className="space-y-4">
                     <div className="space-y-2">
                       <Label htmlFor="modal-name" className="uppercase tracking-wide font-mono text-xs">
@@ -285,10 +435,11 @@ export default function Booking() {
                         className="w-full"
                         disabled={isSubmitting}
                       >
-                        {isSubmitting ? "Sending..." : "Submit Booking Request"}
+                        {isSubmitting ? "Creating Booking..." : "Complete Booking"}
                       </Button>
+                      
                       <p className="text-xs text-center text-muted-foreground">
-                        You'll receive a confirmation email once your booking is processed
+                        Your booking will be created and you'll receive a confirmation email
                       </p>
                     </div>
                   </form>
