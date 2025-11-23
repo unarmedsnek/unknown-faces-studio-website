@@ -1,0 +1,7 @@
+# This file ensures the packages folder is tracked by git even when empty
+# Optional: Add package-specific images here if desired
+# - basic-session.jpg
+# - standard-session.jpg
+# - premium-session.jpg
+# - full-day-session.jpg
+

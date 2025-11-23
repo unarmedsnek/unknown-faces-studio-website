@@ -3,29 +3,31 @@ import { Button } from "@/components/ui/button";
 import { PackageCard, PackageData } from "@/components/PackageCard";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
-
-const packages: PackageData[] = [
-  {
-    name: "Basic Session",
-    price: "$150",
-    duration: "2 hours",
-    description: "Best for solo artists and demos",
-  },
-  {
-    name: "Standard Session",
-    price: "$300",
-    duration: "4 hours",
-    description: "Best for full tracks and small bands",
-  },
-  {
-    name: "Premium Session",
-    price: "$500",
-    duration: "8 hours",
-    description: "Best for albums and professional projects",
-  },
-];
+import { useLanguage } from "@/contexts/LanguageContext";
 
 export default function Home() {
+  const { t } = useLanguage();
+
+  const packages: PackageData[] = [
+    {
+      name: t("booking.packages.basic.name"),
+      price: "$150",
+      duration: t("booking.packages.basic.duration"),
+      description: t("booking.packages.basic.description"),
+    },
+    {
+      name: t("booking.packages.standard.name"),
+      price: "$300",
+      duration: t("booking.packages.standard.duration"),
+      description: t("booking.packages.standard.description"),
+    },
+    {
+      name: t("booking.packages.premium.name"),
+      price: "$500",
+      duration: t("booking.packages.premium.duration"),
+      description: t("booking.packages.premium.description"),
+    },
+  ];
   return (
     <div className="min-h-screen w-full">
       <Navbar />
@@ -35,15 +37,23 @@ export default function Home() {
         <section className="relative overflow-hidden border-b-2 border-foreground bg-accent">
           <div className="relative mx-auto max-w-7xl px-6 py-24 lg:py-32">
             <div className="mx-auto max-w-3xl text-center">
+              {/* Logo Image */}
+              <div className="mb-8 flex justify-center">
+                <img 
+                  src="/unknown_faces_logo 512x512.png"
+                  alt="Unknown Faces Official Logo"
+                  className="h-32 w-32 lg:h-48 lg:w-48 object-contain"
+                />
+              </div>
               <h1 className="mb-6 text-5xl font-bold tracking-tight text-accent-foreground lg:text-7xl uppercase">
-                UNKNOWN FACES
+                {t("home.hero.title")}
               </h1>
               <p className="mb-8 text-xl text-accent-foreground lg:text-2xl font-mono">
-                from unknown to known faces
+                {t("home.hero.subtitle")}
               </p>
               <Link to="/booking">
                 <Button size="lg" className="text-lg font-bold bg-accent-foreground text-accent border-accent-foreground">
-                  BOOK NOW
+                  {t("home.hero.bookNow")}
                 </Button>
               </Link>
             </div>
@@ -56,22 +66,27 @@ export default function Home() {
         </section>
 
         {/* Studio Images Section */}
-        <section className="border-b-2 border-foreground py-16 motion-lines">
+        <section className="border-b-2 border-foreground py-16">
           <div className="mx-auto max-w-7xl px-6">
             <h2 className="mb-12 text-center text-4xl font-bold">
-              <span className="manga-caption-strip">Our Studio</span>
+              <span className="manga-caption-strip">{t("home.studio.title")}</span>
             </h2>
             
             {/* Image + Text alternating layout */}
             <div className="space-y-16">
               {/* First Row: Image Left, Text Right */}
               <div className="grid gap-8 lg:grid-cols-2 lg:items-center">
-                <div className="manga-panel aspect-video rounded-none" />
+                <div className="manga-panel aspect-video rounded-none overflow-hidden">
+                  <img 
+                    src="/images/studio/studio-image-earphone-with-speaker.jpg" 
+                    alt="Professional recording equipment" 
+                    className="w-full h-full object-cover"
+                  />
+                </div>
                 <div className="manga-panel space-y-4 p-6 rounded-none">
-                  <h3 className="text-2xl font-bold uppercase tracking-wide">Professional Equipment</h3>
+                  <h3 className="text-2xl font-bold uppercase tracking-wide">{t("home.studio.professional.title")}</h3>
                   <p className="text-foreground/80">
-                    State-of-the-art recording equipment and acoustically treated rooms for the highest quality sound.
-                    Our studio is equipped with industry-standard gear to bring your vision to life.
+                    {t("home.studio.professional.description")}
                   </p>
                 </div>
               </div>
@@ -79,38 +94,45 @@ export default function Home() {
               {/* Second Row: Text Left, Image Right */}
               <div className="grid gap-8 lg:grid-cols-2 lg:items-center">
                 <div className="manga-panel space-y-4 p-6 rounded-none lg:order-1">
-                  <h3 className="text-2xl font-bold uppercase tracking-wide">Creative Space</h3>
+                  <h3 className="text-2xl font-bold uppercase tracking-wide">{t("home.studio.creative.title")}</h3>
                   <p className="text-foreground/80">
-                    A comfortable and inspiring environment designed to help artists perform at their best.
-                    Our space encourages creativity and collaboration.
+                    {t("home.studio.creative.description")}
                   </p>
                 </div>
-                <div className="manga-panel aspect-video rounded-none lg:order-2" />
+                <div className="manga-panel aspect-video rounded-none overflow-hidden lg:order-2">
+                  <img 
+                    src="/images/studio/studios-image-controler.jpg" 
+                    alt="Creative recording space" 
+                    className="w-full h-full object-cover"
+                  />
+                </div>
               </div>
             </div>
           </div>
         </section>
 
         {/* Packages Preview Section */}
-        <section className="border-b-2 border-foreground bg-background py-16 motion-lines">
+        <section className="border-b-2 border-foreground bg-background py-16 overflow-visible">
           <div className="mx-auto max-w-7xl px-6">
             <div className="mb-12 text-center">
               <h2 className="mb-4 text-4xl font-bold">
-                <span className="manga-caption-strip">Recording Packages</span>
+                <span className="manga-caption-strip">{t("home.packages.title")}</span>
               </h2>
-              <p className="text-muted-foreground font-mono text-sm">Choose the perfect session for your project</p>
+              <p className="text-muted-foreground font-mono text-sm">{t("home.packages.subtitle")}</p>
             </div>
             
-            <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-              {packages.map((pkg) => (
-                <PackageCard key={pkg.name} package={pkg} />
-              ))}
+            <div className="px-4 py-2">
+              <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+                {packages.map((pkg) => (
+                  <PackageCard key={pkg.name} package={pkg} />
+                ))}
+              </div>
             </div>
 
             <div className="mt-12 text-center">
               <Link to="/booking">
                 <Button size="lg" variant="outline">
-                  View All Packages & Book
+                  {t("home.packages.viewAll")}
                 </Button>
               </Link>
             </div>
@@ -118,23 +140,52 @@ export default function Home() {
         </section>
 
         {/* Instagram Section */}
-        <section className="border-b-2 border-foreground py-16 motion-lines">
+        <section className="border-b-2 border-foreground py-16">
           <div className="mx-auto max-w-7xl px-6">
             <h2 className="mb-12 text-center text-4xl font-bold">
-              <span className="manga-caption-strip">Follow Us on Instagram</span>
+              <span className="manga-caption-strip">{t("home.instagram.title")}</span>
             </h2>
             
             <div className="grid grid-cols-2 gap-4 lg:grid-cols-3">
-              {[1, 2, 3, 4, 5, 6].map((i) => (
-                <div
-                  key={i}
-                  className="manga-panel aspect-square rounded-none flex items-center justify-center"
-                >
-                  <span className="font-mono text-sm text-muted-foreground">
-                    Instagram Post {i}
-                  </span>
-                </div>
-              ))}
+              {[
+                "https://www.instagram.com/p/C8KTNkSsroG/?hl=en",
+                null, // Add links here when you add more images
+                null,
+                null,
+                null,
+                null,
+              ].map((instagramLink, i) => {
+                const imageNumber = i + 1;
+                const hasImage = imageNumber === 1; // Update this when you add more images
+                
+                return (
+                  <div
+                    key={imageNumber}
+                    className="manga-panel aspect-square rounded-none overflow-hidden"
+                  >
+                    {hasImage && instagramLink ? (
+                      <a
+                        href={instagramLink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="block w-full h-full"
+                      >
+                        <img 
+                          src={`/images/instagram/instagram-${imageNumber}.jpg`}
+                          alt={`Unknown Faces Studio - ${t("home.instagram.post")} ${imageNumber}`}
+                          className="w-full h-full object-cover hover:scale-105 transition-transform duration-300 cursor-pointer"
+                        />
+                      </a>
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center">
+                        <span className="font-mono text-sm text-muted-foreground">
+                          {t("home.instagram.post")} {imageNumber}
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
             </div>
 
             <div className="mt-8 text-center">
@@ -144,31 +195,30 @@ export default function Home() {
                 rel="noopener noreferrer"
                 className="font-medium text-lg relative inline-block after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:bg-foreground after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:origin-left"
               >
-                @unknownfaces_studio
+                {t("home.instagram.handle")}
               </a>
             </div>
           </div>
         </section>
 
         {/* About Section */}
-        <section className="py-16 motion-lines">
+        <section className="py-16">
           <div className="mx-auto max-w-4xl px-6 text-center">
             <h2 className="mb-8 text-4xl font-bold">
-              <span className="manga-caption-strip">About Unknown Faces</span>
+              <span className="manga-caption-strip">{t("home.about.title")}</span>
             </h2>
             <div className="manga-panel p-8 rounded-none">
               <p className="mb-4 text-lg text-foreground/80">
-                Unknown Faces is a professional recording studio dedicated to helping artists bring their musical vision to life.
-                Located in the heart of the city, we provide a creative space equipped with top-tier equipment and experienced engineers.
+                {t("home.about.description1")}
               </p>
               <p className="text-lg text-foreground/80">
-                Whether you're recording your first demo or working on a full album, we're here to support your journey from unknown to known.
+                {t("home.about.description2")}
               </p>
             </div>
             <div className="mt-8">
               <Link to="/about">
                 <Button variant="outline">
-                  Learn More About Us
+                  {t("home.about.learnMore")}
                 </Button>
               </Link>
             </div>

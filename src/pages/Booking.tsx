@@ -21,33 +21,7 @@ import {
 } from "@/config/calcom-api.config";
 import { parseISO, isSameDay } from "date-fns";
 import { formatInTimeZone, fromZonedTime } from "date-fns-tz";
-
-const packages: PackageData[] = [
-  {
-    name: "Basic Session",
-    price: "$150",
-    duration: "1 hours",
-    description: "Best for solo artists and demos",
-  },
-  {
-    name: "Standard Session",
-    price: "$300",
-    duration: "4 hours",
-    description: "Best for full tracks and small bands",
-  },
-  {
-    name: "Premium Session",
-    price: "$500",
-    duration: "8 hours",
-    description: "Best for albums and professional projects",
-  },
-  {
-    name: "Full Day Session",
-    price: "$800",
-    duration: "12 hours",
-    description: "Best for large projects and multiple tracks",
-  },
-];
+import { useLanguage } from "@/contexts/LanguageContext";
 
 // Helper to format time in Lithuanian timezone
 function formatLithuanianTime(date: Date): string {
@@ -65,8 +39,18 @@ interface AvailableSlot {
   end: string; // ISO string
 }
 
+// Package keys for Cal.com API (language-independent)
+const PACKAGE_KEYS = {
+  BASIC: "Basic Session",
+  STANDARD: "Standard Session",
+  PREMIUM: "Premium Session",
+  FULL_DAY: "Full Day Session",
+} as const;
+
 export default function Booking() {
+  const { t } = useLanguage();
   const [selectedPackage, setSelectedPackage] = useState<PackageData | null>(null);
+  const [selectedPackageKey, setSelectedPackageKey] = useState<string>("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [extraHour, setExtraHour] = useState(false);
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
@@ -84,6 +68,37 @@ export default function Booking() {
   const [hasFetchedMonthAvailability, setHasFetchedMonthAvailability] = useState(false);
   const { toast } = useToast();
 
+  const packages: (PackageData & { key: string })[] = [
+    {
+      key: PACKAGE_KEYS.BASIC,
+      name: t("booking.packages.basic.name"),
+      price: "$150",
+      duration: t("booking.packages.basic.duration"),
+      description: t("booking.packages.basic.description"),
+    },
+    {
+      key: PACKAGE_KEYS.STANDARD,
+      name: t("booking.packages.standard.name"),
+      price: "$300",
+      duration: t("booking.packages.standard.duration"),
+      description: t("booking.packages.standard.description"),
+    },
+    {
+      key: PACKAGE_KEYS.PREMIUM,
+      name: t("booking.packages.premium.name"),
+      price: "$500",
+      duration: t("booking.packages.premium.duration"),
+      description: t("booking.packages.premium.description"),
+    },
+    {
+      key: PACKAGE_KEYS.FULL_DAY,
+      name: t("booking.packages.fullDay.name"),
+      price: "$800",
+      duration: t("booking.packages.fullDay.duration"),
+      description: t("booking.packages.fullDay.description"),
+    },
+  ];
+
   // Calculate total duration in minutes
   const getTotalDurationMinutes = (): number => {
     if (!selectedPackage) return 0;
@@ -94,7 +109,7 @@ export default function Booking() {
 
   // Fetch available slots when package, date, or extra hour changes
   useEffect(() => {
-    if (!selectedPackage || !selectedDate) {
+    if (!selectedPackage || !selectedDate || !selectedPackageKey) {
       setAvailableSlots([]);
       return;
     }
@@ -102,7 +117,7 @@ export default function Booking() {
     const fetchSlots = async () => {
       setLoadingSlots(true);
       try {
-        const eventTypeId = getEventTypeId(selectedPackage.name, extraHour);
+        const eventTypeId = getEventTypeId(selectedPackageKey, extraHour);
         
         if (!eventTypeId || eventTypeId === 0) {
           console.warn("Event Type ID not configured");
@@ -221,8 +236,8 @@ export default function Booking() {
         console.error("❌ Error fetching slots:", error);
         setAvailableSlots([]);
         toast({
-          title: "Failed to load availability",
-          description: "Could not fetch available time slots. Please try again.",
+          title: t("booking.toasts.loadFailed.title"),
+          description: t("booking.toasts.loadFailed.description"),
           variant: "destructive",
         });
       } finally {
@@ -231,11 +246,11 @@ export default function Booking() {
     };
 
     fetchSlots();
-  }, [selectedPackage, selectedDate, extraHour, toast]);
+  }, [selectedPackageKey, selectedDate, extraHour, toast]);
 
   // Fetch availability for the entire visible month to gray-out unavailable days
   useEffect(() => {
-    if (!selectedPackage) {
+    if (!selectedPackage || !selectedPackageKey) {
       setAvailableDateKeys(new Set());
       setHasFetchedMonthAvailability(false);
       return;
@@ -243,7 +258,7 @@ export default function Booking() {
 
     const fetchMonthAvailability = async () => {
       try {
-        const eventTypeId = getEventTypeId(selectedPackage.name, extraHour);
+        const eventTypeId = getEventTypeId(selectedPackageKey, extraHour);
 
         if (!eventTypeId || eventTypeId === 0) {
           console.warn("Event Type ID not configured for calendar availability");
@@ -306,10 +321,11 @@ export default function Booking() {
 
     setHasFetchedMonthAvailability(false);
     fetchMonthAvailability();
-  }, [selectedPackage, extraHour, calendarDate]);
+  }, [selectedPackageKey, extraHour, calendarDate]);
 
-  const handlePackageClick = (pkg: PackageData) => {
+  const handlePackageClick = (pkg: PackageData & { key: string }) => {
     setSelectedPackage(pkg);
+    setSelectedPackageKey(pkg.key); // Save the English key for Cal.com API
     setExtraHour(false);
     setSelectedDate(undefined);
     setSelectedTime("");
@@ -343,8 +359,8 @@ export default function Booking() {
 
     if (!selectedPackage) {
       toast({
-        title: "No package selected",
-        description: "Please select a package first.",
+        title: t("booking.toasts.noPackage.title"),
+        description: t("booking.toasts.noPackage.description"),
         variant: "destructive",
       });
       return;
@@ -353,8 +369,8 @@ export default function Booking() {
     // Validate form data
     if (!formData.name || !formData.email) {
       toast({
-        title: "Missing Information",
-        description: "Please fill in your name and email.",
+        title: t("booking.toasts.missingInfo.title"),
+        description: t("booking.toasts.missingInfo.description"),
         variant: "destructive",
       });
       return;
@@ -363,8 +379,8 @@ export default function Booking() {
     // Validate date and time
     if (!selectedDate || !selectedTime) {
       toast({
-        title: "Missing Date/Time",
-        description: "Please select a date and available time slot.",
+        title: t("booking.toasts.missingDateTime.title"),
+        description: t("booking.toasts.missingDateTime.description"),
         variant: "destructive",
       });
       return;
@@ -388,7 +404,7 @@ export default function Booking() {
       const startTime = selectedSlot.start;
 
       // Get event type ID based on package and extra hour
-      const eventTypeId = getEventTypeId(selectedPackage.name, extraHour);
+      const eventTypeId = getEventTypeId(selectedPackageKey, extraHour);
 
       if (!eventTypeId || eventTypeId === 0) {
         throw new Error("Event Type ID not configured. Please update calcom-api.config.ts with your Cal.com event type IDs.");
@@ -471,9 +487,14 @@ export default function Booking() {
       console.log("✅ User confirmation email sent");
 
       // Show success
+      const successMsg = t("booking.toasts.success.description")
+        .replace("{package}", selectedPackage.name)
+        .replace("{date}", bookingDate)
+        .replace("{time}", bookingTime);
+      
       toast({
-        title: "Booking Confirmed! 🎉",
-        description: `Your ${selectedPackage.name} on ${bookingDate} at ${bookingTime} is confirmed. Check your email!`,
+        title: t("booking.toasts.success.title"),
+        description: successMsg,
       });
 
       // Reset and close
@@ -496,7 +517,7 @@ export default function Booking() {
       }
 
       toast({
-        title: "Booking Failed",
+        title: t("booking.toasts.failed.title"),
         description: errorMessage,
         variant: "destructive",
       });
@@ -511,31 +532,33 @@ export default function Booking() {
       
       <main className="py-16">
         <div className="mx-auto max-w-7xl px-6">
-          <div className="mb-12 text-center motion-lines py-8">
+          <div className="mb-12 text-center py-8">
             <h1 className="mb-4 text-5xl font-bold">
-              <span className="manga-caption-strip">Book Your Session</span>
+              <span className="manga-caption-strip">{t("booking.title")}</span>
             </h1>
             <p className="text-xl text-muted-foreground font-mono">
-              Choose your package and fill out the form below
+              {t("booking.subtitle")}
             </p>
           </div>
 
           {/* Packages Grid */}
-          <section className="mb-16 motion-lines py-8">
+          <section className="mb-16 py-8 overflow-visible">
             <h2 className="mb-8 text-3xl font-bold text-center">
-              <span className="manga-caption-strip">Available Packages</span>
+              <span className="manga-caption-strip">{t("booking.availablePackages")}</span>
             </h2>
             <p className="text-center text-muted-foreground mb-8 font-mono text-sm">
-              Click a package to book your session
+              {t("booking.clickToBook")}
             </p>
-            <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
-              {packages.map((pkg) => (
-                <PackageCard 
-                  key={pkg.name} 
-                  package={pkg} 
-                  onClick={() => handlePackageClick(pkg)}
-                />
-              ))}
+            <div className="px-4 py-2">
+              <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+                {packages.map((pkg) => (
+                  <PackageCard 
+                    key={pkg.name} 
+                    package={pkg} 
+                    onClick={() => handlePackageClick(pkg)}
+                  />
+                ))}
+              </div>
             </div>
           </section>
 
@@ -544,10 +567,10 @@ export default function Booking() {
             <DialogContent className="max-w-6xl max-h-[90vh] overflow-y-auto">
               <DialogHeader>
                 <DialogTitle className="text-2xl font-bold">
-                  Book: {selectedPackage?.name}
+                  {t("booking.modal.title")} {selectedPackage?.name}
                 </DialogTitle>
                 <DialogDescription>
-                  {selectedPackage?.price} • {selectedPackage?.duration} • Timezone: Europe/Vilnius (Lithuania)
+                  {selectedPackage?.price} • {selectedPackage?.duration} • {t("booking.modal.timezone")}
                 </DialogDescription>
               </DialogHeader>
 
@@ -555,7 +578,7 @@ export default function Booking() {
                 {/* Calendar & Time Slots - Left Side */}
                 <div className="space-y-4">
                   <h3 className="text-lg font-semibold uppercase tracking-wide">
-                    Select Date & Time
+                    {t("booking.modal.selectDateTime")}
                   </h3>
                   
                   {/* Calendar */}
@@ -595,18 +618,18 @@ export default function Booking() {
                           <div className="flex items-center gap-2">
                             <Clock className="h-4 w-4" />
                             <h4 className="font-semibold text-sm uppercase tracking-wide">
-                              Available Times ({formatInTimeZone(selectedDate, LITHUANIAN_TIMEZONE, "MMM d, yyyy")})
+                              {t("booking.modal.availableTimes")} ({formatInTimeZone(selectedDate, LITHUANIAN_TIMEZONE, "MMM d, yyyy")})
                             </h4>
                           </div>
                           
                           {loadingSlots ? (
                             <div className="flex items-center justify-center py-8">
                               <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
-                              <span className="ml-2 text-sm text-muted-foreground">Loading availability...</span>
+                              <span className="ml-2 text-sm text-muted-foreground">{t("booking.modal.loadingAvailability")}</span>
                             </div>
                           ) : availableSlots.length === 0 ? (
                             <p className="text-sm text-muted-foreground py-4 text-center">
-                              No available time slots for this date.
+                              {t("booking.modal.noSlots")}
                             </p>
                           ) : (
                             <div className="grid grid-cols-3 gap-2">
@@ -642,11 +665,11 @@ export default function Booking() {
                         <div className="space-y-1">
                           <p className="font-semibold">{selectedPackage?.name}</p>
                           <p className="text-sm text-muted-foreground">
-                            Duration: {selectedPackage?.duration}
+                            {t("booking.modal.duration")} {selectedPackage?.duration}
                             {extraHour && " + 1 hour"}
                           </p>
                           <p className="text-sm font-medium">
-                            Price: {selectedPackage?.price}
+                            {t("booking.modal.price")} {selectedPackage?.price}
                             {extraHour && " + $50"}
                           </p>
                         </div>
@@ -658,12 +681,12 @@ export default function Booking() {
                 {/* Booking Form - Right Side */}
                 <div className="space-y-4">
                   <h3 className="text-lg font-semibold uppercase tracking-wide">
-                    Enter Your Information
+                    {t("booking.modal.enterInfo")}
                   </h3>
                   <form onSubmit={handleSubmit} className="space-y-4">
                     <div className="space-y-2">
                       <Label htmlFor="modal-name" className="uppercase tracking-wide font-mono text-xs">
-                        Full Name *
+                        {t("booking.modal.fullName")} *
                       </Label>
                       <Input
                         id="modal-name"
@@ -678,7 +701,7 @@ export default function Booking() {
 
                     <div className="space-y-2">
                       <Label htmlFor="modal-phone" className="uppercase tracking-wide font-mono text-xs">
-                        Phone Number *
+                        {t("booking.modal.phone")} *
                       </Label>
                       <Input
                         id="modal-phone"
@@ -693,7 +716,7 @@ export default function Booking() {
 
                     <div className="space-y-2">
                       <Label htmlFor="modal-email" className="uppercase tracking-wide font-mono text-xs">
-                        Email *
+                        {t("booking.modal.email")} *
                       </Label>
                       <Input
                         id="modal-email"
@@ -707,7 +730,7 @@ export default function Booking() {
                     </div>
 
                     <div className="space-y-2">
-                      <Label className="uppercase tracking-wide font-mono text-xs">Selected Package</Label>
+                      <Label className="uppercase tracking-wide font-mono text-xs">{t("booking.modal.selectedPackage")}</Label>
                       <Input
                         type="text"
                         value={`${selectedPackage?.name} - ${selectedPackage?.price}`}
@@ -727,16 +750,16 @@ export default function Booking() {
                         htmlFor="modal-extra-hour"
                         className="cursor-pointer text-sm font-medium uppercase tracking-wide"
                       >
-                        Add an extra hour (+$50)
+                        {t("booking.modal.addExtraHour")}
                       </Label>
                     </div>
 
                     {selectedDate && selectedTime && (
                       <Card className="border-2 border-primary">
                         <CardContent className="p-4">
-                          <p className="text-sm font-semibold mb-1">Selected Booking:</p>
+                          <p className="text-sm font-semibold mb-1">{t("booking.modal.selectedBooking")}</p>
                           <p className="text-sm">
-                            {formatInTimeZone(selectedDate, LITHUANIAN_TIMEZONE, "EEEE, MMMM d, yyyy")} at {selectedTime}
+                            {formatInTimeZone(selectedDate, LITHUANIAN_TIMEZONE, "EEEE, MMMM d, yyyy")} {t("booking.modal.at")} {selectedTime}
                           </p>
                         </CardContent>
                       </Card>
@@ -749,11 +772,11 @@ export default function Booking() {
                         className="w-full"
                         disabled={isSubmitting || !selectedDate || !selectedTime}
                       >
-                        {isSubmitting ? "Creating Booking..." : "Complete Booking"}
+                        {isSubmitting ? t("booking.modal.creatingBooking") : t("booking.modal.completeBooking")}
                       </Button>
                       
                       <p className="text-xs text-center text-muted-foreground">
-                        Your booking will be created and you'll receive a confirmation email
+                        {t("booking.modal.confirmationNote")}
                       </p>
                     </div>
                   </form>

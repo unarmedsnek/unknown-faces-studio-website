@@ -4,26 +4,29 @@ import { Menu, X, Youtube, Instagram, Facebook, Send } from "lucide-react";
 import { FaTiktok } from "react-icons/fa";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-
-const navigation = [
-  { name: "Home", href: "/" },
-  { name: "Booking", href: "/booking" },
-  { name: "FAQ", href: "/faq" },
-  { name: "About", href: "/about" },
-  { name: "Where to Find Us", href: "/location" },
-];
+import { LanguageSwitcher } from "@/components/LanguageSwitcher";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const socialLinks = [
   { icon: Youtube, href: "https://www.youtube.com/channel/UCPBinwqK0M6lQ_ifx7BU5fA", label: "YouTube" },
   { icon: Instagram, href: "https://www.instagram.com/unknownfacesofficial/?hl=en", label: "Instagram" },
   { icon: Facebook, href: "https://www.facebook.com/unknownfaceso?locale=lt_LT", label: "Facebook" },
   { icon: FaTiktok, href: "https://www.tiktok.com/@unknownfaces38", label: "TikTok" },
-  { icon: Send, href: "#", label: "Telegram" },
+  { icon: Send, href: "https://t.me/UFOSTUDIJA", label: "Telegram" },
 ];
 
 export const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
+  const { t } = useLanguage();
+
+  const navigation = [
+    { name: t("nav.home"), href: "/" },
+    { name: t("nav.booking"), href: "/booking" },
+    { name: t("nav.faq"), href: "/faq" },
+    { name: t("nav.about"), href: "/about" },
+    { name: t("nav.location"), href: "/location" },
+  ];
 
   const isActive = (path: string) => location.pathname === path;
 
@@ -54,8 +57,10 @@ export const Navbar = () => {
           ))}
         </div>
 
-        {/* Desktop Social Icons */}
-        <div className="hidden lg:flex lg:gap-x-4">
+        {/* Desktop Language Switcher & Social Icons */}
+        <div className="hidden lg:flex lg:items-center lg:gap-x-4">
+          <LanguageSwitcher />
+          <div className="h-6 w-[2px] bg-border" />
           {socialLinks.map((social) => {
             const Icon = social.icon;
             return (
@@ -96,7 +101,12 @@ export const Navbar = () => {
                   {item.name}
                 </Link>
               ))}
-              <div className="mt-4 flex gap-4 border-t-2 border-border pt-6">
+              <div className="border-t-2 border-border pt-6">
+                <div className="mb-4">
+                  <LanguageSwitcher />
+                </div>
+              </div>
+              <div className="flex gap-4 border-t-2 border-border pt-6">
                 {socialLinks.map((social) => {
                   const Icon = social.icon;
                   return (

@@ -1,15 +1,17 @@
 import { Youtube, Instagram, Facebook, Send } from "lucide-react";
 import { FaTiktok } from "react-icons/fa";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const socialLinks = [
   { icon: Youtube, href: "https://www.youtube.com/channel/UCPBinwqK0M6lQ_ifx7BU5fA", label: "YouTube" },
   { icon: Instagram, href: "https://www.instagram.com/unknownfacesofficial/?hl=en", label: "Instagram" },
   { icon: Facebook, href: "https://www.facebook.com/unknownfaceso?locale=lt_LT", label: "Facebook" },
   { icon: FaTiktok, href: "https://www.tiktok.com/@unknownfaces38", label: "TikTok" },
-  { icon: Send, href: "#", label: "Telegram" },
+  { icon: Send, href: "https://t.me/UFOSTUDIJA", label: "Telegram" },
 ];
 
 export const Footer = () => {
+  const { t } = useLanguage();
   return (
     <footer className="border-t-2 border-foreground bg-secondary text-secondary-foreground">
       <div className="mx-auto max-w-7xl px-6 py-8">
@@ -41,7 +43,7 @@ export const Footer = () => {
 
           {/* Copyright */}
           <p className="font-mono text-sm">
-            © {new Date().getFullYear()} Unknown Faces. All rights reserved.
+            {t("footer.copyright").replace("{year}", new Date().getFullYear().toString())}
           </p>
         </div>
       </div>

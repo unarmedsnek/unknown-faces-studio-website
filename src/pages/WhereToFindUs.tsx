@@ -2,20 +2,22 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { Card, CardContent } from "@/components/ui/card";
 import { MapPin, Clock, Mail, Phone } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 export default function WhereToFindUs() {
+  const { t } = useLanguage();
   return (
     <div className="min-h-screen w-full">
       <Navbar />
       
       <main className="py-16">
         <div className="mx-auto max-w-5xl px-6">
-          <div className="mb-12 text-center motion-lines py-8">
+          <div className="mb-12 text-center py-8">
             <h1 className="mb-4 text-5xl font-bold">
-              <span className="manga-caption-strip">Where to Find Us</span>
+              <span className="manga-caption-strip">{t("location.title")}</span>
             </h1>
             <p className="text-xl text-muted-foreground font-mono">
-              Visit us at our studio location
+              {t("location.subtitle")}
             </p>
           </div>
 
@@ -27,8 +29,13 @@ export default function WhereToFindUs() {
                   <div className="flex items-start gap-4">
                     <MapPin className="mt-1 h-6 w-6 flex-shrink-0" />
                     <div>
-                      <h3 className="mb-2 text-xl font-bold uppercase tracking-wide">Studio Address</h3>
-                      <p className="text-foreground/80 font-mono text-sm">Laisvės alėja 99<br />Centras<br />Kaunas<br />Lietuva</p>
+                      <h3 className="mb-2 text-xl font-bold uppercase tracking-wide">{t("location.address.title")}</h3>
+                      <p className="text-foreground/80 font-mono text-sm">
+                        {t("location.address.line1")}<br />
+                        {t("location.address.line2")}<br />
+                        {t("location.address.line3")}<br />
+                        {t("location.address.line4")}
+                      </p>
                     </div>
                   </div>
                 </CardContent>
@@ -38,11 +45,11 @@ export default function WhereToFindUs() {
                   <div className="flex items-start gap-4">
                     <Clock className="mt-1 h-6 w-6 flex-shrink-0" />
                     <div>
-                      <h3 className="mb-2 text-xl font-bold uppercase tracking-wide">Opening Hours</h3>
+                      <h3 className="mb-2 text-xl font-bold uppercase tracking-wide">{t("location.hours.title")}</h3>
                       <div className="space-y-1 text-foreground/80 font-mono text-sm">
-                        <p>Monday - Friday: 10:00 AM - 10:00 PM</p>
-                        <p>Saturday: 12:00 PM - 8:00 PM</p>
-                        <p>Sunday: By Appointment Only</p>
+                        <p>{t("location.hours.weekdays")}</p>
+                        <p>{t("location.hours.saturday")}</p>
+                        <p>{t("location.hours.sunday")}</p>
                       </div>
                     </div>
                   </div>
@@ -53,8 +60,8 @@ export default function WhereToFindUs() {
                   <div className="flex items-start gap-4">
                     <Mail className="mt-1 h-6 w-6 flex-shrink-0" />
                     <div>
-                      <h3 className="mb-2 text-xl font-bold uppercase tracking-wide">Email</h3>
-                      <a href="mailto:hello@unknownfaces.studio" className="text-foreground/80 hover:underline font-mono text-sm">hello@unknownfaces.studio</a>
+                      <h3 className="mb-2 text-xl font-bold uppercase tracking-wide">{t("location.email.title")}</h3>
+                      <a href="mailto:unknownfacesnotes@gmail.com" className="text-foreground/80 hover:underline font-mono text-sm">unknownfacesnotes@gmail.com</a>
                     </div>
                   </div>
                 </CardContent>
@@ -64,8 +71,8 @@ export default function WhereToFindUs() {
                   <div className="flex items-start gap-4">
                     <Phone className="mt-1 h-6 w-6 flex-shrink-0" />
                     <div>
-                      <h3 className="mb-2 text-xl font-bold uppercase tracking-wide">Phone</h3>
-                      <a href="tel:+15551234567" className="text-foreground/80 hover:underline font-mono text-sm">+1 (555) 123-4567</a>
+                      <h3 className="mb-2 text-xl font-bold uppercase tracking-wide">{t("location.phone.title")}</h3>
+                      <a href="tel:+37060623373" className="text-foreground/80 hover:underline font-mono text-sm">+370 606 23373</a>
                     </div>
                   </div>
                 </CardContent>
@@ -96,7 +103,7 @@ export default function WhereToFindUs() {
                   />
                   <div className="p-4 bg-muted border-t-2 border-foreground">
                     <p className="text-xs text-center text-muted-foreground font-mono">
-                      📍 Replace the map src URL with your actual studio location
+                      {t("location.mapNote")}
                     </p>
                   </div>
                 </CardContent>
@@ -108,16 +115,10 @@ export default function WhereToFindUs() {
           <section className="mt-12">
             <Card className="border-2 border-foreground bg-muted shadow-none">
               <CardContent className="p-8">
-                <h2 className="mb-4 text-2xl font-bold">Getting Here</h2>
+                <h2 className="mb-4 text-2xl font-bold">{t("location.directions.title")}</h2>
                 <div className="space-y-4 text-muted-foreground">
                   <p>
-                    <strong className="text-foreground">By Car:</strong> We have dedicated parking available behind the building. Enter through the main entrance and follow the signs.
-                  </p>
-                  <p>
-                    <strong className="text-foreground">By Public Transit:</strong> The studio is a 5-minute walk from the Central Station. Take bus lines 12, 45, or 67 and exit at Creative District stop.
-                  </p>
-                  <p>
-                    <strong className="text-foreground">By Bike:</strong> Bike racks are available at the front entrance.
+                    <strong className="text-foreground">{t("location.directions.car.title")}</strong> {t("location.directions.car.description")}
                   </p>
                 </div>
               </CardContent>
