@@ -33,7 +33,6 @@ export default function Home() {
       <main>
         {/* Hero Section */}
         <section className="relative overflow-hidden border-b-2 border-foreground bg-accent">
-          <div className="absolute inset-0 manga-hatching opacity-10" />
           <div className="relative mx-auto max-w-7xl px-6 py-24 lg:py-32">
             <div className="mx-auto max-w-3xl text-center">
               <h1 className="mb-6 text-5xl font-bold tracking-tight text-accent-foreground lg:text-7xl uppercase">
@@ -93,7 +92,7 @@ export default function Home() {
         </section>
 
         {/* Packages Preview Section */}
-        <section className="border-b-2 border-foreground bg-background py-16 motion-lines manga-dots">
+        <section className="border-b-2 border-foreground bg-background py-16 motion-lines">
           <div className="mx-auto max-w-7xl px-6">
             <div className="mb-12 text-center">
               <h2 className="mb-4 text-4xl font-bold">
