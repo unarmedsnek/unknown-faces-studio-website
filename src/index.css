@@ -124,7 +124,7 @@ All colors MUST be HSL.
     letter-spacing: 0.05em;
   }
 
-  /* Blurred curved lines - inspired by logo's dynamic swoosh motion */
+  /* Curved lines - inspired by logo's dynamic swoosh motion */
   .motion-lines {
     position: relative;
     overflow: hidden;
@@ -135,12 +135,11 @@ All colors MUST be HSL.
     position: absolute;
     inset: 0;
     background-image: 
-      radial-gradient(ellipse 600px 80px at 10% 20%, rgba(0, 0, 0, 0.4), transparent),
-      radial-gradient(ellipse 700px 90px at 90% 60%, rgba(0, 0, 0, 0.35), transparent),
-      radial-gradient(ellipse 500px 70px at 50% 85%, rgba(0, 0, 0, 0.3), transparent);
+      radial-gradient(ellipse 600px 80px at 10% 20%, hsl(0 0% 0% / 0.4), transparent),
+      radial-gradient(ellipse 700px 90px at 90% 60%, hsl(0 0% 0% / 0.35), transparent),
+      radial-gradient(ellipse 500px 70px at 50% 85%, hsl(0 0% 0% / 0.3), transparent);
     pointer-events: none;
     z-index: 0;
-    filter: blur(40px);
     transform: rotate(-5deg) scale(1.1);
   }
 
@@ -149,11 +148,10 @@ All colors MUST be HSL.
     position: absolute;
     inset: 0;
     background-image: 
-      radial-gradient(ellipse 800px 100px at 70% 30%, rgba(0, 0, 0, 0.25), transparent),
-      radial-gradient(ellipse 600px 85px at 30% 75%, rgba(0, 0, 0, 0.28), transparent);
+      radial-gradient(ellipse 800px 100px at 70% 30%, hsl(0 0% 0% / 0.25), transparent),
+      radial-gradient(ellipse 600px 85px at 30% 75%, hsl(0 0% 0% / 0.28), transparent);
     pointer-events: none;
     z-index: 0;
-    filter: blur(50px);
     transform: rotate(3deg) scale(1.05);
   }
 
@@ -162,17 +160,17 @@ All colors MUST be HSL.
     z-index: 1;
   }
 
-  /* Dark mode blurred lines */
+  /* Dark mode lines */
   .dark .motion-lines::before {
     background-image: 
-      radial-gradient(ellipse 600px 80px at 10% 20%, rgba(255, 255, 255, 0.25), transparent),
-      radial-gradient(ellipse 700px 90px at 90% 60%, rgba(255, 255, 255, 0.2), transparent),
-      radial-gradient(ellipse 500px 70px at 50% 85%, rgba(255, 255, 255, 0.18), transparent);
+      radial-gradient(ellipse 600px 80px at 10% 20%, hsl(0 0% 100% / 0.25), transparent),
+      radial-gradient(ellipse 700px 90px at 90% 60%, hsl(0 0% 100% / 0.2), transparent),
+      radial-gradient(ellipse 500px 70px at 50% 85%, hsl(0 0% 100% / 0.18), transparent);
   }
 
   .dark .motion-lines::after {
     background-image: 
-      radial-gradient(ellipse 800px 100px at 70% 30%, rgba(255, 255, 255, 0.15), transparent),
-      radial-gradient(ellipse 600px 85px at 30% 75%, rgba(255, 255, 255, 0.17), transparent);
+      radial-gradient(ellipse 800px 100px at 70% 30%, hsl(0 0% 100% / 0.15), transparent),
+      radial-gradient(ellipse 600px 85px at 30% 75%, hsl(0 0% 100% / 0.17), transparent);
   }
 }
