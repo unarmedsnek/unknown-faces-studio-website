@@ -36,7 +36,7 @@ export const Navbar = () => {
         {/* Logo */}
         <Link to="/" className="text-xl font-bold tracking-tight">
           <div className="border-2 border-foreground px-3 py-1">
-            UNKNOWN FACES
+            UNKNOWN FACES OFFICIAL
           </div>
         </Link>
 

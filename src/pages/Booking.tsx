@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent } from "@/components/ui/card";
 import { Calendar } from "@/components/ui/calendar";
 import { Calendar as CalendarIcon, Clock, Loader2 } from "lucide-react";
@@ -59,6 +60,7 @@ export default function Booking() {
     name: "",
     phone: "",
     email: "",
+    extraNotes: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [availableSlots, setAvailableSlots] = useState<AvailableSlot[]>([]);
@@ -462,6 +464,7 @@ export default function Booking() {
         user_name: formData.name,
         user_phone: formData.phone,
         user_email: formData.email,
+        extra_notes: formData.extraNotes || "No additional notes",
         to_email: formData.email,
         message: `Booking confirmed for ${selectedPackage.name} on ${bookingDate} at ${bookingTime}`,
       };
@@ -498,7 +501,7 @@ export default function Booking() {
       });
 
       // Reset and close
-      setFormData({ name: "", phone: "", email: "" });
+      setFormData({ name: "", phone: "", email: "", extraNotes: "" });
       setExtraHour(false);
       setSelectedDate(undefined);
       setSelectedTime("");
@@ -564,7 +567,7 @@ export default function Booking() {
 
           {/* Booking Modal */}
           <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-            <DialogContent className="max-w-6xl max-h-[90vh] overflow-y-auto">
+            <DialogContent className="max-w-5xl max-h-[90vh] overflow-y-auto">
               <DialogHeader>
                 <DialogTitle className="text-2xl font-bold">
                   {t("booking.modal.title")} {selectedPackage?.name}
@@ -574,7 +577,7 @@ export default function Booking() {
                 </DialogDescription>
               </DialogHeader>
 
-              <div className="grid gap-8 md:grid-cols-2">
+              <div className="grid gap-6 md:grid-cols-[1fr_1.2fr]">
                 {/* Calendar & Time Slots - Left Side */}
                 <div className="space-y-4">
                   <h3 className="text-lg font-semibold uppercase tracking-wide">
@@ -602,7 +605,16 @@ export default function Booking() {
                         }}
                         month={calendarDate}
                         onMonthChange={setCalendarDate}
-                        className="rounded-none"
+                        classNames={{
+                          months: "flex flex-col sm:flex-row space-y-4 sm:space-x-4 sm:space-y-0 w-full",
+                          month: "space-y-4 w-full",
+                          table: "w-full border-collapse",
+                          head_row: "flex w-full",
+                          head_cell: "text-muted-foreground rounded-md flex-1 font-normal text-[0.8rem]",
+                          row: "flex w-full mt-2",
+                          cell: "flex-1 text-center text-sm p-0 relative [&:has([aria-selected].day-range-end)]:rounded-r-md [&:has([aria-selected].day-outside)]:bg-accent/50 [&:has([aria-selected])]:bg-accent first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md focus-within:relative focus-within:z-20",
+                          day: "h-9 w-full p-0 font-normal aria-selected:opacity-100",
+                        }}
                         modifiersClassNames={{
                           selected: "bg-primary text-primary-foreground",
                         }}
@@ -672,6 +684,9 @@ export default function Booking() {
                             {t("booking.modal.price")} {selectedPackage?.price}
                             {extraHour && " + $50"}
                           </p>
+                          <p className="text-xs text-muted-foreground pt-2 border-t border-border mt-2">
+                            {t("booking.modal.questionsCall")} <a href="tel:+37060623373" className="hover:underline font-semibold">+370 606 23373</a>
+                          </p>
                         </div>
                       </div>
                     </CardContent>
@@ -736,6 +751,20 @@ export default function Booking() {
                         value={`${selectedPackage?.name} - ${selectedPackage?.price}`}
                         className="border-2 rounded-none bg-muted"
                         disabled
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="modal-extra-notes" className="uppercase tracking-wide font-mono text-xs">
+                        {t("booking.modal.extraNotes")}
+                      </Label>
+                      <Textarea
+                        id="modal-extra-notes"
+                        placeholder={t("booking.modal.extraNotesPlaceholder")}
+                        className="border-2 rounded-none resize-none"
+                        rows={3}
+                        value={formData.extraNotes}
+                        onChange={(e) => setFormData({ ...formData, extraNotes: e.target.value })}
                       />
                     </div>
 

@@ -83,14 +83,6 @@ export default function WhereToFindUs() {
             <div className="lg:sticky lg:top-24 lg:self-start">
               <Card className="overflow-hidden border-2 border-foreground shadow-lg">
                 <CardContent className="p-0">
-                  {/* TODO: Replace src URL with your Google Maps embed URL */}
-                  {/* To get your embed URL: 
-                      1. Go to https://www.google.com/maps
-                      2. Search for your address
-                      3. Click "Share" button
-                      4. Click "Embed a map"
-                      5. Copy the iframe src URL and paste it below
-                  */}
                   <iframe
                     src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d143.39365979422985!2d23.902043599994254!3d54.89768185880519!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x46e7220c635b38db%3A0xe1fbe336070661e!2sLaisv%C4%97s%20al.%2099%2C%20Kaunas%2C%2044291%20Kauno%20m.%20sav.%2C%20Lithuania!5e0!3m2!1sen!2sde!4v1763639697932!5m2!1sen!2sde"
                     width="100%"
@@ -101,11 +93,6 @@ export default function WhereToFindUs() {
                     referrerPolicy="no-referrer-when-downgrade"
                     title="Studio Location Map"
                   />
-                  <div className="p-4 bg-muted border-t-2 border-foreground">
-                    <p className="text-xs text-center text-muted-foreground font-mono">
-                      {t("location.mapNote")}
-                    </p>
-                  </div>
                 </CardContent>
               </Card>
             </div>

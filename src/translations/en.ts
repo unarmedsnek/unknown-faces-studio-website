@@ -63,11 +63,14 @@ export default {
       email: "Email",
       selectedPackage: "Selected Package",
       addExtraHour: "Add an extra hour (+$50)",
+      extraNotes: "Extra Notes",
+      extraNotesPlaceholder: "Any special requests or additional information...",
       selectedBooking: "Selected Booking:",
       at: "at",
       completeBooking: "Complete Booking",
       creatingBooking: "Creating Booking...",
       confirmationNote: "Your booking will be created and you'll receive a confirmation email",
+      questionsCall: "If you have any questions, call",
     },
     packages: {
       basic: {
@@ -222,7 +225,6 @@ export default {
         description: "We have dedicated parking available behind the building. Enter through the main entrance and follow the signs.",
       },
     },
-    mapNote: "📍 Replace the map src URL with your actual studio location",
   },
   
   footer: {

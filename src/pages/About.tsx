@@ -35,9 +35,9 @@ export default function About() {
 
             {/* Studio Image 1 */}
             <section className="grid gap-8 lg:grid-cols-2 lg:items-center">
-              <div className="manga-panel aspect-video rounded-none overflow-hidden">
+              <div className="manga-panel aspect-[3/2] rounded-none overflow-hidden">
                 <img 
-                  src="/images/studio/studio-image-earphone-with-speaker.jpg" 
+                  src="/images/studio/atlikejas-3.jpg" 
                   alt="Our studio philosophy: Professional equipment and dedicated approach" 
                   className="w-full h-full object-cover"
                 />
@@ -58,9 +58,9 @@ export default function About() {
                   {t("about.space.description")}
                 </p>
               </div>
-              <div className="manga-panel aspect-video rounded-none overflow-hidden lg:order-1">
+              <div className="manga-panel aspect-[3/2] rounded-none overflow-hidden lg:order-1">
                 <img 
-                  src="/images/studio/studios-image-controler.jpg" 
+                  src="/images/studio/studija-4.jpg" 
                   alt="Our studio space: Acoustically treated rooms and creative atmosphere" 
                   className="w-full h-full object-cover"
                 />

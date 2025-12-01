@@ -63,11 +63,14 @@ export default {
       email: "El. paštas",
       selectedPackage: "Pasirinktas Paketas",
       addExtraHour: "Pridėk papildomą valandą (+50$)",
+      extraNotes: "Papildomi Komentarai",
+      extraNotesPlaceholder: "Bet kokie specialūs prašymai ar papildoma informacija...",
       selectedBooking: "Pasirinkta Rezervacija:",
       at: "",
       completeBooking: "Patvirtinti Rezervaciją",
       creatingBooking: "Kuriama Rezervacija...",
       confirmationNote: "Jūsų rezervacija bus sukurta ir gausite patvirtinimo laišką",
+      questionsCall: "Jei turite klausimų, skambinkite",
     },
     packages: {
       basic: {
@@ -222,7 +225,6 @@ export default {
         description: "Turime dedikuotą parkavimo vietą už pastato. Įeikite pro pagrindinį įėjimą ir sekite rodykles.",
       },
     },
-    mapNote: "📍 Pakeiskite žemėlapio URL į tikrąją studijos vietą",
   },
   
   footer: {

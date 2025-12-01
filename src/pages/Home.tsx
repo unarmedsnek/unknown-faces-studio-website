@@ -76,9 +76,9 @@ export default function Home() {
             <div className="space-y-16">
               {/* First Row: Image Left, Text Right */}
               <div className="grid gap-8 lg:grid-cols-2 lg:items-center">
-                <div className="manga-panel aspect-video rounded-none overflow-hidden">
+                <div className="manga-panel aspect-[3/2] rounded-none overflow-hidden">
                   <img 
-                    src="/images/studio/studio-image-earphone-with-speaker.jpg" 
+                    src="/images/studio/studija-1.jpg" 
                     alt="Professional recording equipment" 
                     className="w-full h-full object-cover"
                   />
@@ -99,9 +99,9 @@ export default function Home() {
                     {t("home.studio.creative.description")}
                   </p>
                 </div>
-                <div className="manga-panel aspect-video rounded-none overflow-hidden lg:order-2">
+                <div className="manga-panel aspect-[3/2] rounded-none overflow-hidden lg:order-2">
                   <img 
-                    src="/images/studio/studios-image-controler.jpg" 
+                    src="/images/studio/studija-7.jpg" 
                     alt="Creative recording space" 
                     className="w-full h-full object-cover"
                   />
