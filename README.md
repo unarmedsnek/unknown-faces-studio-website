@@ -1,73 +1,150 @@
-# Welcome to your Lovable project
+# Unknown Faces Studio Website
 
-## Project info
+A modern, bilingual (English/Lithuanian) website for Unknown Faces recording studio.
 
-**URL**: https://lovable.dev/projects/43e7caec-9f67-4b61-8715-430acac2e486
+## 🚀 Features
 
-## How can I edit this code?
+- **Bilingual Support** - Full English and Lithuanian translations
+- **Responsive Design** - Works seamlessly on desktop and mobile
+- **Booking System** - Integration with Cal.com for appointment scheduling
+- **Email Notifications** - EmailJS integration for booking confirmations
+- **Modern UI** - Clean, professional design built with React and Tailwind CSS
 
-There are several ways of editing your application.
+## 📋 Prerequisites
 
-**Use Lovable**
+- Node.js 16+ and npm
+- Cal.com account and API key
+- EmailJS account and templates
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/43e7caec-9f67-4b61-8715-430acac2e486) and start prompting.
+## 🛠️ Installation
 
-Changes made via Lovable will be committed automatically to this repo.
+### 1. Clone and Install
 
-**Use your preferred IDE**
+```bash
+git clone <your-repo-url>
+cd unknown-faces-studio-website
+npm install
+```
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+### 2. Configure Environment Variables
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+Create a `.env.local` file in the project root:
 
-Follow these steps:
+```bash
+cp .env.template .env.local
+```
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+Edit `.env.local` and add your actual credentials:
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+```env
+# Cal.com API
+VITE_CALCOM_API_KEY=your_cal_api_key_here
 
-# Step 3: Install the necessary dependencies.
-npm i
+# Cal.com Event Type IDs
+VITE_EVENT_TYPE_2H=your_2h_event_id
+VITE_EVENT_TYPE_4H=your_4h_event_id
+VITE_EVENT_TYPE_6H=your_6h_event_id
+VITE_EVENT_TYPE_8H=your_8h_event_id
+VITE_EVENT_TYPE_10H=your_10h_event_id
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+# With Extra Hour
+VITE_EVENT_TYPE_2H_EXTRA=your_2h_extra_event_id
+VITE_EVENT_TYPE_4H_EXTRA=your_4h_extra_event_id
+VITE_EVENT_TYPE_6H_EXTRA=your_6h_extra_event_id
+VITE_EVENT_TYPE_8H_EXTRA=your_8h_extra_event_id
+VITE_EVENT_TYPE_10H_EXTRA=your_10h_extra_event_id
+
+# EmailJS
+VITE_EMAILJS_SERVICE_ID=your_service_id
+VITE_EMAILJS_OWNER_TEMPLATE_ID=your_owner_template_id
+VITE_EMAILJS_USER_TEMPLATE_ID=your_user_template_id
+VITE_EMAILJS_PUBLIC_KEY=your_public_key
+```
+
+> **Important:** Never commit `.env.local` to git. It contains sensitive API keys.
+
+### 3. Run Development Server
+
+```bash
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+Visit http://localhost:8080/
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+## 📁 Project Structure
 
-**Use GitHub Codespaces**
+```
+unknown-faces-studio-website/
+├── src/
+│   ├── components/       # Reusable UI components
+│   ├── pages/           # Main page components
+│   ├── translations/    # English and Lithuanian translations
+│   ├── contexts/        # React contexts (Language)
+│   └── config/          # API configurations (gitignored)
+├── public/
+│   └── images/          # Studio photos and assets
+├── .env.local          # Your API keys (gitignored)
+├── .env.template       # Template for environment variables
+└── README.md           # This file
+```
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+## 🔐 Security
 
-## What technologies are used for this project?
+API keys are protected using environment variables:
+- Config files use `import.meta.env.VITE_*` to read from `.env.local`
+- `.env.local` is gitignored and never pushed to GitHub
+- Example config files (`.example.ts`) are provided as reference
 
-This project is built with:
+See `SECURITY_SETUP.md` for detailed security information.
 
-- Vite
+## 🌐 Deployment
+
+### Build for Production
+
+```bash
+npm run build
+```
+
+The `dist/` folder will contain production-ready files.
+
+### Environment Variables on Hosting
+
+Add all `VITE_*` variables from your `.env.local` to your hosting platform's environment settings:
+- **Netlify:** Site Settings → Environment Variables
+- **Vercel:** Project Settings → Environment Variables
+
+## 📚 Documentation
+
+- `SECURITY_SETUP.md` - API key security best practices
+- `API_SETUP.md` - Cal.com and EmailJS configuration guide
+- `public/images/README.md` - Guide for adding studio images
+
+## 🛠️ Available Commands
+
+```bash
+npm run dev      # Start development server
+npm run build    # Build for production
+npm run preview  # Preview production build
+npm run lint     # Run linter
+```
+
+## 🌍 Technologies
+
+- React 18
 - TypeScript
-- React
-- shadcn-ui
+- Vite
 - Tailwind CSS
+- shadcn/ui components
+- React Router
+- Cal.com API
+- EmailJS
+- React Hook Form
+- Zod validation
 
-## How can I deploy this project?
+## 📧 Contact
 
-Simply open [Lovable](https://lovable.dev/projects/43e7caec-9f67-4b61-8715-430acac2e486) and click on Share -> Publish.
+For questions about this website, contact Unknown Faces Studio at unknownfacesnotes@gmail.com
 
-## Can I connect a custom domain to my Lovable project?
+---
 
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+© 2025 Unknown Faces Studio. All rights reserved.

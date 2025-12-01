@@ -65,7 +65,7 @@ export default function FAQ() {
               <AccordionItem
                 key={index}
                 value={`item-${index}`}
-                className="manga-panel rounded-none px-6 hover:shadow-[8px_8px_0_hsl(var(--foreground))]"
+                className="manga-panel rounded-none px-6 hover:shadow-[14px_14px_0_hsl(var(--foreground))] hover:-translate-y-2 hover:scale-[1.01]"
               >
                 <AccordionTrigger className="text-left text-lg font-bold uppercase tracking-wide hover:no-underline">
                   {faq.question}

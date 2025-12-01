@@ -10,22 +10,22 @@ export default function Home() {
 
   const packages: PackageData[] = [
     {
-      name: t("booking.packages.basic.name"),
-      price: "$150",
-      duration: t("booking.packages.basic.duration"),
-      description: t("booking.packages.basic.description"),
+      name: t("booking.packages.twoHour.name"),
+      price: "20€",
+      duration: t("booking.packages.twoHour.duration"),
+      description: t("booking.packages.twoHour.description"),
     },
     {
-      name: t("booking.packages.standard.name"),
-      price: "$300",
-      duration: t("booking.packages.standard.duration"),
-      description: t("booking.packages.standard.description"),
+      name: t("booking.packages.fourHour.name"),
+      price: "40€",
+      duration: t("booking.packages.fourHour.duration"),
+      description: t("booking.packages.fourHour.description"),
     },
     {
-      name: t("booking.packages.premium.name"),
-      price: "$500",
-      duration: t("booking.packages.premium.duration"),
-      description: t("booking.packages.premium.description"),
+      name: t("booking.packages.sixHour.name"),
+      price: "60€",
+      duration: t("booking.packages.sixHour.duration"),
+      description: t("booking.packages.sixHour.description"),
     },
   ];
   return (

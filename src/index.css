@@ -109,8 +109,8 @@ All colors MUST be HSL.
   }
 
   .manga-panel:hover {
-    transform: translateY(-2px);
-    box-shadow: 8px 8px 0 hsl(var(--foreground));
+    transform: translateY(-6px) scale(1.02);
+    box-shadow: 12px 12px 0 hsl(var(--foreground));
   }
 
   /* Caption strip for section titles */

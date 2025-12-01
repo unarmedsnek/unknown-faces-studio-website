@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { Youtube, Instagram, Facebook, Send } from "lucide-react";
 import { FaTiktok } from "react-icons/fa";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -41,8 +42,16 @@ export const Footer = () => {
           {/* Divider */}
           <div className="h-[2px] w-32 bg-border" />
 
+          {/* Rules Link */}
+          <Link
+            to="/rules"
+            className="font-mono text-sm text-secondary-foreground hover:underline hover:brightness-75 transition-all"
+          >
+            {t("footer.rules")}
+          </Link>
+
           {/* Copyright */}
-          <p className="font-mono text-sm">
+          <p className="font-mono text-xs text-secondary-foreground/70 mt-2">
             {t("footer.copyright").replace("{year}", new Date().getFullYear().toString())}
           </p>
         </div>

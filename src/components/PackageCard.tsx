@@ -16,7 +16,7 @@ interface PackageCardProps {
 export const PackageCard = ({ package: pkg, className = "", onClick }: PackageCardProps) => {
   return (
     <Card 
-      className={`manga-panel rounded-none cursor-pointer transition-all duration-300 hover:scale-[1.03] hover:shadow-[8px_8px_0_hsl(var(--foreground))] ${className}`}
+      className={`manga-panel rounded-none cursor-pointer transition-all duration-300 hover:scale-[1.05] hover:shadow-[14px_14px_0_hsl(var(--foreground))] hover:-translate-y-2 ${className}`}
       onClick={onClick}
     >
       <CardHeader>

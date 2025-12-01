@@ -1,4 +1,5 @@
 import { useState, useEffect, FormEvent } from "react";
+import { Link } from "react-router-dom";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { PackageCard, PackageData } from "@/components/PackageCard";
@@ -40,12 +41,13 @@ interface AvailableSlot {
   end: string; // ISO string
 }
 
-// Package keys for Cal.com API (language-independent)
+// Package keys for Cal.com API (language-independent) - MUST match calcom-api.config.ts
 const PACKAGE_KEYS = {
-  BASIC: "Basic Session",
-  STANDARD: "Standard Session",
-  PREMIUM: "Premium Session",
-  FULL_DAY: "Full Day Session",
+  TWO_HOUR: "2 hour session",
+  FOUR_HOUR: "4 hour session",
+  SIX_HOUR: "6 hour session",
+  EIGHT_HOUR: "8 hour Session",
+  TEN_HOUR: "10 hour Session",
 } as const;
 
 export default function Booking() {
@@ -62,6 +64,12 @@ export default function Booking() {
     email: "",
     extraNotes: "",
   });
+  const [extraServices, setExtraServices] = useState({
+    vocalRecording: false,
+    mixMaster: false,
+    instrumental: false,
+  });
+  const [hasReadRules, setHasReadRules] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [availableSlots, setAvailableSlots] = useState<AvailableSlot[]>([]);
   const [loadingSlots, setLoadingSlots] = useState(false);
@@ -72,34 +80,44 @@ export default function Booking() {
 
   const packages: (PackageData & { key: string })[] = [
     {
-      key: PACKAGE_KEYS.BASIC,
-      name: t("booking.packages.basic.name"),
-      price: "$150",
-      duration: t("booking.packages.basic.duration"),
-      description: t("booking.packages.basic.description"),
+      key: PACKAGE_KEYS.TWO_HOUR,
+      name: t("booking.packages.twoHour.name"),
+      price: "20€",
+      duration: t("booking.packages.twoHour.duration"),
+      description: t("booking.packages.twoHour.description"),
     },
     {
-      key: PACKAGE_KEYS.STANDARD,
-      name: t("booking.packages.standard.name"),
-      price: "$300",
-      duration: t("booking.packages.standard.duration"),
-      description: t("booking.packages.standard.description"),
+      key: PACKAGE_KEYS.FOUR_HOUR,
+      name: t("booking.packages.fourHour.name"),
+      price: "40€",
+      duration: t("booking.packages.fourHour.duration"),
+      description: t("booking.packages.fourHour.description"),
     },
     {
-      key: PACKAGE_KEYS.PREMIUM,
-      name: t("booking.packages.premium.name"),
-      price: "$500",
-      duration: t("booking.packages.premium.duration"),
-      description: t("booking.packages.premium.description"),
+      key: PACKAGE_KEYS.SIX_HOUR,
+      name: t("booking.packages.sixHour.name"),
+      price: "60€",
+      duration: t("booking.packages.sixHour.duration"),
+      description: t("booking.packages.sixHour.description"),
     },
     {
-      key: PACKAGE_KEYS.FULL_DAY,
-      name: t("booking.packages.fullDay.name"),
-      price: "$800",
-      duration: t("booking.packages.fullDay.duration"),
-      description: t("booking.packages.fullDay.description"),
+      key: PACKAGE_KEYS.EIGHT_HOUR,
+      name: t("booking.packages.eightHour.name"),
+      price: "75€",
+      duration: t("booking.packages.eightHour.duration"),
+      description: t("booking.packages.eightHour.description"),
+    },
+    {
+      key: PACKAGE_KEYS.TEN_HOUR,
+      name: t("booking.packages.tenHour.name"),
+      price: "80€",
+      duration: t("booking.packages.tenHour.duration"),
+      description: t("booking.packages.tenHour.description"),
     },
   ];
+
+  // Extra hour is flat 10€ for all packages
+  const EXTRA_HOUR_COST = "10€";
 
   // Calculate total duration in minutes
   const getTotalDurationMinutes = (): number => {
@@ -329,6 +347,7 @@ export default function Booking() {
     setSelectedPackage(pkg);
     setSelectedPackageKey(pkg.key); // Save the English key for Cal.com API
     setExtraHour(false);
+    setExtraServices({ vocalRecording: false, mixMaster: false, instrumental: false });
     setSelectedDate(undefined);
     setSelectedTime("");
     setAvailableSlots([]);
@@ -455,7 +474,7 @@ export default function Booking() {
         package_name: selectedPackage.name,
         package_price: selectedPackage.price,
         package_duration: selectedPackage.duration,
-        extra_hour: extraHour ? "Yes (+$50)" : "No",
+        extra_hour: extraHour ? `Yes (+${EXTRA_HOUR_COST})` : "No",
         total_duration: extraHour 
           ? `${selectedPackage.duration} + 1 hour` 
           : selectedPackage.duration,
@@ -465,6 +484,9 @@ export default function Booking() {
         user_phone: formData.phone,
         user_email: formData.email,
         extra_notes: formData.extraNotes || "No additional notes",
+        vocal_recording: extraServices.vocalRecording ? "Yes (+40€)" : "No",
+        mix_master: extraServices.mixMaster ? "Yes (+70€)" : "No",
+        instrumental_lease: extraServices.instrumental ? "Yes (+150€)" : "No",
         to_email: formData.email,
         message: `Booking confirmed for ${selectedPackage.name} on ${bookingDate} at ${bookingTime}`,
       };
@@ -503,6 +525,8 @@ export default function Booking() {
       // Reset and close
       setFormData({ name: "", phone: "", email: "", extraNotes: "" });
       setExtraHour(false);
+      setExtraServices({ vocalRecording: false, mixMaster: false, instrumental: false });
+      setHasReadRules(false);
       setSelectedDate(undefined);
       setSelectedTime("");
       setAvailableSlots([]);
@@ -682,7 +706,7 @@ export default function Booking() {
                           </p>
                           <p className="text-sm font-medium">
                             {t("booking.modal.price")} {selectedPackage?.price}
-                            {extraHour && " + $50"}
+                            {extraHour && ` + ${EXTRA_HOUR_COST}`}
                           </p>
                           <p className="text-xs text-muted-foreground pt-2 border-t border-border mt-2">
                             {t("booking.modal.questionsCall")} <a href="tel:+37060623373" className="hover:underline font-semibold">+370 606 23373</a>
@@ -783,6 +807,58 @@ export default function Booking() {
                       </Label>
                     </div>
 
+                    {/* Extra Services */}
+                    <div className="space-y-2 pt-2 border-t border-border">
+                      <Label className="uppercase tracking-wide font-mono text-xs block mb-3">
+                        {t("booking.extraServices.title")}
+                      </Label>
+                      
+                      <div className="flex items-center space-x-2">
+                        <Checkbox
+                          id="service-vocal"
+                          checked={extraServices.vocalRecording}
+                          onCheckedChange={(checked) => setExtraServices({ ...extraServices, vocalRecording: checked as boolean })}
+                          className="rounded-none border-2"
+                        />
+                        <Label
+                          htmlFor="service-vocal"
+                          className="cursor-pointer text-sm font-medium"
+                        >
+                          {t("booking.extraServices.vocalRecording")}
+                        </Label>
+                      </div>
+
+                      <div className="flex items-center space-x-2">
+                        <Checkbox
+                          id="service-mix"
+                          checked={extraServices.mixMaster}
+                          onCheckedChange={(checked) => setExtraServices({ ...extraServices, mixMaster: checked as boolean })}
+                          className="rounded-none border-2"
+                        />
+                        <Label
+                          htmlFor="service-mix"
+                          className="cursor-pointer text-sm font-medium"
+                        >
+                          {t("booking.extraServices.mixMaster")}
+                        </Label>
+                      </div>
+
+                      <div className="flex items-center space-x-2">
+                        <Checkbox
+                          id="service-instrumental"
+                          checked={extraServices.instrumental}
+                          onCheckedChange={(checked) => setExtraServices({ ...extraServices, instrumental: checked as boolean })}
+                          className="rounded-none border-2"
+                        />
+                        <Label
+                          htmlFor="service-instrumental"
+                          className="cursor-pointer text-sm font-medium"
+                        >
+                          {t("booking.extraServices.instrumental")}
+                        </Label>
+                      </div>
+                    </div>
+
                     {selectedDate && selectedTime && (
                       <Card className="border-2 border-primary">
                         <CardContent className="p-4">
@@ -794,12 +870,31 @@ export default function Booking() {
                       </Card>
                     )}
 
+                    {/* Rules Checkbox - Required */}
+                    <div className="flex items-start space-x-2 pt-4 border-t border-border">
+                      <Checkbox
+                        id="rules-checkbox"
+                        checked={hasReadRules}
+                        onCheckedChange={(checked) => setHasReadRules(checked as boolean)}
+                        className="rounded-none border-2 mt-1"
+                      />
+                      <Label
+                        htmlFor="rules-checkbox"
+                        className="cursor-pointer text-sm leading-relaxed"
+                      >
+                        {t("booking.modal.rulesAgreement")}{" "}
+                        <Link to="/rules" target="_blank" className="underline hover:text-primary font-semibold">
+                          {t("booking.modal.rulesLink")}
+                        </Link>
+                      </Label>
+                    </div>
+
                     <div className="pt-4 space-y-2">
                       <Button
                         type="submit"
                         size="lg"
                         className="w-full"
-                        disabled={isSubmitting || !selectedDate || !selectedTime}
+                        disabled={isSubmitting || !selectedDate || !selectedTime || !hasReadRules}
                       >
                         {isSubmitting ? t("booking.modal.creatingBooking") : t("booking.modal.completeBooking")}
                       </Button>

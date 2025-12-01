@@ -1,289 +1,136 @@
-# Cal.com API Setup - Direct Booking
+# API Setup Guide
 
-## 🎯 How It Works Now
+This guide explains how to configure Cal.com and EmailJS for the booking system.
 
-**Simple and Direct:**
-1. User fills form ONCE (name, email, phone, date, time)
-2. User clicks "Complete Booking"
-3. System creates booking via Cal.com API
-4. Emails sent automatically
-5. Done! ✅
+## 📋 Overview
 
-**No confirmation screens, no extra steps.**
+The website uses:
+- **Cal.com** - For booking management and calendar scheduling
+- **EmailJS** - For sending booking confirmation emails
 
----
+All credentials are stored in `.env.local` (never committed to git).
 
-## ⚙️ Configuration Required (10 Minutes)
+## 🔧 Cal.com Setup
 
-### Step 1: Get Your Cal.com API Key (3 min)
+### Step 1: Get API Key (3 minutes)
 
-1. Go to: **https://app.cal.com/settings/developer/api-keys**
-2. Click **"Create API Key"**
-3. Give it a name: "Studio Bookings"
+1. Go to https://app.cal.com/settings/developer/api-keys
+2. Click "Create API Key"
+3. Name it "Studio Bookings"
 4. Copy the API key (starts with `cal_live_...`)
-5. Open `src/config/calcom-api.config.ts`
-6. Replace the TODO with your API key:
-
-```typescript
-export const calcomApiConfig = {
-  apiKey: "cal_live_YOUR_KEY_HERE", // 👈 Paste your key
-  apiBaseUrl: "https://api.cal.com/v2",
-};
-```
-
----
-
-### Step 2: Get Your Event Type IDs (5 min)
-
-You need the **numeric ID** for each event type.
-
-#### How to Find Event Type IDs:
-
-1. Go to: **https://app.cal.com/event-types**
-2. Click on an event type (e.g., "Basic Session")
-3. Look at the URL in your browser:
+5. Add to `.env.local`:
+   ```env
+   VITE_CALCOM_API_KEY=cal_live_YOUR_KEY_HERE
    ```
-   https://app.cal.com/event-types/[ID]/edit
-                                      ↑
-                                   This number!
-   ```
-4. Copy that number
 
-#### Repeat for All Event Types:
+### Step 2: Create Event Types (10 minutes)
 
-You need **8 event type IDs** total:
+Create event types for each booking package. You need TWO event types per package: one standard, one with an extra hour.
 
-**Base Event Types (no extra hour):**
-- Basic Session (2 hours) → ID: `______`
-- Standard Session (4 hours) → ID: `______`
-- Premium Session (8 hours) → ID: `______`
-- Full Day Session (12 hours) → ID: `______`
+**Example for 2-hour session:**
+- Event 1: "2 Hour Session" → Duration: 2 hours
+- Event 2: "2 Hour Session + Extra" → Duration: 3 hours
 
-**With Extra Hour:**
-- Basic + Extra (3 hours) → ID: `______`
-- Standard + Extra (5 hours) → ID: `______`
-- Premium + Extra (9 hours) → ID: `______`
-- Full Day + Extra (13 hours) → ID: `______`
+Repeat for all packages:
+- 2 hour session (base + extra)
+- 4 hour session (base + extra)
+- 6 hour session (base + extra)
+- 8 hour session (base + extra)
+- 10 hour session (base + extra)
 
-#### Update Config:
+### Step 3: Get Event Type IDs (5 minutes)
 
-Open `src/config/calcom-api.config.ts`:
+For each event type:
+1. Go to https://app.cal.com/event-types
+2. Click on the event type
+3. Look at the URL: `https://app.cal.com/event-types/[ID]/edit`
+4. Copy the numeric ID
 
-```typescript
-export const eventTypeIds = {
-  // Base event types
-  base: {
-    "Basic Session": 123456,        // 👈 Your 2-hour event ID
-    "Standard Session": 234567,     // 👈 Your 4-hour event ID
-    "Premium Session": 345678,      // 👈 Your 8-hour event ID
-    "Full Day Session": 456789,     // 👈 Your 12-hour event ID
-  },
-  // Event types with extra hour
-  withExtra: {
-    "Basic Session": 567890,        // 👈 Your 3-hour event ID
-    "Standard Session": 678901,     // 👈 Your 5-hour event ID
-    "Premium Session": 789012,      // 👈 Your 9-hour event ID
-    "Full Day Session": 890123,     // 👈 Your 13-hour event ID
-  }
-};
+Add all IDs to `.env.local`:
+```env
+# Base durations
+VITE_EVENT_TYPE_2H=1234567
+VITE_EVENT_TYPE_4H=1234568
+VITE_EVENT_TYPE_6H=1234569
+VITE_EVENT_TYPE_8H=1234570
+VITE_EVENT_TYPE_10H=1234571
+
+# With extra hour
+VITE_EVENT_TYPE_2H_EXTRA=1234572
+VITE_EVENT_TYPE_4H_EXTRA=1234573
+VITE_EVENT_TYPE_6H_EXTRA=1234574
+VITE_EVENT_TYPE_8H_EXTRA=1234575
+VITE_EVENT_TYPE_10H_EXTRA=1234576
 ```
 
----
+## 📧 EmailJS Setup
 
-### Step 3: Create Event Types (if not done yet)
+### Step 1: Create Account
 
-If you haven't created event types with extra hour durations:
+1. Sign up at https://www.emailjs.com/
+2. Connect your email service (Gmail, Outlook, etc.)
 
-1. Go to: **https://app.cal.com/event-types**
-2. For each package, create **TWO event types**:
+### Step 2: Create Email Templates
 
-**Example for Basic Session:**
+Create two templates:
 
-**Event 1: Basic Session**
-- Name: `Basic Session`
-- Duration: `120 minutes` (2 hours)
-- URL: `secret` (or your choice)
+**Template 1: Owner Notification**
+- Name: "Studio Booking Request"
+- To: Your studio email
+- Variables: `{{package_name}}`, `{{package_price}}`, `{{user_name}}`, `{{user_email}}`, `{{user_phone}}`, `{{extra_notes}}`
 
-**Event 2: Basic Session + Extra Hour**
-- Name: `Basic Session + Extra`
-- Duration: `180 minutes` (3 hours)
-- URL: `secret-extra` (or your choice)
+**Template 2: User Confirmation**
+- Name: "Booking Confirmation"
+- To: `{{user_email}}`
+- Variables: `{{user_name}}`, `{{package_name}}`, `{{package_price}}`
 
-**Repeat for:**
-- Standard (4hr + 5hr)
-- Premium (8hr + 9hr)
-- Full Day (12hr + 13hr)
+### Step 3: Get Credentials
 
----
+1. **Service ID**: https://dashboard.emailjs.com/admin/integration
+2. **Template IDs**: Click on each template to see its ID
+3. **Public Key**: https://dashboard.emailjs.com/admin/account
 
-## 🧪 Testing
-
-```bash
-npm run dev
+Add to `.env.local`:
+```env
+VITE_EMAILJS_SERVICE_ID=service_xxxxx
+VITE_EMAILJS_OWNER_TEMPLATE_ID=template_xxxxx
+VITE_EMAILJS_USER_TEMPLATE_ID=template_xxxxx
+VITE_EMAILJS_PUBLIC_KEY=your_public_key
 ```
 
-### Test Flow:
+## ✅ Testing
 
-1. Click "Basic Session" package
-2. Modal opens
-3. Fill form:
-   - Name: Your name
-   - Email: Your email
-   - Phone: Your phone
-   - Date: Tomorrow
-   - Time: 2:00 PM
-4. Check "Add Extra Hour" (optional)
-5. Click "Complete Booking"
-6. ✅ Success message appears
-7. ✅ Check your email (owner notification)
-8. ✅ Check user email (confirmation)
-9. ✅ Check Cal.com dashboard (booking appears)
-10. ✅ Check Google Calendar (event appears)
+1. Restart your dev server: `npm run dev`
+2. Go to the booking page
+3. Select a package and try to book
+4. Check browser console for any errors
+5. Verify emails are sent correctly
 
----
+## 🔒 Security Notes
 
-## 🔍 What Gets Sent
+- Never commit `.env.local` to git
+- Config files (`src/config/*.ts`) are gitignored
+- Only `.env.template` with placeholder values should be in git
+- For production, set environment variables in your hosting platform
 
-### To Cal.com API:
+## 🆘 Troubleshooting
 
-```json
-{
-  "eventTypeId": 123456,
-  "start": "2024-01-15T14:00:00.000Z",
-  "attendee": {
-    "name": "John Doe",
-    "email": "john@example.com",
-    "timeZone": "America/New_York",
-    "phoneNumber": "+1234567890"
-  },
-  "metadata": {
-    "package": "Basic Session",
-    "packagePrice": "$150",
-    "extraHour": "Yes"
-  }
-}
-```
+### "API key not found"
+- Check `.env.local` exists in project root
+- Verify `VITE_CALCOM_API_KEY` is set
+- Restart dev server
 
-### To EmailJS:
+### "Event type undefined"
+- Check all `VITE_EVENT_TYPE_*` variables are set
+- Verify IDs are numeric (no quotes in .env.local)
 
-**Owner Email:**
-- All booking details
-- Customer name, email, phone
-- Selected date and time
-- Package and price
-
-**User Email:**
-- Confirmation of booking
-- Date and time
-- Package and duration
-- Studio contact info
+### "EmailJS error"
+- Check all `VITE_EMAILJS_*` variables are set
+- Verify credentials in EmailJS dashboard
+- Check email service is connected
 
 ---
 
-## ✅ Benefits of API Approach
-
-| Feature | Status |
-|---------|--------|
-| **One-step booking** | ✅ Fill form, click submit, done |
-| **Calendar sync** | ✅ Cal.com handles automatically |
-| **No UI confirmation** | ✅ No extra screens |
-| **Fast** | ✅ Direct API call |
-| **Extra hour** | ✅ Different event type IDs |
-| **Emails** | ✅ Sent after successful booking |
-| **Customer info** | ✅ Included in Cal.com event |
-
----
-
-## 🐛 Troubleshooting
-
-### Error: "Event Type ID not configured"
-
-**Solution:** Update `eventTypeIds` in `src/config/calcom-api.config.ts` with your actual IDs.
-
-### Error: "Cal.com API error (401)"
-
-**Solution:** Check your API key in `calcomApiConfig.apiKey`. Make sure it's valid and active.
-
-### Error: "Cal.com API error (400)"
-
-**Possible causes:**
-- Invalid date/time format
-- Event type ID doesn't exist
-- Event type not enabled
-
-**Solution:** Verify event type IDs are correct and event types are active in Cal.com.
-
-### Booking created but no email sent
-
-**Solution:** Check EmailJS configuration in `src/config/emailjs.config.ts`. Verify template IDs and "To Email" settings.
-
-### Booking created but not syncing to Google Calendar
-
-**Solution:** In Cal.com, go to the event type settings and ensure your Google Calendar is connected and selected.
-
----
-
-## 📊 How It Works Behind the Scenes
-
-```
-User fills form
-   ↓
-User clicks "Complete Booking"
-   ↓
-System calls Cal.com API:
-POST /v2/bookings
-   ↓
-Cal.com creates booking:
-  ✅ Saves to database
-  ✅ Syncs to Google Calendar
-  ✅ Blocks time slot
-  ✅ Includes customer info
-   ↓
-System sends EmailJS emails:
-  ✅ Owner notification
-  ✅ User confirmation
-   ↓
-Success toast appears
-Modal closes
-Form resets
-   ↓
-✅ DONE!
-```
-
----
-
-## 🎯 Summary
-
-**Configuration:**
-1. Get API key from Cal.com → Paste in config
-2. Get event type IDs → Paste in config
-3. Test
-
-**User Experience:**
-1. Fill form once
-2. Click submit
-3. Done!
-
-**No confirmation screens, no extra steps, no complications.**
-
-**Total setup time: 10 minutes**
-
----
-
-## 📝 Configuration Checklist
-
-```
-✅ Cal.com API key added to calcom-api.config.ts
-✅ 8 event type IDs added to calcom-api.config.ts
-✅ Event types created in Cal.com (base + extra hour)
-✅ Event types connected to Google Calendar
-✅ EmailJS configured (service ID, template IDs)
-✅ Tested complete booking flow
-✅ Verified emails sent
-✅ Verified calendar sync
-```
-
----
-
-**Simple, direct, reliable.** 🚀
-
+For more details, see the official documentation:
+- Cal.com API: https://cal.com/docs/api-reference/v2
+- EmailJS: https://www.emailjs.com/docs/

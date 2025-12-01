@@ -12,6 +12,16 @@ dist
 dist-ssr
 *.local
 
+# Environment variables (IMPORTANT: Contains API keys!)
+.env
+.env.local
+.env.production
+.env.development
+
+# Config files with sensitive data
+src/config/calcom-api.config.ts
+src/config/emailjs.config.ts
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
@@ -22,3 +32,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Temporary assets (paste images)
+assets/c__Users_*

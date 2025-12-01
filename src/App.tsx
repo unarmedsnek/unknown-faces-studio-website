@@ -10,6 +10,7 @@ import Booking from "./pages/Booking";
 import FAQ from "./pages/FAQ";
 import About from "./pages/About";
 import WhereToFindUs from "./pages/WhereToFindUs";
+import Rules from "./pages/Rules";
 import NotFound from "./pages/NotFound";
 
 // Cal.com type declaration
@@ -84,6 +85,7 @@ const App = () => {
               <Route path="/faq" element={<FAQ />} />
               <Route path="/about" element={<About />} />
               <Route path="/location" element={<WhereToFindUs />} />
+              <Route path="/rules" element={<Rules />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
