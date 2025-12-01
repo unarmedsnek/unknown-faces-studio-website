@@ -18,9 +18,8 @@ dist-ssr
 .env.production
 .env.development
 
-# Config files with sensitive data
-src/config/calcom-api.config.ts
-src/config/emailjs.config.ts
+# Note: Config files are now safe to commit (they use env vars only)
+# No hardcoded API keys - all secrets are in .env.local
 
 # Editor directories and files
 .vscode/*
