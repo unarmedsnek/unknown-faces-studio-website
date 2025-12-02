@@ -234,19 +234,18 @@ export default function Booking() {
             continue;
           }
 
-          // Ensure the requested duration fits within the same Lithuanian day
-          const dayEndUtc = fromZonedTime(`${dateKey}T23:59:59`, LITHUANIAN_TIMEZONE);
-
-          if (slotEnd <= dayEndUtc) {
-            validSlots.push({
-              time: slotStart.toISOString(),
-              start: slotStart.toISOString(),
-              end: slotEnd.toISOString(),
-            });
-            console.log("✅ Valid slot added:", formatLithuanianTime(slotStart), "→", formatLithuanianTime(slotEnd));
-          } else {
-            console.log("❌ Slot rejected (duration extends past day end):", formatLithuanianTime(slotStart), "→", formatLithuanianTime(slotEnd));
-          }
+          // Allow all slots returned by Cal.com (including overnight bookings)
+          // Cal.com handles availability validation on their end
+          validSlots.push({
+            time: slotStart.toISOString(),
+            start: slotStart.toISOString(),
+            end: slotEnd.toISOString(),
+          });
+          
+          // Log with next-day indicator for overnight bookings
+          const endsOnSelectedDay = formatInTimeZone(slotEnd, LITHUANIAN_TIMEZONE, "yyyy-MM-dd") === dateKey;
+          const overnightIndicator = !endsOnSelectedDay ? " (overnight → next day)" : "";
+          console.log("✅ Valid slot added:", formatLithuanianTime(slotStart), "→", formatLithuanianTime(slotEnd) + overnightIndicator);
         }
 
         setAvailableSlots(validSlots);
