@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { PackageCard, PackageData } from "@/components/PackageCard";
+import { PromoCard } from "@/components/PromoCard";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -566,6 +567,11 @@ export default function Booking() {
             <p className="text-xl text-muted-foreground font-mono">
               {t("booking.subtitle")}
             </p>
+          </div>
+
+          {/* Promotion Card */}
+          <div className="mb-12 px-4">
+            <PromoCard />
           </div>
 
           {/* Packages Grid */}

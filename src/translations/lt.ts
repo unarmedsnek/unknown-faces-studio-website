@@ -558,5 +558,32 @@ export default {
 
   },
 
+  
+  promotion: {
+
+    seventh: "🎉 KIEKVIENA 7-A REZERVACIJA NEMOKAMA!",
+
+    bannerText: "SPECIALI AKCIJA • KIEKVIENA 7-A REZERVACIJA NEMOKAMA • RIBOTAS LAIKAS",
+
+    promoCard: {
+
+      title: "Speciali Akcija!",
+
+      mainText: "Kiekviena 7-a Rezervacija",
+
+      highlightText: "NEMOKAMAI",
+
+      description: "Rezervuok savo sesijas ir sek pažangą. Tavo 7-a rezervacija visiškai nemokama - bet kuris paketas, bet kokia trukmė!",
+
+      cta: "Pradėk Rezervuoti Dabar",
+
+      terms: "Galioja taisyklės. Reikia užbaigti 6 mokamas rezervacijas.",
+
+    },
+
+    floatingBadge: "7-A NEMOK.",
+
+  },
+
 };
 

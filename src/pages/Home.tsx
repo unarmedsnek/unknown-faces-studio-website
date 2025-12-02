@@ -3,6 +3,8 @@ import { Button } from "@/components/ui/button";
 import { PackageCard, PackageData } from "@/components/PackageCard";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import { PromoBanner } from "@/components/PromoBanner";
+import { FloatingPromoBadge } from "@/components/FloatingPromoBadge";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 export default function Home() {
@@ -139,6 +141,9 @@ export default function Home() {
           </div>
         </section>
 
+        {/* Promotion Banner */}
+        <PromoBanner />
+
         {/* Instagram Section */}
         <section className="border-b-2 border-foreground py-16">
           <div className="mx-auto max-w-7xl px-6">
@@ -227,6 +232,7 @@ export default function Home() {
       </main>
 
       <Footer />
+      <FloatingPromoBadge />
     </div>
   );
 }

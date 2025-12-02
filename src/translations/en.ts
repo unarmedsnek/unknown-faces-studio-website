@@ -558,5 +558,32 @@ export default {
 
   },
 
+  
+  promotion: {
+
+    seventh: "🎉 EVERY 7TH BOOKING FREE!",
+
+    bannerText: "SPECIAL OFFER • EVERY 7TH BOOKING FREE • LIMITED TIME",
+
+    promoCard: {
+
+      title: "Special Promotion!",
+
+      mainText: "Every 7th Booking",
+
+      highlightText: "FREE",
+
+      description: "Book your sessions and track your progress. Your 7th booking is completely free - any package, any duration!",
+
+      cta: "Start Booking Now",
+
+      terms: "Terms apply. Must complete 6 paid bookings to qualify.",
+
+    },
+
+    floatingBadge: "7th FREE",
+
+  },
+
 };
 
