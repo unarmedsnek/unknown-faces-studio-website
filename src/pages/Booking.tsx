@@ -58,7 +58,7 @@ export default function Booking() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [extraHour, setExtraHour] = useState(false);
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
-  const [selectedTime, setSelectedTime] = useState<string>("");
+  const [selectedTimeSlot, setSelectedTimeSlot] = useState<AvailableSlot | null>(null);
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
@@ -350,7 +350,7 @@ export default function Booking() {
     setExtraHour(false);
     setExtraServices({ vocalRecording: false, mixMaster: false, instrumental: false });
     setSelectedDate(undefined);
-    setSelectedTime("");
+    setSelectedTimeSlot(null);
     setAvailableSlots([]);
     setCalendarDate(new Date()); // Reset calendar to current month
     setAvailableDateKeys(new Set());
@@ -362,18 +362,17 @@ export default function Booking() {
     // Clear previous selection properly
     if (date) {
       setSelectedDate(date);
-      setSelectedTime(""); // Reset time when date changes
+      setSelectedTimeSlot(null); // Reset time when date changes
     } else {
       // If date is undefined (deselected), clear everything
       setSelectedDate(undefined);
-      setSelectedTime("");
+      setSelectedTimeSlot(null);
       setAvailableSlots([]);
     }
   };
 
   const handleTimeSelect = (slot: AvailableSlot) => {
-    const slotDate = parseISO(slot.time);
-    setSelectedTime(formatLithuanianTime(slotDate));
+    setSelectedTimeSlot(slot);
   };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -399,7 +398,7 @@ export default function Booking() {
     }
 
     // Validate date and time
-    if (!selectedDate || !selectedTime) {
+    if (!selectedDate || !selectedTimeSlot) {
       toast({
         title: t("booking.toasts.missingDateTime.title"),
         description: t("booking.toasts.missingDateTime.description"),
@@ -411,19 +410,8 @@ export default function Booking() {
     setIsSubmitting(true);
 
     try {
-      // Find the selected slot
-      const selectedSlot = availableSlots.find(slot => {
-        const slotDate = parseISO(slot.time);
-        const slotTimeStr = formatLithuanianTime(slotDate);
-        return slotTimeStr === selectedTime && isSameDay(slotDate, selectedDate);
-      });
-
-      if (!selectedSlot) {
-        throw new Error("Selected time slot is no longer available");
-      }
-
-      // Use the slot's ISO time directly (already in correct timezone)
-      const startTime = selectedSlot.start;
+      // Use the selected slot directly (no need to search)
+      const startTime = selectedTimeSlot.start;
 
       // Get event type ID based on package and extra hour
       const eventTypeId = getEventTypeId(selectedPackageKey, extraHour);
@@ -529,7 +517,7 @@ export default function Booking() {
       setExtraServices({ vocalRecording: false, mixMaster: false, instrumental: false });
       setHasReadRules(false);
       setSelectedDate(undefined);
-      setSelectedTime("");
+      setSelectedTimeSlot(null);
       setAvailableSlots([]);
       setIsModalOpen(false);
 
@@ -678,7 +666,7 @@ export default function Booking() {
                               {availableSlots.map((slot, index) => {
                                 const slotDate = parseISO(slot.time);
                                 const timeStr = formatLithuanianTime(slotDate);
-                                const isSelected = selectedTime === timeStr;
+                                const isSelected = selectedTimeSlot?.start === slot.start;
                                 
                                 return (
                                   <Button
@@ -865,12 +853,12 @@ export default function Booking() {
                       </div>
                     </div>
 
-                    {selectedDate && selectedTime && (
+                    {selectedDate && selectedTimeSlot && (
                       <Card className="border-2 border-primary">
                         <CardContent className="p-4">
                           <p className="text-sm font-semibold mb-1">{t("booking.modal.selectedBooking")}</p>
                           <p className="text-sm">
-                            {formatInTimeZone(selectedDate, LITHUANIAN_TIMEZONE, "EEEE, MMMM d, yyyy")} {t("booking.modal.at")} {selectedTime}
+                            {formatInTimeZone(selectedDate, LITHUANIAN_TIMEZONE, "EEEE, MMMM d, yyyy")} {t("booking.modal.at")} {formatLithuanianTime(parseISO(selectedTimeSlot.start))}
                           </p>
                         </CardContent>
                       </Card>
@@ -900,7 +888,7 @@ export default function Booking() {
                         type="submit"
                         size="lg"
                         className="w-full"
-                        disabled={isSubmitting || !selectedDate || !selectedTime || !hasReadRules}
+                        disabled={isSubmitting || !selectedDate || !selectedTimeSlot || !hasReadRules}
                       >
                         {isSubmitting ? t("booking.modal.creatingBooking") : t("booking.modal.completeBooking")}
                       </Button>
