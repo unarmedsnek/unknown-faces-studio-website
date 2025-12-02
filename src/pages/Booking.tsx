@@ -883,9 +883,9 @@ export default function Booking() {
                         className="cursor-pointer text-sm leading-relaxed"
                       >
                         {t("booking.modal.rulesAgreement")}{" "}
-                        <Link to="/rules" target="_blank" className="underline hover:text-primary font-semibold">
+                        <a href="/rules" target="_blank" rel="noopener noreferrer" className="underline hover:text-primary font-semibold">
                           {t("booking.modal.rulesLink")}
-                        </Link>
+                        </a>
                       </Label>
                     </div>
 
