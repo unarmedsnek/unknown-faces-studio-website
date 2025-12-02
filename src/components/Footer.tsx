@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Youtube, Instagram, Facebook, Send } from "lucide-react";
-import { FaTiktok } from "react-icons/fa";
+import { FaTiktok, FaDiscord } from "react-icons/fa";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 const socialLinks = [
@@ -9,6 +9,7 @@ const socialLinks = [
   { icon: Facebook, href: "https://www.facebook.com/unknownfaceso?locale=lt_LT", label: "Facebook" },
   { icon: FaTiktok, href: "https://www.tiktok.com/@unknownfaces38", label: "TikTok" },
   { icon: Send, href: "https://t.me/UFOSTUDIJA", label: "Telegram" },
+  { icon: FaDiscord, href: "https://discord.gg/XY5kYjk4", label: "Discord" },
 ];
 
 export const Footer = () => {

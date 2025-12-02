@@ -284,7 +284,7 @@ export default {
 
         question: "What equipment do you have in the studio?",
 
-        answer: "We have industry-standard recording equipment including high-end microphones, preamps, audio interfaces, and monitoring systems. Our studio is equipped with both analog and digital recording capabilities to suit any production style.",
+        answer: "We have industry-standard recording equipment including high-end microphones, audio interfaces, and monitoring systems. Our studio is equipped with both analog and digital recording capabilities to suit any production style.",
 
       },
 
@@ -300,7 +300,7 @@ export default {
 
         question: "What's included in a session?",
 
-        answer: "Each session includes studio time, an engineer, use of all studio equipment and instruments, and basic mixing. Final mastering is available as an add-on service.",
+        answer: "Each session includes studio time, an engineer, and use of all studio equipment and instruments. Additional services like vocal recording (+40€) and mixing/mastering (+70€) are available as paid add-ons.",
 
       },
 
@@ -340,7 +340,7 @@ export default {
 
         question: "Do you provide instruments?",
 
-        answer: "We have a selection of instruments available including drums, guitars, bass, and keyboards. Please inquire about specific instruments when booking.",
+        answer: "The studio can provide an electric guitar and an acoustic guitar. Everything else is not provided unless we have a MIDI keyboard available. Please bring your own instruments or inquire when booking.",
 
       },
 

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X, Youtube, Instagram, Facebook, Send } from "lucide-react";
-import { FaTiktok } from "react-icons/fa";
+import { FaTiktok, FaDiscord } from "react-icons/fa";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
@@ -13,6 +13,7 @@ const socialLinks = [
   { icon: Facebook, href: "https://www.facebook.com/unknownfaceso?locale=lt_LT", label: "Facebook" },
   { icon: FaTiktok, href: "https://www.tiktok.com/@unknownfaces38", label: "TikTok" },
   { icon: Send, href: "https://t.me/UFOSTUDIJA", label: "Telegram" },
+  { icon: FaDiscord, href: "https://discord.gg/XY5kYjk4", label: "Discord" },
 ];
 
 export const Navbar = () => {

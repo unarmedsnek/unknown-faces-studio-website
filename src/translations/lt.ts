@@ -284,7 +284,7 @@ export default {
 
         question: "Kokia įranga yra studijoje?",
 
-        answer: "Turime pramonės standartus atitinkančią įrašymo įrangą, įskaitant aukštos klasės mikrofonus, preampus, audio sąsajas ir monitoringo sistemas. Mūsų studija aprūpinta analogine ir skaitmenine įrašymo įranga, tinkančia bet kokiam gamybos stiliui.",
+        answer: "Turime pramonės standartus atitinkančią įrašymo įrangą, įskaitant aukštos klasės mikrofonus, audio sąsajas ir monitoringo sistemas. Mūsų studija aprūpinta analogine ir skaitmenine įrašymo įranga, tinkančia bet kokiam gamybos stiliui.",
 
       },
 
@@ -300,7 +300,7 @@ export default {
 
         question: "Kas įeina į sesiją?",
 
-        answer: "Kiekviena sesija apima studijos laiką, inžinierių, visą studijos įrangą ir instrumentus bei pagrindinį miksavimą. Galutinis masteringas yra papildoma paslauga.",
+        answer: "Kiekviena sesija apima studijos laiką, inžinierių ir visą studijos įrangą bei instrumentus. Papildomos paslaugos kaip vokalų įrašymas (+40€) ir miksavimas/masteringas (+70€) yra mokamos.",
 
       },
 
@@ -340,7 +340,7 @@ export default {
 
         question: "Ar teikiate instrumentus?",
 
-        answer: "Turime įvairių instrumentų, įskaitant būgnus, gitaras, bosą ir klavišinius. Pasiteiraukite apie konkrečius instrumentus rezervuodami.",
+        answer: "Studija gali suteikti elektrinę gitarą ir akustinę gitarą. Viskas kita nėra teikiama, nebent turime MIDI klaviatūrą. Prašome atsivežti savo instrumentus arba pasiteiraukite rezervuodami.",
 
       },
 

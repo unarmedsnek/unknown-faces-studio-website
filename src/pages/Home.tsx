@@ -51,11 +51,11 @@ export default function Home() {
               <p className="mb-8 text-xl text-accent-foreground lg:text-2xl font-mono">
                 {t("home.hero.subtitle")}
               </p>
-              <Link to="/booking">
-                <Button size="lg" className="text-lg font-bold bg-accent-foreground text-accent border-accent-foreground">
+              <Button asChild size="lg" className="text-lg font-bold bg-accent-foreground text-accent border-accent-foreground">
+                <Link to="/booking">
                   {t("home.hero.bookNow")}
-                </Button>
-              </Link>
+                </Link>
+              </Button>
             </div>
             
             {/* Geometric manga panels */}
@@ -130,11 +130,11 @@ export default function Home() {
             </div>
 
             <div className="mt-12 text-center">
-              <Link to="/booking">
-                <Button size="lg" variant="outline">
+              <Button asChild size="lg" variant="outline">
+                <Link to="/booking">
                   {t("home.packages.viewAll")}
-                </Button>
-              </Link>
+                </Link>
+              </Button>
             </div>
           </div>
         </section>
@@ -216,11 +216,11 @@ export default function Home() {
               </p>
             </div>
             <div className="mt-8">
-              <Link to="/about">
-                <Button variant="outline">
+              <Button asChild variant="outline">
+                <Link to="/about">
                   {t("home.about.learnMore")}
-                </Button>
-              </Link>
+                </Link>
+              </Button>
             </div>
           </div>
         </section>
