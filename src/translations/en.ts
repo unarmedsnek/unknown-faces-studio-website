@@ -216,6 +216,22 @@ export default {
 
     },
 
+    priceBreakdown: {
+
+      title: "Price Summary",
+
+      extraHour: "Extra Hour",
+
+      vocalRecording: "Vocal Recording",
+
+      mixMaster: "Mix/Master",
+
+      instrumental: "Instrumental Lease",
+
+      total: "Total",
+
+    },
+
     toasts: {
 
       noPackage: {
@@ -444,11 +460,11 @@ export default {
 
       title: "Opening Hours",
 
-      weekdays: "Monday - Friday: 10:00 AM - 10:00 PM",
+      weekdays: "Open 24/7",
 
-      saturday: "Saturday: 12:00 PM - 8:00 PM",
+      saturday: "Available every day",
 
-      sunday: "Sunday: By Appointment Only",
+      sunday: "Book anytime!",
 
     },
 
@@ -561,23 +577,23 @@ export default {
   
   promotion: {
 
-    seventh: "🎉 EVERY 7TH BOOKING FREE!",
+    seventh: "🎉 EVERY 7TH 2-HOUR SESSION FREE!",
 
-    bannerText: "SPECIAL OFFER • EVERY 7TH BOOKING FREE • LIMITED TIME",
+    bannerText: "SPECIAL OFFER • EVERY 7TH 2-HOUR SESSION FREE • LIMITED TIME",
 
     promoCard: {
 
       title: "Special Promotion!",
 
-      mainText: "Every 7th Booking",
+      mainText: "Every 7th 2-Hour Session",
 
       highlightText: "FREE",
 
-      description: "Book your sessions and track your progress. Your 7th booking is completely free - any package, any duration!",
+      description: "Book any sessions and track your progress. After 6 bookings of any type, your 7th 2-hour session is completely free!",
 
       cta: "Start Booking Now",
 
-      terms: "Terms apply. Must complete 6 paid bookings to qualify.",
+      terms: "Applies to 2-hour package only. Must complete 6 paid bookings to qualify.",
 
     },
 

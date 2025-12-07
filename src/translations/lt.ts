@@ -44,7 +44,7 @@ export default {
 
         title: "Kūrybinė Erdvė",
 
-        description: "Jaukus ir įkvepiantis aplinka, sukurta padėti menininkams pasirodyti geriausiai. Mūsų erdvė skatina kūrybiškumą ir bendradarbiavimą.",
+        description: "Jauki ir įkvepianti aplinka, sukurta padėti menininkams pasirodyti geriausiai. Mūsų erdvė skatina kūrybiškumą ir bendradarbiavimą.",
 
       },
 
@@ -106,7 +106,7 @@ export default {
 
       availableTimes: "Laisvi Laikai",
 
-      loadingAvailability: "Kraunama prieinamumas...",
+      loadingAvailability: "Kraunamas prieinamumas...",
 
       noSlots: "Šiai datai nėra laisvų laikų.",
 
@@ -158,7 +158,7 @@ export default {
 
         duration: "2 valandos",
 
-        description: "Puikiai tinka greatiems įrašams ir demo",
+        description: "Puikiai tinka greitiems įrašams ir demo",
 
       },
 
@@ -213,6 +213,22 @@ export default {
       mixMaster: "Mix/Master (+70€)",
 
       instrumental: "Instrumentalas (Exclusive, Custom) Lease (+150€)",
+
+    },
+
+    priceBreakdown: {
+
+      title: "Kainos Suvestinė",
+
+      extraHour: "Papildoma Valanda",
+
+      vocalRecording: "Vokalų Įrašymas",
+
+      mixMaster: "Mix/Master",
+
+      instrumental: "Instrumentalo Nuoma",
+
+      total: "Viso",
 
     },
 
@@ -444,11 +460,11 @@ export default {
 
       title: "Darbo Laikas",
 
-      weekdays: "Pirmadienis - Penktadienis: 10:00 - 22:00",
+      weekdays: "Atidaryta 24/7",
 
-      saturday: "Šeštadienis: 12:00 - 20:00",
+      saturday: "Galima kiekvieną dieną",
 
-      sunday: "Sekmadienis: Tik Su Susitarimu",
+      sunday: "Rezervuokite bet kada!",
 
     },
 
@@ -510,7 +526,7 @@ export default {
 
       rule2: "Apie bet kokias įrangos gedimus ar pažeidimus praneškite nedelsiant.",
 
-      rule3: "Be leidimo nejudinkite ir nereguli uokite įrangos.",
+      rule3: "Be leidimo nejudinkite ir nereguliuokite įrangos.",
 
     },
 
@@ -561,23 +577,23 @@ export default {
   
   promotion: {
 
-    seventh: "🎉 KIEKVIENA 7-A REZERVACIJA NEMOKAMA!",
+    seventh: "🎉 KIEKVIENA 7-A 2 VAL. SESIJA NEMOKAMA!",
 
-    bannerText: "SPECIALI AKCIJA • KIEKVIENA 7-A REZERVACIJA NEMOKAMA • RIBOTAS LAIKAS",
+    bannerText: "SPECIALI AKCIJA • KIEKVIENA 7-A 2 VAL. SESIJA NEMOKAMA • RIBOTAS LAIKAS",
 
     promoCard: {
 
       title: "Speciali Akcija!",
 
-      mainText: "Kiekviena 7-a Rezervacija",
+      mainText: "Kiekviena 7-a 2 Val. Sesija",
 
       highlightText: "NEMOKAMAI",
 
-      description: "Rezervuok savo sesijas ir sek pažangą. Tavo 7-a rezervacija visiškai nemokama - bet kuris paketas, bet kokia trukmė!",
+      description: "Rezervuok bet kokias sesijas ir sek pažangą. Po 6 bet kokių rezervacijų, tavo 7-a 2 valandų sesija visiškai nemokama!",
 
       cta: "Pradėk Rezervuoti Dabar",
 
-      terms: "Galioja taisyklės. Reikia užbaigti 6 mokamas rezervacijas.",
+      terms: "Galioja tik 2 val. paketui. Reikia užbaigti 6 mokamas rezervacijas.",
 
     },
 

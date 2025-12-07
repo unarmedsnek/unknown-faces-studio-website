@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { PackageCard, PackageData } from "@/components/PackageCard";
 import { Navbar } from "@/components/Navbar";
@@ -9,6 +9,11 @@ import { useLanguage } from "@/contexts/LanguageContext";
 
 export default function Home() {
   const { t } = useLanguage();
+  const navigate = useNavigate();
+
+  const handlePackageClick = () => {
+    navigate("/booking");
+  };
 
   const packages: PackageData[] = [
     {
@@ -126,7 +131,7 @@ export default function Home() {
             <div className="px-4 py-2">
               <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
                 {packages.map((pkg) => (
-                  <PackageCard key={pkg.name} package={pkg} />
+                  <PackageCard key={pkg.name} package={pkg} onClick={handlePackageClick} />
                 ))}
               </div>
             </div>

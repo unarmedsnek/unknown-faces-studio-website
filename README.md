@@ -6,14 +6,14 @@ A modern, bilingual (English/Lithuanian) website for Unknown Faces recording stu
 
 - **Bilingual Support** - Full English and Lithuanian translations
 - **Responsive Design** - Works seamlessly on desktop and mobile
-- **Booking System** - Integration with Cal.com for appointment scheduling
+- **Booking System** - Google Calendar integration for appointment scheduling
 - **Email Notifications** - EmailJS integration for booking confirmations
 - **Modern UI** - Clean, professional design built with React and Tailwind CSS
 
 ## 📋 Prerequisites
 
 - Node.js 16+ and npm
-- Cal.com account and API key
+- Google Apps Script for calendar integration
 - EmailJS account and templates
 
 ## 🛠️ Installation
@@ -37,22 +37,8 @@ cp .env.template .env.local
 Edit `.env.local` and add your actual credentials:
 
 ```env
-# Cal.com API
-VITE_CALCOM_API_KEY=your_cal_api_key_here
-
-# Cal.com Event Type IDs
-VITE_EVENT_TYPE_2H=your_2h_event_id
-VITE_EVENT_TYPE_4H=your_4h_event_id
-VITE_EVENT_TYPE_6H=your_6h_event_id
-VITE_EVENT_TYPE_8H=your_8h_event_id
-VITE_EVENT_TYPE_10H=your_10h_event_id
-
-# With Extra Hour
-VITE_EVENT_TYPE_2H_EXTRA=your_2h_extra_event_id
-VITE_EVENT_TYPE_4H_EXTRA=your_4h_extra_event_id
-VITE_EVENT_TYPE_6H_EXTRA=your_6h_extra_event_id
-VITE_EVENT_TYPE_8H_EXTRA=your_8h_extra_event_id
-VITE_EVENT_TYPE_10H_EXTRA=your_10h_extra_event_id
+# Google Calendar API (Apps Script)
+VITE_GOOGLE_APPS_SCRIPT_URL=your_apps_script_url_here
 
 # EmailJS
 VITE_EMAILJS_SERVICE_ID=your_service_id
@@ -116,7 +102,7 @@ Add all `VITE_*` variables from your `.env.local` to your hosting platform's env
 ## 📚 Documentation
 
 - `SECURITY_SETUP.md` - API key security best practices
-- `API_SETUP.md` - Cal.com and EmailJS configuration guide
+- `API_SETUP.md` - EmailJS configuration guide
 - `public/images/README.md` - Guide for adding studio images
 
 ## 🛠️ Available Commands
@@ -136,7 +122,7 @@ npm run lint     # Run linter
 - Tailwind CSS
 - shadcn/ui components
 - React Router
-- Cal.com API
+- Google Calendar API
 - EmailJS
 - React Hook Form
 - Zod validation

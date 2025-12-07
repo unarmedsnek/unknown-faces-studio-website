@@ -1,67 +1,14 @@
 # API Setup Guide
 
-This guide explains how to configure Cal.com and EmailJS for the booking system.
+This guide explains how to configure EmailJS for the booking system.
 
 ## 📋 Overview
 
 The website uses:
-- **Cal.com** - For booking management and calendar scheduling
+- **Google Calendar** - For booking management and calendar scheduling (via Google Apps Script)
 - **EmailJS** - For sending booking confirmation emails
 
 All credentials are stored in `.env.local` (never committed to git).
-
-## 🔧 Cal.com Setup
-
-### Step 1: Get API Key (3 minutes)
-
-1. Go to https://app.cal.com/settings/developer/api-keys
-2. Click "Create API Key"
-3. Name it "Studio Bookings"
-4. Copy the API key (starts with `cal_live_...`)
-5. Add to `.env.local`:
-   ```env
-   VITE_CALCOM_API_KEY=cal_live_YOUR_KEY_HERE
-   ```
-
-### Step 2: Create Event Types (10 minutes)
-
-Create event types for each booking package. You need TWO event types per package: one standard, one with an extra hour.
-
-**Example for 2-hour session:**
-- Event 1: "2 Hour Session" → Duration: 2 hours
-- Event 2: "2 Hour Session + Extra" → Duration: 3 hours
-
-Repeat for all packages:
-- 2 hour session (base + extra)
-- 4 hour session (base + extra)
-- 6 hour session (base + extra)
-- 8 hour session (base + extra)
-- 10 hour session (base + extra)
-
-### Step 3: Get Event Type IDs (5 minutes)
-
-For each event type:
-1. Go to https://app.cal.com/event-types
-2. Click on the event type
-3. Look at the URL: `https://app.cal.com/event-types/[ID]/edit`
-4. Copy the numeric ID
-
-Add all IDs to `.env.local`:
-```env
-# Base durations
-VITE_EVENT_TYPE_2H=1234567
-VITE_EVENT_TYPE_4H=1234568
-VITE_EVENT_TYPE_6H=1234569
-VITE_EVENT_TYPE_8H=1234570
-VITE_EVENT_TYPE_10H=1234571
-
-# With extra hour
-VITE_EVENT_TYPE_2H_EXTRA=1234572
-VITE_EVENT_TYPE_4H_EXTRA=1234573
-VITE_EVENT_TYPE_6H_EXTRA=1234574
-VITE_EVENT_TYPE_8H_EXTRA=1234575
-VITE_EVENT_TYPE_10H_EXTRA=1234576
-```
 
 ## 📧 EmailJS Setup
 
@@ -115,15 +62,6 @@ VITE_EMAILJS_PUBLIC_KEY=your_public_key
 
 ## 🆘 Troubleshooting
 
-### "API key not found"
-- Check `.env.local` exists in project root
-- Verify `VITE_CALCOM_API_KEY` is set
-- Restart dev server
-
-### "Event type undefined"
-- Check all `VITE_EVENT_TYPE_*` variables are set
-- Verify IDs are numeric (no quotes in .env.local)
-
 ### "EmailJS error"
 - Check all `VITE_EMAILJS_*` variables are set
 - Verify credentials in EmailJS dashboard
@@ -132,5 +70,4 @@ VITE_EMAILJS_PUBLIC_KEY=your_public_key
 ---
 
 For more details, see the official documentation:
-- Cal.com API: https://cal.com/docs/api-reference/v2
 - EmailJS: https://www.emailjs.com/docs/

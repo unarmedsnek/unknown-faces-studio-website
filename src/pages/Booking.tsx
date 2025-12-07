@@ -12,17 +12,19 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } f
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent } from "@/components/ui/card";
 import { Calendar } from "@/components/ui/calendar";
-import { Calendar as CalendarIcon, Clock, Loader2 } from "lucide-react";
+import { Calendar as CalendarIcon, Clock, Loader2, Download, ExternalLink } from "lucide-react";
 import emailjs from "@emailjs/browser";
 import { useToast } from "@/hooks/use-toast";
 import { emailjsConfig } from "@/config/emailjs.config";
 import { 
-  createCalComBooking, 
-  getEventTypeId, 
   getAvailableSlots,
-  LITHUANIAN_TIMEZONE 
-} from "@/config/calcom-api.config";
-import { parseISO, isSameDay } from "date-fns";
+  createGoogleCalendarBooking,
+  getPackageDuration,
+  downloadICSFile,
+  LITHUANIAN_TIMEZONE,
+  type BookingResponse,
+} from "@/config/google-calendar-api.config";
+import { parseISO } from "date-fns";
 import { formatInTimeZone, fromZonedTime } from "date-fns-tz";
 import { useLanguage } from "@/contexts/LanguageContext";
 
@@ -42,7 +44,7 @@ interface AvailableSlot {
   end: string; // ISO string
 }
 
-// Package keys for Cal.com API (language-independent) - MUST match calcom-api.config.ts
+// Package keys (language-independent)
 const PACKAGE_KEYS = {
   TWO_HOUR: "2 hour session",
   FOUR_HOUR: "4 hour session",
@@ -77,6 +79,8 @@ export default function Booking() {
   const [calendarDate, setCalendarDate] = useState<Date>(new Date());
   const [availableDateKeys, setAvailableDateKeys] = useState<Set<string>>(new Set());
   const [hasFetchedMonthAvailability, setHasFetchedMonthAvailability] = useState(false);
+  const [bookingResult, setBookingResult] = useState<BookingResponse | null>(null);
+  const [showSuccessDialog, setShowSuccessDialog] = useState(false);
   const { toast } = useToast();
 
   const packages: (PackageData & { key: string })[] = [
@@ -120,12 +124,47 @@ export default function Booking() {
   // Extra hour is flat 10€ for all packages
   const EXTRA_HOUR_COST = "10€";
 
-  // Calculate total duration in minutes
-  const getTotalDurationMinutes = (): number => {
+  // Price constants for extras (in euros)
+  const PRICES = {
+    extraHour: 10,
+    vocalRecording: 40,
+    mixMaster: 70,
+    instrumental: 150,
+  };
+
+  // Get package base price as number
+  const getBasePrice = (): number => {
     if (!selectedPackage) return 0;
-    const baseDuration = parseInt(selectedPackage.duration.split(" ")[0]);
-    const totalHours = extraHour ? baseDuration + 1 : baseDuration;
-    return totalHours * 60;
+    const priceStr = selectedPackage.price.replace("€", "");
+    return parseInt(priceStr) || 0;
+  };
+
+  // Calculate total price with breakdown
+  const calculatePrice = (): { base: number; extras: { name: string; price: number }[]; total: number } => {
+    const base = getBasePrice();
+    const extras: { name: string; price: number }[] = [];
+
+    if (extraHour) {
+      extras.push({ name: t("booking.priceBreakdown.extraHour"), price: PRICES.extraHour });
+    }
+    if (extraServices.vocalRecording) {
+      extras.push({ name: t("booking.priceBreakdown.vocalRecording"), price: PRICES.vocalRecording });
+    }
+    if (extraServices.mixMaster) {
+      extras.push({ name: t("booking.priceBreakdown.mixMaster"), price: PRICES.mixMaster });
+    }
+    if (extraServices.instrumental) {
+      extras.push({ name: t("booking.priceBreakdown.instrumental"), price: PRICES.instrumental });
+    }
+
+    const total = base + extras.reduce((sum, extra) => sum + extra.price, 0);
+    return { base, extras, total };
+  };
+
+  // Calculate total duration in minutes using the config
+  const getTotalDurationMinutes = (): number => {
+    if (!selectedPackageKey) return 0;
+    return getPackageDuration(selectedPackageKey, extraHour);
   };
 
   // Fetch available slots when package, date, or extra hour changes
@@ -138,119 +177,61 @@ export default function Booking() {
     const fetchSlots = async () => {
       setLoadingSlots(true);
       try {
-        const eventTypeId = getEventTypeId(selectedPackageKey, extraHour);
+        const durationMinutes = getTotalDurationMinutes();
         
-        if (!eventTypeId || eventTypeId === 0) {
-          console.warn("Event Type ID not configured");
-          setAvailableSlots([]);
-          setLoadingSlots(false);
-          return;
-        }
-
         // Get slots for the selected date
-        // Cal.com API expects ISO 8601 in UTC – convert Lithuanian day bounds to UTC
         const dateKey = formatInTimeZone(selectedDate, LITHUANIAN_TIMEZONE, "yyyy-MM-dd");
-        const startOfDayUtc = fromZonedTime(`${dateKey}T00:00:00`, LITHUANIAN_TIMEZONE).toISOString();
-        const endOfDayUtc = fromZonedTime(`${dateKey}T23:59:59`, LITHUANIAN_TIMEZONE).toISOString();
 
         const slotsData = await getAvailableSlots({
-          eventTypeId,
-          startTime: startOfDayUtc,
-          endTime: endOfDayUtc,
-          timeZone: LITHUANIAN_TIMEZONE,
+          startDate: dateKey,
+          endDate: dateKey,
+          durationMinutes,
         });
 
-        console.log("📅 Slots data received:", JSON.stringify(slotsData, null, 2));
-        console.log("📅 Total slots in response:", 
-          slotsData.data ? 
-            (typeof slotsData.data === 'object' && !Array.isArray(slotsData.data) ? 
-              Object.values(slotsData.data).flat().length : 
-              slotsData.data.length) : 
-            0
-        );
+        console.log("📅 Slots data received:", slotsData);
 
-        // Cal.com API v2/slots returns: { data: { [date]: [{ start: string }] }, status: "success" }
-        let daySlots: any[] = [];
-        
-        // Handle Cal.com API response structure
-        if (slotsData.data) {
-          // Response format: { data: { "2025-11-22": [{ start: "..." }] } }
-          if (typeof slotsData.data === 'object' && !Array.isArray(slotsData.data)) {
-            // Object format with date keys: { "2025-11-22": [{ start: "..." }] }
-            daySlots = slotsData.data[dateKey] || [];
-          } else if (Array.isArray(slotsData.data)) {
-            // Array format - filter by date
-            daySlots = slotsData.data.filter((slot: any) => {
-              const slotTime = slot.start || slot.time;
-              if (slotTime) {
-                const slotDate = parseISO(slotTime);
-                return formatInTimeZone(slotDate, LITHUANIAN_TIMEZONE, "yyyy-MM-dd") === dateKey;
-              }
-              return false;
-            });
-          }
-        } else if (slotsData.slots) {
-          // Fallback: some responses might use 'slots' instead of 'data'
-          if (typeof slotsData.slots === 'object' && !Array.isArray(slotsData.slots)) {
-            daySlots = slotsData.slots[dateKey] || [];
-          } else if (Array.isArray(slotsData.slots)) {
-            daySlots = slotsData.slots.filter((slot: any) => {
-              const slotTime = slot.start || slot.time;
-              if (slotTime) {
-                const slotDate = parseISO(slotTime);
-                return formatInTimeZone(slotDate, LITHUANIAN_TIMEZONE, "yyyy-MM-dd") === dateKey;
-              }
-              return false;
-            });
-          }
-        }
+        // Get slots for the selected date from the response
+        let daySlots = slotsData.data[dateKey] || [];
 
-        console.log("📅 Day slots for selected date:", daySlots);
-        console.log("📅 Number of slots returned by Cal.com for this date:", daySlots.length);
-        console.log("📅 Selected date key:", dateKey);
+        console.log("📅 Day slots for selected date:", daySlots.length);
 
-        // Filter slots to ensure full duration fits
-        const totalDurationMinutes = getTotalDurationMinutes();
-        console.log("📅 Required duration (minutes):", totalDurationMinutes);
+        // Process slots
         const now = new Date();
         const isSelectedDateToday =
           formatInTimeZone(now, LITHUANIAN_TIMEZONE, "yyyy-MM-dd") === dateKey;
         const validSlots: AvailableSlot[] = [];
 
         for (const slot of daySlots) {
-          // Cal.com API returns slots with 'start' field
-          const slotTime = slot.start || slot.time;
-          if (!slotTime) {
-            console.log("⚠️ Skipping slot with no start time:", slot);
-            continue;
-          }
+          const slotTime = slot.start;
+          if (!slotTime) continue;
 
           const slotStart = parseISO(slotTime);
-          const slotEnd = new Date(slotStart.getTime() + totalDurationMinutes * 60 * 1000);
+          const slotEnd = new Date(slotStart.getTime() + durationMinutes * 60 * 1000);
 
           // Skip past times if today
           if (isSelectedDateToday && slotStart <= now) {
-            console.log("⏭️ Skipping past slot:", formatLithuanianTime(slotStart));
             continue;
           }
 
-          // Allow all slots returned by Cal.com (including overnight bookings)
-          // Cal.com handles availability validation on their end
           validSlots.push({
             time: slotStart.toISOString(),
             start: slotStart.toISOString(),
             end: slotEnd.toISOString(),
           });
-          
-          // Log with next-day indicator for overnight bookings
-          const endsOnSelectedDay = formatInTimeZone(slotEnd, LITHUANIAN_TIMEZONE, "yyyy-MM-dd") === dateKey;
-          const overnightIndicator = !endsOnSelectedDay ? " (overnight → next day)" : "";
-          console.log("✅ Valid slot added:", formatLithuanianTime(slotStart), "→", formatLithuanianTime(slotEnd) + overnightIndicator);
         }
 
+        // Sort slots by time (so 00:00 appears at the start, not the end)
+        validSlots.sort((a, b) => {
+          const timeA = parseISO(a.start);
+          const timeB = parseISO(b.start);
+          // Get hours in Lithuanian timezone for proper sorting
+          const hourA = parseInt(formatInTimeZone(timeA, LITHUANIAN_TIMEZONE, "HH"));
+          const hourB = parseInt(formatInTimeZone(timeB, LITHUANIAN_TIMEZONE, "HH"));
+          return hourA - hourB;
+        });
+
         setAvailableSlots(validSlots);
-        console.log("✅ Total valid slots after filtering:", validSlots.length);
-        console.log("✅ Valid slots:", validSlots.map(s => formatLithuanianTime(parseISO(s.start))));
+        console.log("✅ Total valid slots:", validSlots.length);
 
       } catch (error: any) {
         console.error("❌ Error fetching slots:", error);
@@ -278,13 +259,7 @@ export default function Booking() {
 
     const fetchMonthAvailability = async () => {
       try {
-        const eventTypeId = getEventTypeId(selectedPackageKey, extraHour);
-
-        if (!eventTypeId || eventTypeId === 0) {
-          console.warn("Event Type ID not configured for calendar availability");
-          setAvailableDateKeys(new Set());
-          return;
-        }
+        const durationMinutes = getTotalDurationMinutes();
 
         const monthStart = new Date(calendarDate.getFullYear(), calendarDate.getMonth(), 1);
         const monthEnd = new Date(calendarDate.getFullYear(), calendarDate.getMonth() + 1, 0);
@@ -293,41 +268,20 @@ export default function Booking() {
         const monthEndKey = formatInTimeZone(monthEnd, LITHUANIAN_TIMEZONE, "yyyy-MM-dd");
 
         const slotsData = await getAvailableSlots({
-          eventTypeId,
-          startTime: fromZonedTime(`${monthStartKey}T00:00:00`, LITHUANIAN_TIMEZONE).toISOString(),
-          endTime: fromZonedTime(`${monthEndKey}T23:59:59`, LITHUANIAN_TIMEZONE).toISOString(),
-          timeZone: LITHUANIAN_TIMEZONE,
+          startDate: monthStartKey,
+          endDate: monthEndKey,
+          durationMinutes,
         });
 
         const monthKeys = new Set<string>();
-        const addSlotDateKey = (slot: any) => {
-          const slotTime = slot?.start || slot?.time;
-          if (!slotTime) return;
-          const slotDate = parseISO(slotTime);
-          const key = formatInTimeZone(slotDate, LITHUANIAN_TIMEZONE, "yyyy-MM-dd");
-          monthKeys.add(key);
-        };
-
-        if (slotsData.data) {
-          if (typeof slotsData.data === "object" && !Array.isArray(slotsData.data)) {
-            Object.entries(slotsData.data).forEach(([key, slots]: [string, any]) => {
-              if (Array.isArray(slots) && slots.length > 0) {
-                monthKeys.add(key);
-              }
-            });
-          } else if (Array.isArray(slotsData.data)) {
-            slotsData.data.forEach(addSlotDateKey);
-          }
-        } else if (slotsData.slots) {
-          if (typeof slotsData.slots === "object" && !Array.isArray(slotsData.slots)) {
-            Object.entries(slotsData.slots).forEach(([key, slots]: [string, any]) => {
-              if (Array.isArray(slots) && slots.length > 0) {
-                monthKeys.add(key);
-              }
-            });
-          } else if (Array.isArray(slotsData.slots)) {
-            slotsData.slots.forEach(addSlotDateKey);
-          }
+        
+        // The response data is already keyed by date
+        if (slotsData.data && typeof slotsData.data === "object") {
+          Object.entries(slotsData.data).forEach(([key, slots]: [string, any]) => {
+            if (Array.isArray(slots) && slots.length > 0) {
+              monthKeys.add(key);
+            }
+          });
         }
 
         setAvailableDateKeys(monthKeys);
@@ -345,25 +299,23 @@ export default function Booking() {
 
   const handlePackageClick = (pkg: PackageData & { key: string }) => {
     setSelectedPackage(pkg);
-    setSelectedPackageKey(pkg.key); // Save the English key for Cal.com API
+    setSelectedPackageKey(pkg.key);
     setExtraHour(false);
     setExtraServices({ vocalRecording: false, mixMaster: false, instrumental: false });
     setSelectedDate(undefined);
     setSelectedTimeSlot(null);
     setAvailableSlots([]);
-    setCalendarDate(new Date()); // Reset calendar to current month
+    setCalendarDate(new Date());
     setAvailableDateKeys(new Set());
     setHasFetchedMonthAvailability(false);
     setIsModalOpen(true);
   };
 
   const handleDateSelect = (date: Date | undefined) => {
-    // Clear previous selection properly
     if (date) {
       setSelectedDate(date);
-      setSelectedTimeSlot(null); // Reset time when date changes
+      setSelectedTimeSlot(null);
     } else {
-      // If date is undefined (deselected), clear everything
       setSelectedDate(undefined);
       setSelectedTimeSlot(null);
       setAvailableSlots([]);
@@ -372,6 +324,12 @@ export default function Booking() {
 
   const handleTimeSelect = (slot: AvailableSlot) => {
     setSelectedTimeSlot(slot);
+  };
+
+  const handleDownloadICS = () => {
+    if (bookingResult?.icsContent) {
+      downloadICSFile(bookingResult.icsContent, "unknown-faces-studio-booking.ics");
+    }
   };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -386,7 +344,6 @@ export default function Booking() {
       return;
     }
 
-    // Validate form data
     if (!formData.name || !formData.email) {
       toast({
         title: t("booking.toasts.missingInfo.title"),
@@ -396,7 +353,6 @@ export default function Booking() {
       return;
     }
 
-    // Validate date and time
     if (!selectedDate || !selectedTimeSlot) {
       toast({
         title: t("booking.toasts.missingDateTime.title"),
@@ -409,53 +365,51 @@ export default function Booking() {
     setIsSubmitting(true);
 
     try {
-      // Use the selected slot directly (no need to search)
       const startTime = selectedTimeSlot.start;
-
-      // Get event type ID based on package and extra hour
-      const eventTypeId = getEventTypeId(selectedPackageKey, extraHour);
-
-      if (!eventTypeId || eventTypeId === 0) {
-        throw new Error("Event Type ID not configured. Please update calcom-api.config.ts with your Cal.com event type IDs.");
-      }
+      // Calculate end time based on current extraHour setting (not from slot)
+      const durationMinutes = getTotalDurationMinutes();
+      const startDateTime = parseISO(startTime);
+      const endDateTime = new Date(startDateTime.getTime() + durationMinutes * 60 * 1000);
+      const endTime = endDateTime.toISOString();
 
       console.log("📅 Creating booking:", {
         package: selectedPackage.name,
         extraHour,
-        eventTypeId,
+        durationMinutes,
         startTime,
+        endTime,
         attendee: formData.name,
-        timeZone: LITHUANIAN_TIMEZONE,
       });
 
-      // Create booking via Cal.com API with Lithuanian timezone
-      const booking = await createCalComBooking({
-        eventTypeId,
-        start: startTime,
-        attendee: {
-          name: formData.name,
-          email: formData.email,
-          timeZone: LITHUANIAN_TIMEZONE,
-          phoneNumber: formData.phone || undefined,
-        },
-        metadata: {
-          package: selectedPackage.name,
-          packagePrice: selectedPackage.price,
-          extraHour: extraHour ? "Yes" : "No",
-        },
+      // Calculate total price
+      const priceInfo = calculatePrice();
+
+      // Create booking via Google Calendar API
+      const booking = await createGoogleCalendarBooking({
+        startTime,
+        endTime,
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone || undefined,
+        packageName: selectedPackage.name,
+        packagePrice: selectedPackage.price,
+        extraHour,
+        extraNotes: formData.extraNotes || undefined,
+        extraServices,
+        totalPrice: priceInfo.total,
       });
 
       console.log("✅ Booking created:", booking);
 
-      // Format date/time for emails in Lithuanian timezone
+      // Store booking result for success dialog
+      setBookingResult(booking);
+
+      // Format date/time for emails
       const bookingDateObj = parseISO(startTime);
       const bookingDate = formatLithuanianDate(bookingDateObj);
       const bookingTime = formatLithuanianTime(bookingDateObj);
-
-      // Calculate end time
-      const totalDurationMinutes = getTotalDurationMinutes();
-      const endDateTime = new Date(bookingDateObj.getTime() + totalDurationMinutes * 60 * 1000);
-      const bookingEndTime = formatLithuanianTime(endDateTime);
+      const endDateObj = parseISO(endTime);
+      const bookingEndTime = formatLithuanianTime(endDateObj);
 
       // Prepare email data
       const emailData = {
@@ -499,18 +453,11 @@ export default function Booking() {
       );
       console.log("✅ User confirmation email sent");
 
-      // Show success
-      const successMsg = t("booking.toasts.success.description")
-        .replace("{package}", selectedPackage.name)
-        .replace("{date}", bookingDate)
-        .replace("{time}", bookingTime);
-      
-      toast({
-        title: t("booking.toasts.success.title"),
-        description: successMsg,
-      });
+      // Close booking modal and show success dialog
+      setIsModalOpen(false);
+      setShowSuccessDialog(true);
 
-      // Reset and close
+      // Reset form
       setFormData({ name: "", phone: "", email: "", extraNotes: "" });
       setExtraHour(false);
       setExtraServices({ vocalRecording: false, mixMaster: false, instrumental: false });
@@ -518,17 +465,14 @@ export default function Booking() {
       setSelectedDate(undefined);
       setSelectedTimeSlot(null);
       setAvailableSlots([]);
-      setIsModalOpen(false);
 
     } catch (error: any) {
       console.error("❌ Booking error:", error);
 
       let errorMessage = "Failed to create booking. Please try again.";
       
-      if (error.message?.includes("Event Type ID")) {
-        errorMessage = "Cal.com not configured. Please update event type IDs in calcom-api.config.ts";
-      } else if (error.message?.includes("Cal.com API error")) {
-        errorMessage = `Cal.com error: ${error.message}. Please check your API key and event type IDs.`;
+      if (error.message?.includes("no longer available")) {
+        errorMessage = "This time slot is no longer available. Please select another time.";
       }
 
       toast({
@@ -610,7 +554,6 @@ export default function Booking() {
                         selected={selectedDate}
                         onSelect={handleDateSelect}
                         disabled={(date) => {
-                          // Only disable past dates
                           const today = new Date();
                           today.setHours(0, 0, 0, 0);
                           if (date < today) return true;
@@ -634,6 +577,7 @@ export default function Booking() {
                         }}
                         modifiersClassNames={{
                           selected: "bg-primary text-primary-foreground",
+                          today: "border-2 border-primary font-bold",
                         }}
                       />
                     </CardContent>
@@ -738,7 +682,7 @@ export default function Booking() {
                       <Input
                         id="modal-phone"
                         type="tel"
-                        placeholder="+370 671 60928"
+                        placeholder="+370 6XX XXX XX"
                         className="border-2 rounded-none"
                         required
                         value={formData.phone}
@@ -852,6 +796,33 @@ export default function Booking() {
                       </div>
                     </div>
 
+                    {/* Price Breakdown */}
+                    {selectedPackage && (
+                      <Card className="border-2 border-foreground bg-muted/50">
+                        <CardContent className="p-4">
+                          <p className="text-sm font-semibold mb-3 uppercase tracking-wide font-mono">
+                            {t("booking.priceBreakdown.title")}
+                          </p>
+                          <div className="space-y-1 text-sm">
+                            <div className="flex justify-between">
+                              <span>{selectedPackage.name}</span>
+                              <span className="font-mono">{getBasePrice()}€</span>
+                            </div>
+                            {calculatePrice().extras.map((extra, index) => (
+                              <div key={index} className="flex justify-between text-muted-foreground">
+                                <span>+ {extra.name}</span>
+                                <span className="font-mono">{extra.price}€</span>
+                              </div>
+                            ))}
+                            <div className="border-t border-foreground pt-2 mt-2 flex justify-between font-bold text-lg">
+                              <span>{t("booking.priceBreakdown.total")}</span>
+                              <span className="font-mono">{calculatePrice().total}€</span>
+                            </div>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    )}
+
                     {selectedDate && selectedTimeSlot && (
                       <Card className="border-2 border-primary">
                         <CardContent className="p-4">
@@ -898,6 +869,86 @@ export default function Booking() {
                     </div>
                   </form>
                 </div>
+              </div>
+            </DialogContent>
+          </Dialog>
+
+          {/* Success Dialog with Calendar Links */}
+          <Dialog open={showSuccessDialog} onOpenChange={setShowSuccessDialog}>
+            <DialogContent className="max-w-md">
+              <DialogHeader>
+                <DialogTitle className="text-2xl font-bold text-center">
+                  🎉 {t("booking.toasts.success.title")}
+                </DialogTitle>
+                <DialogDescription className="text-center">
+                  Your booking has been confirmed! A confirmation email has been sent to your email address.
+                </DialogDescription>
+              </DialogHeader>
+
+              <div className="space-y-4 pt-4">
+                {bookingResult?.booking && (
+                  <Card className="border-2">
+                    <CardContent className="p-4">
+                      <p className="font-semibold mb-2">Booking Details:</p>
+                      <p className="text-sm text-muted-foreground">
+                        {formatLithuanianDate(parseISO(bookingResult.booking.start))}
+                      </p>
+                      <p className="text-sm text-muted-foreground">
+                        {formatLithuanianTime(parseISO(bookingResult.booking.start))} - {formatLithuanianTime(parseISO(bookingResult.booking.end))}
+                      </p>
+                    </CardContent>
+                  </Card>
+                )}
+
+                <div className="space-y-2">
+                  <p className="text-sm font-semibold text-center">Add to your calendar:</p>
+                  
+                  {/* Download ICS */}
+                  {bookingResult?.icsContent && (
+                    <Button
+                      variant="outline"
+                      className="w-full"
+                      onClick={handleDownloadICS}
+                    >
+                      <Download className="h-4 w-4 mr-2" />
+                      Download Calendar File (.ics)
+                    </Button>
+                  )}
+
+                  {/* Google Calendar Link */}
+                  {bookingResult?.calendarLinks?.google && (
+                    <Button
+                      variant="outline"
+                      className="w-full"
+                      onClick={() => window.open(bookingResult.calendarLinks?.google, '_blank')}
+                    >
+                      <ExternalLink className="h-4 w-4 mr-2" />
+                      Add to Google Calendar
+                    </Button>
+                  )}
+
+                  {/* Outlook Link */}
+                  {bookingResult?.calendarLinks?.outlook && (
+                    <Button
+                      variant="outline"
+                      className="w-full"
+                      onClick={() => window.open(bookingResult.calendarLinks?.outlook, '_blank')}
+                    >
+                      <ExternalLink className="h-4 w-4 mr-2" />
+                      Add to Outlook Calendar
+                    </Button>
+                  )}
+                </div>
+
+                <Button
+                  className="w-full"
+                  onClick={() => {
+                    setShowSuccessDialog(false);
+                    setBookingResult(null);
+                  }}
+                >
+                  Close
+                </Button>
               </div>
             </DialogContent>
           </Dialog>
