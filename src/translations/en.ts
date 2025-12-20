@@ -74,9 +74,13 @@ export default {
 
       title: "About Unknown Faces",
 
-      description1: "Unknown Faces is a professional recording studio dedicated to helping artists bring their musical vision to life. Located in the heart of the city, we provide a creative space equipped with top-tier equipment and experienced engineers.",
+      description1: "This is a professional recording studio and creative space in the heart of the city, designed to help artists bring their musical and creative vision to life. We offer top-tier audio and video equipment, a welcoming atmosphere, and an experienced team ready to contribute to the growth of your ideas.",
 
-      description2: "Whether you're recording your first demo or working on a full album, we're here to support your journey from unknown to known.",
+      description2: "In the studio, you can record and mix songs, film or record DJ sets and podcasts, participate in vocal lessons, collaborate with our team members who can help develop your project and vision, or simply relax and have fun playing on the PS5.",
+
+      description3: "Whoever has reserved studio time is the responsible host – no outsiders or disruptions. We ensure a private, safe, and creativity-friendly work process. We also actively build community. Unknown Faces Studio brings together people with different talents and experiences who can help each other grow. You can join us through Telegram and Discord channels.",
+
+      description4: "Whether it's your first demo, podcast, or full album – we're here for your journey from unknown to known.",
 
       learnMore: "Learn More About Us",
 
@@ -90,7 +94,7 @@ export default {
 
     title: "Book Your Session",
 
-    subtitle: "Choose your package and fill out the form below",
+    subtitle: "Choose your package and fill out the form",
 
     availablePackages: "Available Packages",
 
@@ -158,7 +162,7 @@ export default {
 
         duration: "2 hours",
 
-        description: "Perfect for quick recordings and demos",
+        description: "Perfect for quick recordings, demos, or freestyle",
 
       },
 
@@ -168,7 +172,7 @@ export default {
 
         duration: "4 hours",
 
-        description: "Great for full tracks and mixing",
+        description: "Great for recording a full track + rough mix",
 
       },
 
@@ -178,7 +182,7 @@ export default {
 
         duration: "6 hours",
 
-        description: "Ideal for multiple tracks or detailed production",
+        description: "Comfortable pace for multiple tracks or detailed work",
 
       },
 
@@ -188,7 +192,7 @@ export default {
 
         duration: "8 hours",
 
-        description: "Best for albums and professional projects",
+        description: "Focused work for albums or professional projects",
 
       },
 
@@ -198,7 +202,7 @@ export default {
 
         duration: "10 hours",
 
-        description: "Extended session for large-scale productions",
+        description: "Maximum freedom for creativity without time pressure",
 
       },
 
@@ -208,7 +212,7 @@ export default {
 
       title: "Additional Services with producer EDTA",
 
-      vocalRecording: "Vocal Recording (+40€)",
+      vocalRecording: "Vocal Recording (+25€)",
 
       mixMaster: "Mix/Master (+70€)",
 
@@ -300,7 +304,9 @@ export default {
 
         question: "What equipment do you have in the studio?",
 
-        answer: "We have industry-standard recording equipment including high-end microphones, audio interfaces, and monitoring systems. Our studio is equipped with both analog and digital recording capabilities to suit any production style.",
+        answer1: "We use reliable, professional recording equipment that meets high standards. For work, we use the Studio Projects B1 microphone, Beyerdynamic DT 770 PRO headphones, and Yamaha HS7 monitor speakers, which ensure accurate and clear sound.",
+
+        answer2: "Our equipment is suitable for both vocal recordings and music creation, mixing, or other creative projects – from first demos to serious releases.",
 
       },
 
@@ -308,7 +314,9 @@ export default {
 
         question: "Can I bring my own producer or engineer?",
 
-        answer: "Absolutely! You're welcome to bring your own producer or engineer. We also have experienced in-house engineers available if you need one.",
+        answer1: "Yes. Studio time belongs to you, so you can bring your own producer, sound engineer, or other creative team members. Whoever has reserved the time is the responsible host in the studio.",
+
+        answer2: "Also, if needed, we can offer our producer or team members who will help with recording, creative, or technical questions and contribute to bringing your vision to life.",
 
       },
 
@@ -316,7 +324,7 @@ export default {
 
         question: "What's included in a session?",
 
-        answer: "Each session includes studio time, an engineer, and use of all studio equipment and instruments. Additional services like vocal recording (+40€) and mixing/mastering (+70€) are available as paid add-ons.",
+        htmlAnswer: "<p class=\"mb-3\"><strong class=\"uppercase\">\"WHAT'S INCLUDED IN A SESSION?\"</strong></p><p class=\"mb-3\">A standard session includes <strong>only studio time</strong> – <strong>professional equipment, a welcoming environment, and completely uninterrupted creativity.</strong></p><p class=\"mb-3\">When booking a session, you can <strong>additionally choose</strong> if you need:</p><ul class=\"list-disc list-inside mb-3 space-y-1 ml-4\"><li>Vocal recording</li><li>Vocal processing (Mix/master)</li><li>Individual Instrumental creation</li><li>Creative or technical consultations</li></ul><p>Our team and community members can help your project grow, but <strong>not all services are free</strong> – as they say, <strong>\"one hand washes the other\"</strong>.</p>",
 
       },
 
@@ -324,7 +332,11 @@ export default {
 
         question: "How do I book a session?",
 
-        answer: "You can book a session through our booking page by filling out the form or using our calendar integration. We'll get back to you within 24 hours to confirm your booking.",
+        answer1: "You can book a session through our website – by filling out a booking request for your chosen date and time.",
+
+        answer2: "We will contact you by email, confirm the time if it doesn't conflict and is suitable for both parties.",
+
+        answer3: "Payment is made in cash before or after the session. No advance payments – everything is simple and transparent.",
 
       },
 
@@ -332,7 +344,9 @@ export default {
 
         question: "What's your cancellation policy?",
 
-        answer: "We require at least 48 hours notice for cancellations. Cancellations made less than 48 hours before your session may be subject to a cancellation fee.",
+        answer1: "When booking any studio package, the reservation can be cancelled no less than 12 hours before the scheduled time.",
+
+        answer2: "If you don't notify us in time about not showing up or cancelling, a symbolic penalty of €10 will be applied, which will be added to your next studio package purchase. This policy helps ensure smooth studio scheduling, as unannounced studio time remains unused.",
 
       },
 
@@ -340,7 +354,7 @@ export default {
 
         question: "Do you offer mixing and mastering services?",
 
-        answer: "Yes, we offer both mixing and mastering services. These can be added to your recording session or booked separately for tracks recorded elsewhere.",
+        answer: "Yes. We work with our producer prod.EDTA, who has more than 4 years of experience in music creation. He can record and process vocals, as well as create an instrumental according to your vision and preferences. We work closely with the artist so the final result sounds authentic and meets your expectations.",
 
       },
 
@@ -348,7 +362,7 @@ export default {
 
         question: "Can I purchase additional studio time?",
 
-        answer: "Yes, you can add extra hours to your session. Just select the option when booking or let us know during your session if you need more time.",
+        answer: "Yes. You can add one EXTRA hour to your existing package, and if other times are not booked – you can 'upgrade' your package and use the studio for a longer period. For additional time or package changes, you need to contact us by email so we can check studio availability and confirm the possibility.",
 
       },
 
@@ -356,7 +370,9 @@ export default {
 
         question: "Do you provide instruments?",
 
-        answer: "The studio can provide an electric guitar and an acoustic guitar. Everything else is not provided unless we have a MIDI keyboard available. Please bring your own instruments or inquire when booking.",
+        answer1: "Yes. The studio has an electric and acoustic guitar, DDJ-400 DJ controller, MIDI controller, headphones, microphone, and speakers – all this equipment is included in the studio package.",
+
+        answer2: "Please note that if equipment is damaged or broken, the damage will be assessed and must be covered.",
 
       },
 
@@ -372,17 +388,19 @@ export default {
 
     subtitle: "Our mission, our story, our sound",
 
-    intro1: "Unknown Faces is more than just a recording studio—it's a creative sanctuary where artists transform their vision into reality. Founded with the belief that every voice deserves to be heard, we've built a space that combines professional-grade equipment with a welcoming, artist-first atmosphere.",
+    intro1: "Unknown Faces – that's us. Two childhood friends – Rolanas Kirvaitis (Thuga) and Laurynas Bendžaitis (ELBY), brought together by music and the desire to create. Since 2022, we started our journey completely from scratch – without knowledge and experience, but with a huge desire and a clear feeling that music is what truly draws us from the heart.",
 
-    intro2: "Our studio was born from a simple idea: to bridge the gap between unknown artists and their dreams of becoming known. We understand the challenges emerging artists face, and we're dedicated to providing accessible, high-quality recording services that don't compromise on excellence.",
+    intro2: "At first, we learned through trials, errors, and countless hours in the studio. Every day became a lesson, and every project – a step forward. To this day, we strive daily to learn something new, improve, grow, and deepen our understanding of sound, creativity, and the entire process around it.",
 
-    intro3: "Whether you're recording your first demo or your tenth album, you get a rare balance of sound quality and price here: professional equipment, experienced producers who bring fresh ideas, a cozy, aesthetic space on Laisvės alėja in Kaunas, and the chance to record your next song or instrumental in a truly professional environment.",
+    intro3: "Unknown Faces Studio was born from personal experience and a clear vision – to create a place where beginning and advanced creators would feel understood, safe, and free to experiment. A place where no one judges, but helps grow. Where music is created not for numbers, but for feeling.",
+
+    intro4: "We've walked this path ourselves, so we understand perfectly the challenges creators face. That's exactly why in the studio we offer not just space and equipment, but ourselves – our experience, knowledge, and desire to help your vision become reality.",
 
     philosophy: {
 
       title: "Our Philosophy",
 
-      description: "We believe in treating every artist and every project with respect and dedication. Our approach is collaborative—we work with you to capture the exact sound you're hearing in your head. No cookie-cutter solutions, just authentic artistry.",
+      description: "We believe that every artist and every project deserves respect and an individual approach. Our philosophy is collaboration: we work together with you to capture exactly the sound you hear in your head. No templates, no pressure – just authentic art.",
 
     },
 
@@ -390,7 +408,7 @@ export default {
 
       title: "The Space",
 
-      description: "Our studio can be used as a vocal recording and songwriting room, a DJ set recording space, a podcast studio, a chill lounge (with PS5/PS4, board games and drawing tools), a place to slow down and reset, or a photo and video location for music videos and portfolio content.",
+      description: "The studio can be used as a vocal recording and songwriting space, for DJ sets and podcast recording, as well as a chill lounge zone. Here you'll find PS5/PS4, board games, drawing tools, and a cozy place to relax between recordings. The studio space is also adapted for photo shoots and filming – it's perfect for music videos, visual content, and portfolio creation.",
 
     },
 
@@ -398,7 +416,7 @@ export default {
 
       title: "Our Mission",
 
-      quote: "To empower artists at every stage of their journey by providing professional recording services in an environment that values creativity, authenticity, and artistic growth. From unknown to known—we're here for every step of your musical evolution.",
+      quote: "To empower artists at every stage of their creative journey by providing professional recording services in an environment that values creativity, authenticity, and growth. From unknown to known – we're here for every step of your musical evolution.",
 
     },
 
@@ -410,7 +428,7 @@ export default {
 
         title: "Quality",
 
-        description: "Professional equipment and experienced engineers ensure every recording meets industry standards.",
+        description: "Professional equipment and experienced engineers ensure that every recording meets high industry standards and fulfills – YOUR expectations.",
 
       },
 
@@ -426,7 +444,7 @@ export default {
 
         title: "Community",
 
-        description: "We're building a supportive community of artists who inspire and elevate each other.",
+        description: "We're building a supportive community of artists where people inspire and grow each other.",
 
       },
 
@@ -460,11 +478,11 @@ export default {
 
       title: "Opening Hours",
 
-      weekdays: "Open 24/7",
+      weekdays: "We work on a flexible schedule (24/7)",
 
-      saturday: "Available every day",
+      saturday: "Sessions available any day of the week",
 
-      sunday: "Book anytime!",
+      sunday: "Book your time in advance!",
 
     },
 
@@ -488,7 +506,7 @@ export default {
 
         title: "By Car:",
 
-        description: "We have dedicated parking available behind the building. Enter through the main entrance and follow the signs.",
+        description: "You can park your car in the parking lot near St. Gertrude's Church. Parking is free from 17:00-08:00, as the lot belongs to the church territory. Cars there are monitored by video cameras, so you can feel safe.",
 
       },
 
@@ -589,7 +607,7 @@ export default {
 
       highlightText: "FREE",
 
-      description: "Book any sessions and track your progress. After 6 bookings of any type, your 7th 2-hour session is completely free!",
+      description: "On every 7th visit, Unknown Faces gifts an additional 2-hour studio session, which is added to any selected package.",
 
       cta: "Start Booking Now",
 

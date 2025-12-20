@@ -74,9 +74,13 @@ export default {
 
       title: "Apie Unknown Faces",
 
-      description1: "Unknown Faces – tai profesionali įrašų studija, skirta padėti menininkams įgyvendinti savo muzikinę viziją. Esame miesto širdyje ir siūlome kūrybinę erdvę su aukščiausios klasės įranga bei patyrusia komanda.",
+      description1: "Tai profesionali įrašų studija ir kūrybinė erdvė miesto širdyje, skirta padėti menininkams įgyvendinti savo muzikinę ir kūrybinę viziją. Siūlome aukščiausios klasės garso bei vaizdo įrangą, jaukią atmosferą ir patyrusią komandą, pasiruošusią prisidėti prie tavo idėjų augimo.",
 
-      description2: "Nesvarbu, ar įrašinėji savo pirmąjį demo, ar dirbi prie viso albumo – mes čia, kad palaikytume tave visame kelyje iš nežinomo į žinomą.",
+      description2: "Studijoje gali įrašyti ir sumiksuoti dainas, filmuoti ar įrašyti DJ setus bei podcast’us, dalyvauti vokalo pamokose, bendradarbiauti su mūsų komandos nariais, kurie gali padėti plėtoti tavo projektą ir viziją, o norint atsipalaiduoti – tiesiog smagiai praleisti laiką žaidžiant su PS5.",
+
+      description3: "Kieno rezervuotas studijos laikas, tas ir yra atsakingas šeimininkas – be pašalinių žmonių ar trikdžių. Užtikriname privatų, saugų ir kūrybai palankų darbo procesą. Taip pat aktyviai kuriame bendruomenę. Unknown Faces Studio suburia žmones su skirtingais gabumais ir patirtimis, galinčius padėti vieni kitiems augti. Prie mūsų galite prisijungti per Telegram ir Discord kanalus.",
+
+      description4: "Nesvarbu, ar tai tavo pirmasis demo, podcast’as ar visas albumas – mes esame šalia tavo kelyje iš nežinomo į žinomą.",
 
       learnMore: "Sužinok Daugiau Apie Mus",
 
@@ -158,7 +162,7 @@ export default {
 
         duration: "2 valandos",
 
-        description: "Puikiai tinka greitiems įrašams ir demo",
+        description: "Puikiai tinka greitiems įrašams, demo ar freestyle",
 
       },
 
@@ -168,7 +172,7 @@ export default {
 
         duration: "4 valandos",
 
-        description: "Puikiai tinka pilnoms dainoms ir miksavimui",
+        description: "Patogu įrašyti pilną dainą + rough mix",
 
       },
 
@@ -178,7 +182,7 @@ export default {
 
         duration: "6 valandos",
 
-        description: "Idealu kelioms dainoms ar detaliai produkcijai",
+        description: "Ramus tempas keliems kūriniams ar detaliam darbui",
 
       },
 
@@ -188,7 +192,7 @@ export default {
 
         duration: "8 valandos",
 
-        description: "Geriausiai tinka albumams ir profesionaliems projektams",
+        description: "Fokusas albuminiam ar profesionaliam projektui",
 
       },
 
@@ -198,7 +202,7 @@ export default {
 
         duration: "10 valandų",
 
-        description: "Išplėsta sesija didelio masto gamybai",
+        description: "Maksimali laisvė kūrybai be laiko spaudimo",
 
       },
 
@@ -208,7 +212,7 @@ export default {
 
       title: "Papildomos Paslaugos su prodiuseriu EDTA",
 
-      vocalRecording: "Vokalų Įrašymas (+40€)",
+      vocalRecording: "Vokalų Įrašymas (+25€)",
 
       mixMaster: "Mix/Master (+70€)",
 
@@ -300,7 +304,9 @@ export default {
 
         question: "Kokia įranga yra studijoje?",
 
-        answer: "Turime pramonės standartus atitinkančią įrašymo įrangą, įskaitant aukštos klasės mikrofonus, audio sąsajas ir monitoringo sistemas. Mūsų studija aprūpinta analogine ir skaitmenine įrašymo įranga, tinkančia bet kokiam gamybos stiliui.",
+        answer1: "Studijoje naudojame patikimą, profesionalią įrašymo įrangą, atitinkančią aukštus standartus. Darbui naudojame Studio Projects B1 mikrofoną, Beyerdynamic DT 770 PRO ausines bei Yamaha HS7 monitorines kolonėles, kurios užtikrina tikslų ir aiškų garsą.",
+
+        answer2: "Mūsų įranga tinka tiek vokalų įrašams, tiek muzikos kūrimui, miksavimui ar kitiems kūrybiniams projektams – nuo pirmųjų demo iki rimtų leidinių.",
 
       },
 
@@ -308,15 +314,16 @@ export default {
 
         question: "Ar galiu atsivesti savo prodiuserį ar inžinierių?",
 
-        answer: "Žinoma! Galite atsivesti savo prodiuserį ar inžinierių. Taip pat turime patyrusių inžinierių, jei jų reikia.",
+        answer1: "Taip. Studijos laikas priklauso tau, todėl gali atsivesti savo prodiuserį, garso inžinierių ar kitus kūrybinės komandos narius. Kieno rezervuotas laikas – tas studijoje yra atsakingas šeimininkas.",
 
+        answer2: "Taip pat, jei reikia, galime pasiūlyti savo prodiuserį ar komandos narius, kurie padės įrašymo, kūrybos ar techniniais klausimais ir prisidės prie tavo vizijos įgyvendinimo.",
       },
 
       {
 
         question: "Kas įeina į sesiją?",
 
-        answer: "Kiekviena sesija apima studijos laiką, inžinierių ir visą studijos įrangą bei instrumentus. Papildomos paslaugos kaip vokalų įrašymas (+40€) ir miksavimas/masteringas (+70€) yra mokamos.",
+        htmlAnswer: "<p class=\"mb-3\">Į standartinę sesiją įeina <strong>tik studijos laikas</strong> – <strong>profesionali įranga, jauki aplinka ir visiškai netrukdoma kūryba.</strong></p><p class=\"mb-3\">Rezervuojant sesiją, <strong>papildomai gali pasirinkti</strong>, ar tau reikalingas:</p><ul class=\"list-disc list-inside mb-3 space-y-1 ml-4\"><li>Vokalų įrašymas</li><li>Vokalų apdirbimas (Mix/master)</li><li>Individualus Instrumentalo sukūrimas</li><li>Kūrybinės ar techninės konsultacijos</li></ul><p>Mūsų komanda ir community nariai gali padėti tavo projektui augti, bet <strong>ne visos paslaugos yra nemokamos</strong> – kaip sakoma, <strong>\"ranka ranką plauna\"</strong>.</p>",
 
       },
 
@@ -324,7 +331,11 @@ export default {
 
         question: "Kaip rezervuoti sesiją?",
 
-        answer: "Galite rezervuoti sesiją per mūsų rezervacijos puslapį užpildydami formą arba naudodami kalendoriaus integraciją. Atsakysime per 24 valandas ir patvirtinsime jūsų rezervaciją.",
+        answer1: "Sesiją gali rezervuoti per mūsų internetinį puslapį – užpildęs rezervacijos užklausą pasirinktai datai ir laikui.",
+
+        answer2: "Mes su tavimi susisieksime el. paštu, patvirtinsime laiką, jei jis nesidubliuos ir bus tinkamas abiem pusėms.",
+
+        answer3: "Apmokėjimas vyksta grynaisiais prieš arba po sesijos. Jokių išankstinių mokėjimų – viskas paprasta ir skaidru.",
 
       },
 
@@ -332,7 +343,9 @@ export default {
 
         question: "Kokia jūsų atšaukimo politika?",
 
-        answer: "Prašome pranešti apie atšaukimą bent 48 valandas prieš sesiją. Atšaukimai, padaryti mažiau nei 48 valandas iki sesijos, gali būti apmokestinami atšaukimo mokesčiu.",
+        answer1: "Užsisakant bet kurį studijos paketą, rezervaciją galima atšaukti likus ne mažiau nei 12 valandos iki numatyto laiko.",
+
+        answer2: "Jeigu apie neatvykimą ar atšaukimą nepranešama laiku, taikoma 10 € simbolinė nuobauda, kuri bus pridėta prie kito jūsų įsigyjamo studijos paketo. Ši tvarka padeda užtikrinti sklandų studijos darbo planavimą, kadangi nepranešus studijos laikas lieka neišnaudotas.",
 
       },
 
@@ -340,7 +353,7 @@ export default {
 
         question: "Ar teikiate miksavimo ir masteringo paslaugas?",
 
-        answer: "Taip, teikiame ir miksavimo, ir masteringo paslaugas. Šias paslaugas galima pridėti prie jūsų įrašymo sesijos arba užsakyti atskirai dainoms, įrašytoms kitur.",
+        answer: "Taip. Dirbame su savo prodiuseriu prod.EDTA, kuris turi daugiau nei 4 metų patirtį muzikos kūrime. Jis gali įrašyti ir apdirbti vokalus, taip pat sukurti instrumentalą pagal tavo viziją ir pageidavimus. Dirbame glaudžiai su atlikėju, kad galutinis rezultatas skambėtų autentiškai ir atitiktų tavo lūkesčius.",
 
       },
 
@@ -348,7 +361,7 @@ export default {
 
         question: "Ar galiu įsigyti papildomo studijos laiko?",
 
-        answer: "Taip, galite pridėti papildomų valandų prie savo sesijos. Tiesiog pasirinkite šią parinktį rezervuodami arba praneškite mums sesijos metu, jei reikia daugiau laiko.",
+        answer: "Taip. Prie savo esamo paketo galite pridėti vieną EXTRA valandą, o jei kiti laikai nėra užimti – savo paketą galima “upgrade’inti” ir studiją naudotis ilgesnį laiko tarpą. Dėl papildomo laiko ar paketo keitimo reikia susisiekti su mumis el. paštu, kad galėtume patikrinti studijos užimtumą ir patvirtinti galimybę.",
 
       },
 
@@ -356,8 +369,9 @@ export default {
 
         question: "Ar teikiate instrumentus?",
 
-        answer: "Studija gali suteikti elektrinę gitarą ir akustinę gitarą. Viskas kita nėra teikiama, nebent turime MIDI klaviatūrą. Prašome atsivežti savo instrumentus arba pasiteiraukite rezervuodami.",
+        answer1: "Taip. Studijoje yra elektrinė ir akustinė gitaros, DDJ-400 DJ pultas, MIDI kontroleris, ausinės, mikrofonas ir kolonėlės – visa ši įranga įtraukta į studijos paketą.",
 
+        answer2: "Primename, jog pažeidus ar sugadinus įrangą, žala bus įvertinta ir privalės būti padengta.",
       },
 
     ],
@@ -372,17 +386,19 @@ export default {
 
     subtitle: "Mūsų misija, istorija ir skambesys",
 
-    intro1: "Unknown Faces – tai daugiau nei įrašų studija. Tai kūrybinė šventovė, kurioje menininkai paverčia savo viziją realybe. Įkurta tikint, kad kiekvienas balsas vertas būti išgirstas, sukūrėme erdvę, jungiančią profesionalią įrangą su svetinga, menininką pirmaujančia atmosfera.",
+    intro1: "Unknown Faces – tai mes. Du vaikystės draugai – Rolanas Kirvaitis (Thuga) ir Laurynas Bendžaitis (ELBY), kuriuos sujungė muzika ir noras kurti. Nuo 2022 metų pradėjome savo kelią visiškai nuo nulio – be žinių ir patirties, bet su didžiuliu noru ir aiškiu jausmu, kad muzika yra tai, kas mus iš tikrųjų traukia iš širdies.",
 
-    intro2: "Mūsų studija gimė iš paprastos idėjos: sujungti nežinomus menininkus su jų svajonėmis tapti žinomiems. Suprantame iššūkius, su kuriais susiduria pradedantys menininkai, ir esame įsipareigoję teikti prieinamas, aukštos kokybės įrašymo paslaugas, kurios nekompromisuoja su puikumu.",
+    intro2: "Iš pradžių mokėmės per bandymus, klaidas ir begalę valandų studijoje. Kiekviena diena tapo pamoka, o kiekvienas projektas – žingsniu į priekį. Iki šiol kasdien stengiamės išmokti kažką naujo, tobulėti, augti ir gilinti savo supratimą apie garsą, kūrybą bei visą procesą aplink.",
 
-    intro3: "Nesvarbu, ar įrašai savo pirmąjį demo, ar dešimtą albumą – čia gauni puikų garso ir kokybės santykį už prieinamą kainą: profesionalią įrangą, patyrusius, naujas idėjas generuojančius ir žinomus prodiuserius, jaukią, estetišką erdvę Laisvės alėjoje Kaune ir galimybę įrašyti naują dainą ar instrumentinį kūrinį tikroje profesionalioje aplinkoje.",
+    intro3: "Unknown Faces Studio gimė iš asmeninės patirties ir aiškios vizijos – sukurti vietą, kur pradedantys ir pažengę kūrėjai jaustųsi suprasti, saugūs ir laisvi eksperimentuoti. Vietą, kur niekas neteisia, o padeda augti. Kur muzika kuriama ne dėl skaičių, o dėl jausmo.",
+
+    intro4: "Mes patys praėjome šį kelią, todėl puikiai suprantame, su kokiais iššūkiais susiduria kūrėjai. Būtent dėl to studijoje siūlome ne tik erdvę ir įrangą, bet ir save – savo patirtį, žinias bei norą padėti tavo vizijai tapti realybe.",
 
     philosophy: {
 
       title: "Mūsų Filosofija",
 
-      description: "Tikime, kad kiekvienas menininkas ir kiekvienas projektas turi būti vertinami su pagarba ir atsidavimu. Mūsų požiūris – bendradarbiaujantis: dirbame su jumis, kad užfiksuotume tiksliai tokį skambesį, kurį girdite savo galvoje. Jokių šablonų, tik autentiškas menas.",
+      description: "Tikime, kad kiekvienas menininkas ir kiekvienas projektas yra vertas pagarbos bei individualaus požiūrio. Mūsų filosofija – bendradarbiavimas: dirbame kartu su jumis, kad užfiksuotume būtent tokį skambesį, kokį girdite savo galvoje. Be šablonų, be spaudimo – tik autentiškas menas.",
 
     },
 
@@ -390,7 +406,7 @@ export default {
 
       title: "Erdvė",
 
-      description: "Studiją gali naudoti kaip vokalų įrašymo ir dainų kūrimo erdvę, DJ setų įrašymo erdvę, podcastų studiją, chill lounge'ą (turime PS5/PS4, stalo žaidimų, piešimo įrankių), jaukią vietą atsipūsti tarp įrašų arba fotosesijų ir filmavimo erdvę klipams bei portfolio turiniui.",
+      description: "Studiją gali naudoti kaip vokalų įrašymo ir dainų kūrimo erdvę, DJ setų bei podcast’ų įrašymui, taip pat kaip chill lounge zoną. Čia rasi PS5/PS4, stalo žaidimų, piešimo įrankių ir jaukią vietą atsipūsti tarp įrašų. Taip pat studijos erdvė yra pritaikyta fotosesijoms ir filmavimams – ji puikiai tinka muzikiniams klipams, vizualiniam turiniui ir portfolio kūrimui.",
 
     },
 
@@ -398,7 +414,7 @@ export default {
 
       title: "Mūsų Misija",
 
-      quote: "Įgalinti menininkus kiekviename jų kelio etape, teikiant profesionalias įrašymo paslaugas aplinkoje, vertinančioje kūrybiškumą, autentiškumą ir meninį augimą. Iš nežinomo į žinomą – esame čia kiekviename jūsų muzikinės evoliucijos žingsnyje.",
+      quote: "Įgalinti menininkus kiekviename jų kūrybinio kelio etape, teikiant profesionalias įrašų paslaugas aplinkoje, kuri vertina kūrybiškumą, autentiškumą ir augimą. Iš nežinomo į žinomą – esame šalia kiekviename tavo muzikinės evoliucijos žingsnyje.",
 
     },
 
@@ -410,7 +426,7 @@ export default {
 
         title: "Kokybė",
 
-        description: "Profesionali įranga ir patyrę inžinieriai užtikrina, kad kiekvienas įrašas atitinka pramonės standartus.",
+        description: "Profesionali įranga ir patyrę inžinieriai užtikrina, kad kiekvienas įrašas atitiktų aukštus industrijos standartus ir išpildytų – TAVO lūkesčius.",
 
       },
 
@@ -418,7 +434,7 @@ export default {
 
         title: "Prieinamumas",
 
-        description: "Lankstūs paketai ir kainodara daro profesionalų įrašymą pasiekiamą menininkams visais lygiais.",
+        description: "Lankstūs paketai ir kainodara leidžia profesionalų įrašymą padaryti prieinamą menininkams visais lygiais.",
 
       },
 
@@ -426,7 +442,7 @@ export default {
 
         title: "Bendruomenė",
 
-        description: "Kuriame palaikančią menininkų bendruomenę, kuri įkvepia ir kelia vienas kitą.",
+        description: "Kuriame palaikančią menininkų bendruomenę, kurioje žmonės įkvepia ir augina vienas kitą.",
 
       },
 
@@ -460,11 +476,11 @@ export default {
 
       title: "Darbo Laikas",
 
-      weekdays: "Atidaryta 24/7",
+      weekdays: "Dirbame lanksčiu grafiku (24/7)",
 
-      saturday: "Galima kiekvieną dieną",
+      saturday: "Sesijos galimos bet kurią savaitės dieną",
 
-      sunday: "Rezervuokite bet kada!",
+      sunday: "Rezervuok laiką iš anksto!",
 
     },
 
@@ -488,7 +504,7 @@ export default {
 
         title: "Automobiliu:",
 
-        description: "Turime dedikuotą parkavimo vietą už pastato. Įeikite pro pagrindinį įėjimą ir sekite rodykles.",
+        description: "Automobilį galite palikti šalia Šv. Gertrūdos bažnyčios esančiame parkinge. Parkavimas yra nemokamas nuo 17-08h, kadangi aikštelė priklauso bažnyčios teritorijai. Automobiliai ten yra stebimi vaizdo kameromis, tad galite jaustis saugiai.",
 
       },
 
@@ -589,7 +605,7 @@ export default {
 
       highlightText: "NEMOKAMAI",
 
-      description: "Rezervuok bet kokias sesijas ir sek pažangą. Po 6 bet kokių rezervacijų, tavo 7-a 2 valandų sesija visiškai nemokama!",
+      description: "Kiekvieno 7-to apsilankymo metu „Unknown Faces“ dovanoja papildomą 2 valandų studijos sesiją, kuri pridedama prie bet kurio pasirinkto paketo.",
 
       cta: "Pradėk Rezervuoti Dabar",
 

@@ -221,8 +221,14 @@ export default function Home() {
               <p className="mb-4 text-lg text-foreground/80">
                 {t("home.about.description1")}
               </p>
-              <p className="text-lg text-foreground/80">
+              <p className="mb-4 text-lg text-foreground/80">
                 {t("home.about.description2")}
+              </p>
+              <p className="mb-4 text-lg text-foreground/80">
+                {t("home.about.description3")}
+              </p>
+              <p className="text-lg text-foreground/80">
+                {t("home.about.description4")}
               </p>
             </div>
             <div className="mt-8">

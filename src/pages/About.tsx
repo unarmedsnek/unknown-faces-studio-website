@@ -31,6 +31,9 @@ export default function About() {
               <p className="text-lg leading-relaxed text-foreground/80 mt-4">
                 {t("about.intro3")}
               </p>
+              <p className="text-lg leading-relaxed text-foreground/80 mt-4">
+                {t("about.intro4")}
+              </p>
             </section>
 
             {/* Studio Image 1 */}
