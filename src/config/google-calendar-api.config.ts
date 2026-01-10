@@ -177,7 +177,7 @@ export async function createGoogleCalendarBooking(data: {
   const response = await fetch(googleCalendarConfig.apiUrl, {
     method: "POST",
     headers: {
-      "Content-Type": "application/json",
+      "Content-Type": "text/plain;charset=utf-8",
     },
     body: JSON.stringify(requestBody),
     redirect: "follow",
