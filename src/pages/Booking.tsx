@@ -13,9 +13,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent } from "@/components/ui/card";
 import { Calendar } from "@/components/ui/calendar";
 import { Calendar as CalendarIcon, Clock, Loader2, Download, ExternalLink } from "lucide-react";
-import emailjs from "@emailjs/browser";
 import { useToast } from "@/hooks/use-toast";
-import { emailjsConfig } from "@/config/emailjs.config";
 import { 
   getAvailableSlots,
   createGoogleCalendarBooking,
@@ -81,6 +79,12 @@ export default function Booking() {
   const [hasFetchedMonthAvailability, setHasFetchedMonthAvailability] = useState(false);
   const [bookingResult, setBookingResult] = useState<BookingResponse | null>(null);
   const [showSuccessDialog, setShowSuccessDialog] = useState(false);
+  const [formLoadTime, setFormLoadTime] = useState<string>("");
+  const [honeypot, setHoneypot] = useState({
+    website: "",
+    url: "",
+    honeypot: ""
+  });
   const { toast } = useToast();
 
   const packages: (PackageData & { key: string })[] = [
@@ -127,7 +131,7 @@ export default function Booking() {
   // Price constants for extras (in euros)
   const PRICES = {
     extraHour: 10,
-    vocalRecording: 40,
+    vocalRecording: 25,
     mixMaster: 70,
     instrumental: 150,
   };
@@ -297,6 +301,14 @@ export default function Booking() {
     fetchMonthAvailability();
   }, [selectedPackageKey, extraHour, calendarDate]);
 
+  // Track when modal opens (form load time)
+  useEffect(() => {
+    if (isModalOpen) {
+      setFormLoadTime(new Date().toISOString());
+      setHoneypot({ website: "", url: "", honeypot: "" });
+    }
+  }, [isModalOpen]);
+
   const handlePackageClick = (pkg: PackageData & { key: string }) => {
     setSelectedPackage(pkg);
     setSelectedPackageKey(pkg.key);
@@ -334,6 +346,16 @@ export default function Booking() {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    // Validate form load time exists
+    if (!formLoadTime) {
+      toast({
+        title: "Error",
+        description: "Please refresh the page and try again.",
+        variant: "destructive",
+      });
+      return;
+    }
 
     if (!selectedPackage) {
       toast({
@@ -374,6 +396,7 @@ export default function Booking() {
 
       console.log("📅 Creating booking:", {
         package: selectedPackage.name,
+        packageKey: selectedPackageKey,
         extraHour,
         durationMinutes,
         startTime,
@@ -381,77 +404,27 @@ export default function Booking() {
         attendee: formData.name,
       });
 
-      // Calculate total price
-      const priceInfo = calculatePrice();
-
-      // Create booking via Google Calendar API
+      // Create booking via Google Calendar API (script handles emails)
       const booking = await createGoogleCalendarBooking({
         startTime,
         endTime,
         name: formData.name,
         email: formData.email,
         phone: formData.phone || undefined,
-        packageName: selectedPackage.name,
-        packagePrice: selectedPackage.price,
+        packageKey: selectedPackageKey,
         extraHour,
         extraNotes: formData.extraNotes || undefined,
         extraServices,
-        totalPrice: priceInfo.total,
+        formLoadTime: formLoadTime,
+        website: honeypot.website,
+        url: honeypot.url,
+        honeypot: honeypot.honeypot,
       });
 
       console.log("✅ Booking created:", booking);
 
       // Store booking result for success dialog
       setBookingResult(booking);
-
-      // Format date/time for emails
-      const bookingDateObj = parseISO(startTime);
-      const bookingDate = formatLithuanianDate(bookingDateObj);
-      const bookingTime = formatLithuanianTime(bookingDateObj);
-      const endDateObj = parseISO(endTime);
-      const bookingEndTime = formatLithuanianTime(endDateObj);
-
-      // Prepare email data
-      const emailData = {
-        package_name: selectedPackage.name,
-        package_price: selectedPackage.price,
-        package_duration: selectedPackage.duration,
-        extra_hour: extraHour ? `Yes (+${EXTRA_HOUR_COST})` : "No",
-        total_duration: extraHour 
-          ? `${selectedPackage.duration} + 1 hour` 
-          : selectedPackage.duration,
-        booking_date: bookingDate,
-        booking_time: `${bookingTime} - ${bookingEndTime}`,
-        user_name: formData.name,
-        user_phone: formData.phone,
-        user_email: formData.email,
-        extra_notes: formData.extraNotes || "No additional notes",
-        vocal_recording: extraServices.vocalRecording ? "Yes (+40€)" : "No",
-        mix_master: extraServices.mixMaster ? "Yes (+70€)" : "No",
-        instrumental_lease: extraServices.instrumental ? "Yes (+150€)" : "No",
-        to_email: formData.email,
-        message: `Booking confirmed for ${selectedPackage.name} on ${bookingDate} at ${bookingTime}`,
-      };
-
-      console.log("📧 Sending emails...");
-
-      // Send email to studio owner
-      await emailjs.send(
-        emailjsConfig.serviceId,
-        emailjsConfig.ownerTemplateId,
-        emailData,
-        emailjsConfig.publicKey
-      );
-      console.log("✅ Owner email sent");
-
-      // Send confirmation email to user
-      await emailjs.send(
-        emailjsConfig.serviceId,
-        emailjsConfig.userTemplateId,
-        emailData,
-        emailjsConfig.publicKey
-      );
-      console.log("✅ User confirmation email sent");
 
       // Close booking modal and show success dialog
       setIsModalOpen(false);
@@ -465,14 +438,23 @@ export default function Booking() {
       setSelectedDate(undefined);
       setSelectedTimeSlot(null);
       setAvailableSlots([]);
+      setFormLoadTime("");
+      setHoneypot({ website: "", url: "", honeypot: "" });
 
     } catch (error: any) {
       console.error("❌ Booking error:", error);
 
-      let errorMessage = "Failed to create booking. Please try again.";
+      let errorMessage = error.message || "Failed to create booking. Please try again.";
       
-      if (error.message?.includes("no longer available")) {
+      // Handle specific error messages from script
+      if (errorMessage.includes("no longer available")) {
         errorMessage = "This time slot is no longer available. Please select another time.";
+      } else if (errorMessage.includes("Too many")) {
+        errorMessage = "Too many booking attempts. Please try again later.";
+      } else if (errorMessage.includes("disposable email")) {
+        errorMessage = "Please use a permanent email address.";
+      } else if (errorMessage.includes("advance")) {
+        errorMessage = errorMessage; // Use script's message
       }
 
       toast({
@@ -660,6 +642,42 @@ export default function Booking() {
                     {t("booking.modal.enterInfo")}
                   </h3>
                   <form onSubmit={handleSubmit} className="space-y-4">
+                    {/* Honeypot fields - hidden from users, bots will fill them */}
+                    <div style={{ 
+                      display: 'none', 
+                      position: 'absolute', 
+                      left: '-9999px',
+                      opacity: 0,
+                      pointerEvents: 'none'
+                    }}>
+                      <input 
+                        type="text" 
+                        name="website" 
+                        value={honeypot.website}
+                        onChange={(e) => setHoneypot({...honeypot, website: e.target.value})}
+                        tabIndex={-1} 
+                        autoComplete="off"
+                        aria-hidden="true"
+                      />
+                      <input 
+                        type="text" 
+                        name="url" 
+                        value={honeypot.url}
+                        onChange={(e) => setHoneypot({...honeypot, url: e.target.value})}
+                        tabIndex={-1} 
+                        autoComplete="off"
+                        aria-hidden="true"
+                      />
+                      <input 
+                        type="text" 
+                        name="honeypot" 
+                        value={honeypot.honeypot}
+                        onChange={(e) => setHoneypot({...honeypot, honeypot: e.target.value})}
+                        tabIndex={-1} 
+                        autoComplete="off"
+                        aria-hidden="true"
+                      />
+                    </div>
                     <div className="space-y-2">
                       <Label htmlFor="modal-name" className="uppercase tracking-wide font-mono text-xs">
                         {t("booking.modal.fullName")} *

@@ -1,8 +1,9 @@
 /**
  * Google Calendar API Configuration (via Google Apps Script)
  * 
- * Custom Google Apps Script integration that provides
- * availability checking and booking creation.
+ * Updated for hardened Google Apps Script API
+ * - GET /availability is public (no secret)
+ * - POST /book requires API secret in JSON body
  */
 
 // Lithuanian timezone constant
@@ -13,7 +14,7 @@ export const googleCalendarConfig = {
   // Web App URL from Google Apps Script deployment
   apiUrl: import.meta.env.VITE_GOOGLE_CALENDAR_API_URL || "",
   
-  // API Secret for authentication
+  // API Secret for authentication (should be sent via server proxy ideally)
   apiSecret: import.meta.env.VITE_GOOGLE_CALENDAR_API_SECRET || "",
 };
 
@@ -23,7 +24,7 @@ console.log("🔧 Google Calendar Config:", {
   apiSecretLength: googleCalendarConfig.apiSecret?.length || 0,
 });
 
-// Package durations in minutes
+// Package durations in minutes (frontend keys)
 export const PACKAGE_DURATIONS: Record<string, number> = {
   "2 hour session": 120,
   "4 hour session": 240,
@@ -31,6 +32,22 @@ export const PACKAGE_DURATIONS: Record<string, number> = {
   "8 hour Session": 480,
   "10 hour Session": 600,
 };
+
+// Map frontend package keys to script package IDs
+export const PACKAGE_ID_MAP: Record<string, string> = {
+  "2 hour session": "studio_2h",
+  "4 hour session": "studio_4h",
+  "6 hour session": "studio_6h",
+  "8 hour session": "studio_8h",
+  "10 hour session": "studio_10h",
+};
+
+/**
+ * Get package ID for the script from frontend package key
+ */
+export function getPackageId(packageKey: string): string {
+  return PACKAGE_ID_MAP[packageKey] || "studio_2h";
+}
 
 /**
  * Get package duration in minutes
@@ -68,14 +85,14 @@ export interface BookingResponse {
 
 /**
  * Get available time slots from Google Apps Script
+ * GET /availability - Public endpoint (no secret required)
  */
 export async function getAvailableSlots(data: {
-  startDate: string; // ISO date string
-  endDate: string;   // ISO date string
+  startDate: string; // ISO date string (yyyy-MM-dd)
+  endDate: string;   // ISO date string (yyyy-MM-dd)
   durationMinutes: number;
 }): Promise<{ success: boolean; data: Record<string, AvailableSlot[]>; timezone: string }> {
   const params = new URLSearchParams({
-    apiSecret: googleCalendarConfig.apiSecret,
     startDate: data.startDate,
     endDate: data.endDate,
     durationMinutes: data.durationMinutes.toString(),
@@ -84,7 +101,6 @@ export async function getAvailableSlots(data: {
   const url = `${googleCalendarConfig.apiUrl}?${params.toString()}`;
   console.log("📅 Fetching slots from Google Calendar API...");
 
-  // Don't set Content-Type header for GET requests to avoid CORS preflight
   const response = await fetch(url, {
     method: "GET",
     redirect: "follow",
@@ -109,6 +125,7 @@ export async function getAvailableSlots(data: {
 
 /**
  * Create a booking via Google Apps Script
+ * POST /book - Requires API secret in JSON body
  */
 export async function createGoogleCalendarBooking(data: {
   startTime: string; // ISO 8601 format
@@ -116,8 +133,7 @@ export async function createGoogleCalendarBooking(data: {
   name: string;
   email: string;
   phone?: string;
-  packageName: string;
-  packagePrice: string;
+  packageKey: string; // Frontend package key (will be mapped to packageId)
   extraHour?: boolean;
   extraNotes?: string;
   extraServices?: {
@@ -125,35 +141,60 @@ export async function createGoogleCalendarBooking(data: {
     mixMaster: boolean;
     instrumental: boolean;
   };
-  totalPrice?: number; // Total price including extras
+  formLoadTime: string; // ISO timestamp when form was loaded
+  website?: string;      // Honeypot field
+  url?: string;          // Honeypot field
+  honeypot?: string;     // Honeypot field
 }): Promise<BookingResponse> {
   console.log("📅 Creating booking via Google Calendar API...", data);
 
-  // Use URL params to avoid CORS preflight issues with POST
-  // Google Apps Script handles this better than JSON body
-  const bookingData = {
+  // Map frontend package key to script package ID
+  const packageId = getPackageId(data.packageKey);
+
+  // Prepare request body matching script expectations
+  const requestBody = {
     apiSecret: googleCalendarConfig.apiSecret,
-    action: "book",
     startTime: data.startTime,
     endTime: data.endTime,
     name: data.name,
     email: data.email,
     phone: data.phone || "",
-    packageName: data.packageName,
-    packagePrice: data.packagePrice,
-    extraHour: data.extraHour ? "true" : "false",
+    packageId: packageId,
+    extraHour: data.extraHour || false,
+    extraServices: {
+      vocalRecording: data.extraServices?.vocalRecording || false,
+      mixMaster: data.extraServices?.mixMaster || false,
+      instrumental: data.extraServices?.instrumental || false,
+    },
     extraNotes: data.extraNotes || "",
-    extraServices: JSON.stringify(data.extraServices || {}),
-    totalPrice: (data.totalPrice || 0).toString(),
+    formLoadTime: data.formLoadTime,
+    // Honeypot fields - must be empty strings, not undefined
+    website: data.website || "",
+    url: data.url || "",
+    honeypot: data.honeypot || "",
   };
 
-  const params = new URLSearchParams(bookingData as Record<string, string>);
-  const url = `${googleCalendarConfig.apiUrl}?${params.toString()}`;
-
-  const response = await fetch(url, {
-    method: "GET",
+  const response = await fetch(googleCalendarConfig.apiUrl, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(requestBody),
     redirect: "follow",
   });
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    console.error("❌ Booking creation failed:", errorText);
+    let errorMessage = "Failed to create booking";
+    try {
+      const errorJson = JSON.parse(errorText);
+      errorMessage = errorJson.error || errorMessage;
+    } catch {
+      errorMessage = errorText || errorMessage;
+    }
+    throw new Error(errorMessage);
+  }
 
   const result = await response.json();
 
