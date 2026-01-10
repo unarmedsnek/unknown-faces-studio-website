@@ -22,7 +22,7 @@ import {
   LITHUANIAN_TIMEZONE,
   type BookingResponse,
 } from "@/config/google-calendar-api.config";
-import { parseISO } from "date-fns";
+import { parseISO, addMonths } from "date-fns";
 import { formatInTimeZone, fromZonedTime } from "date-fns-tz";
 import { useLanguage } from "@/contexts/LanguageContext";
 
@@ -71,6 +71,7 @@ export default function Booking() {
     instrumental: false,
   });
   const [hasReadRules, setHasReadRules] = useState(false);
+  const [hasReadPrivacy, setHasReadPrivacy] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [availableSlots, setAvailableSlots] = useState<AvailableSlot[]>([]);
   const [loadingSlots, setLoadingSlots] = useState(false);
@@ -306,6 +307,8 @@ export default function Booking() {
     if (isModalOpen) {
       setFormLoadTime(new Date().toISOString());
       setHoneypot({ website: "", url: "", honeypot: "" });
+      setHasReadRules(false);
+      setHasReadPrivacy(false);
     }
   }, [isModalOpen]);
 
@@ -435,6 +438,7 @@ export default function Booking() {
       setExtraHour(false);
       setExtraServices({ vocalRecording: false, mixMaster: false, instrumental: false });
       setHasReadRules(false);
+      setHasReadPrivacy(false);
       setSelectedDate(undefined);
       setSelectedTimeSlot(null);
       setAvailableSlots([]);
@@ -538,7 +542,11 @@ export default function Booking() {
                         disabled={(date) => {
                           const today = new Date();
                           today.setHours(0, 0, 0, 0);
+                          const threeMonthsFromNow = addMonths(today, 3);
+                          threeMonthsFromNow.setHours(23, 59, 59, 999);
+                          
                           if (date < today) return true;
+                          if (date > threeMonthsFromNow) return true;
                           if (!selectedPackage) return true;
                           if (!hasFetchedMonthAvailability) return false;
 
@@ -546,7 +554,16 @@ export default function Booking() {
                           return !availableDateKeys.has(dateKey);
                         }}
                         month={calendarDate}
-                        onMonthChange={setCalendarDate}
+                        onMonthChange={(date) => {
+                          const today = new Date();
+                          const maxDate = addMonths(today, 3);
+                          if (date > maxDate) {
+                            setCalendarDate(maxDate);
+                          } else {
+                            setCalendarDate(date);
+                          }
+                        }}
+                        toDate={addMonths(new Date(), 3)}
                         classNames={{
                           months: "flex flex-col sm:flex-row space-y-4 sm:space-x-4 sm:space-y-0 w-full",
                           month: "space-y-4 w-full",
@@ -871,12 +888,31 @@ export default function Booking() {
                       </Label>
                     </div>
 
+                    {/* Privacy Checkbox - Required */}
+                    <div className="flex items-start space-x-2 pt-4">
+                      <Checkbox
+                        id="privacy-checkbox"
+                        checked={hasReadPrivacy}
+                        onCheckedChange={(checked) => setHasReadPrivacy(checked as boolean)}
+                        className="rounded-none border-2 mt-1"
+                      />
+                      <Label
+                        htmlFor="privacy-checkbox"
+                        className="cursor-pointer text-sm leading-relaxed"
+                      >
+                        {t("booking.modal.privacyAgreement")}{" "}
+                        <a href="/privacy" target="_blank" rel="noopener noreferrer" className="underline hover:text-primary font-semibold">
+                          {t("booking.modal.privacyLink")}
+                        </a>
+                      </Label>
+                    </div>
+
                     <div className="pt-4 space-y-2">
                       <Button
                         type="submit"
                         size="lg"
                         className="w-full"
-                        disabled={isSubmitting || !selectedDate || !selectedTimeSlot || !hasReadRules}
+                        disabled={isSubmitting || !selectedDate || !selectedTimeSlot || !hasReadRules || !hasReadPrivacy}
                       >
                         {isSubmitting ? t("booking.modal.creatingBooking") : t("booking.modal.completeBooking")}
                       </Button>

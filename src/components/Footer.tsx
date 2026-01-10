@@ -75,13 +75,22 @@ export const Footer = () => {
           {/* Divider */}
           <div className="h-[2px] w-32 bg-border" />
 
-          {/* Rules Link */}
-          <Link
-            to="/rules"
-            className="font-mono text-sm text-secondary-foreground hover:underline hover:brightness-75 transition-all"
-          >
-            {t("footer.rules")}
-          </Link>
+          {/* Rules and Privacy Links */}
+          <div className="flex gap-4">
+            <Link
+              to="/rules"
+              className="font-mono text-sm text-secondary-foreground hover:underline hover:brightness-75 transition-all"
+            >
+              {t("footer.rules")}
+            </Link>
+            <span className="text-secondary-foreground/50">|</span>
+            <Link
+              to="/privacy"
+              className="font-mono text-sm text-secondary-foreground hover:underline hover:brightness-75 transition-all"
+            >
+              {t("footer.privacy")}
+            </Link>
+          </div>
 
           {/* Copyright */}
           <p className="font-mono text-xs text-secondary-foreground/70 mt-2">

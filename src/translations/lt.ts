@@ -152,6 +152,10 @@ export default {
 
       rulesLink: "studijos taisyklėmis",
 
+      privacyAgreement: "Aš perskaičiau ir sutinku su",
+
+      privacyLink: "privatumo politika",
+
     },
 
     packages: {
@@ -582,11 +586,79 @@ export default {
 
   
 
+  privacy: {
+
+    title: "Privatumo Politika",
+
+    subtitle: "Kaip renkame, naudojame ir saugome jūsų asmeninę informaciją",
+
+    general: {
+
+      title: "Bendra Informacija",
+
+      description: "Ši Privatumo Politika aprašo, kaip Unknown Faces Studio renka, naudoja ir saugo jūsų asmeninę informaciją naudojant mūsų rezervacijų paslaugas ir svetainę.",
+
+    },
+
+    dataController: {
+
+      title: "Duomenų Valdytojas",
+
+      description: "Unknown Faces Studio yra duomenų valdytojas, atsakingas už jūsų asmeninių duomenų tvarkymą. Dėl bet kokių klausimų dėl duomenų apsaugos, prašome susisiekti su mumis.",
+
+    },
+
+    dataCollection: {
+
+      title: "Renkami Duomenys",
+
+      description: "Renkame šių tipų asmeninę informaciją: vardą, el. pašto adresą, telefono numerį, rezervacijų pageidavimus ir bet kokią papildomą informaciją, kurią pateikiate rezervuodami.",
+
+    },
+
+    dataUsage: {
+
+      title: "Kaip Naudojame Jūsų Duomenis",
+
+      description: "Jūsų asmeniniai duomenys naudojami rezervacijoms apdoroti, siųsti patvirtinimo el. laiškus, bendrauti apie jūsų sesijas ir tobulinti mūsų paslaugas. Mes neperkeliame jūsų duomenų trečiosioms šalims, išskyrus tais atvejais, kai to reikalauja įstatymai.",
+
+    },
+
+    dataProtection: {
+
+      title: "Duomenų Apsauga",
+
+      description: "Taikome tinkamas technines ir organizacines priemones, kad apsaugotume jūsų asmeninius duomenis nuo neteisėtos prieigos, pakeitimo, atskleidimo ar sunaikinimo.",
+
+    },
+
+    yourRights: {
+
+      title: "Jūsų Teisės",
+
+      description: "Turite teisę prieiti prie, taisyti, ištrinti, apriboti tvarkymą, prieštarauti tvarkymui ir duomenų perkeliamumui dėl savo asmeninių duomenų. Norėdami pasinaudoti šiomis teisėmis, prašome susisiekti su mumis.",
+
+    },
+
+    contact: {
+
+      title: "Susisiekite Su Mumis",
+
+      description: "Jei turite klausimų apie šią Privatumo Politiką ar norite pasinaudoti savo teisėmis, prašome susisiekti su mumis per mūsų svetainę arba el. paštą.",
+
+    },
+
+  },
+
+  
+
   footer: {
 
     copyright: "© {year} Unknown Faces. Visos teisės saugomos.",
 
     rules: "Studijos Taisyklės",
+
+    privacy: "Privatumo Politika",
 
   },
 

@@ -152,6 +152,10 @@ export default {
 
       rulesLink: "studio rules",
 
+      privacyAgreement: "I have read and agree to the",
+
+      privacyLink: "privacy policy",
+
     },
 
     packages: {
@@ -584,11 +588,79 @@ export default {
 
   
 
+  privacy: {
+
+    title: "Privacy Policy",
+
+    subtitle: "How we collect, use, and protect your personal information",
+
+    general: {
+
+      title: "General Information",
+
+      description: "This Privacy Policy describes how Unknown Faces Studio collects, uses, and protects your personal information when you use our booking services and website.",
+
+    },
+
+    dataController: {
+
+      title: "Data Controller",
+
+      description: "Unknown Faces Studio is the data controller responsible for processing your personal data. For any questions regarding data protection, please contact us.",
+
+    },
+
+    dataCollection: {
+
+      title: "Data We Collect",
+
+      description: "We collect the following types of personal information: name, email address, phone number, booking preferences, and any additional information you provide when making a booking.",
+
+    },
+
+    dataUsage: {
+
+      title: "How We Use Your Data",
+
+      description: "Your personal data is used to process bookings, send confirmation emails, communicate about your sessions, and improve our services. We do not share your data with third parties except as required by law.",
+
+    },
+
+    dataProtection: {
+
+      title: "Data Protection",
+
+      description: "We implement appropriate technical and organizational measures to protect your personal data against unauthorized access, alteration, disclosure, or destruction.",
+
+    },
+
+    yourRights: {
+
+      title: "Your Rights",
+
+      description: "You have the right to access, rectify, erase, restrict processing, object to processing, and data portability regarding your personal data. To exercise these rights, please contact us.",
+
+    },
+
+    contact: {
+
+      title: "Contact Us",
+
+      description: "If you have any questions about this Privacy Policy or wish to exercise your rights, please contact us through our website or email.",
+
+    },
+
+  },
+
+  
+
   footer: {
 
     copyright: "© {year} Unknown Faces. All rights reserved.",
 
     rules: "Studio Rules",
+
+    privacy: "Privacy Policy",
 
   },
 
