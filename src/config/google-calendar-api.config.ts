@@ -98,6 +98,10 @@ export async function getAvailableSlots(data: {
     durationMinutes: data.durationMinutes.toString(),
   });
 
+  const clientId = localStorage.getItem("clientId") || crypto.randomUUID();
+  localStorage.setItem("clientId", clientId);
+  params.set("clientId", clientId);
+
   const url = `${googleCalendarConfig.apiUrl}?${params.toString()}`;
   console.log("📅 Fetching slots from Google Calendar API...");
 

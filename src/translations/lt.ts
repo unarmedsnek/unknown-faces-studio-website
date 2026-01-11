@@ -518,70 +518,117 @@ export default {
 
   
 
+  // Add this to your Lithuanian translation object (lt.js or similar)
+
   rules: {
-
     title: "Studijos Taisyklės",
-
     subtitle: "Prašome perskaityti ir laikytis šių taisyklių",
-
-    general: {
-
-      title: "Bendros Taisyklės",
-
-      rule1: "Atvykite laiku į savo sesiją. Pavėlavimas gali sutrumpinti sesijos laiką.",
-
-      rule2: "Prašome palaikyti studiją švarią ir tvarkingą sesijos metu.",
-
-      rule3: "Studijoje draudžiama rūkyti, vape'inti ar vartoti alkoholinius gėrimus.",
-
-      rule4: "Gerbkite įrangą ir patalpas visais atvejais.",
-
+    
+    header: {
+      title: "FIZINIO ASMENS SUTIKIMAS SU \"UNKNOWNFACES STUDIO\" PATALPOS NUOMOS PASLAUGŲ TEIKIMO SUTARTIMI",
+      location: "Kaunas",
     },
-
-    equipment: {
-
-      title: "Įrangos Naudojimas",
-
-      rule1: "Naudokite tik tą įrangą, kurią studijos personalas jums leido naudoti.",
-
-      rule2: "Apie bet kokias įrangos gedimus ar pažeidimus praneškite nedelsiant.",
-
-      rule3: "Be leidimo nejudinkite ir nereguliuokite įrangos.",
-
+    
+    provider: {
+      title: "Paslaugos teikėjas:",
+      name: "Paslaugos teikėjas",
+      nameValue: "f.a Laurynas Bendžaitis",
+      address: "Buveinės adresas",
+      addressValue: "Laisvės al. 99 6B-1, Kaunas",
+      email: "El. pašto adresas",
+      emailValue: "unknownfacesnotes@gmail.com",
+      phone: "Mob.tel.nr",
+      phoneValue: "+37060623373",
     },
-
-    booking: {
-
-      title: "Rezervacija ir Atšaukimas",
-
-      rule1: "Sesijos turi būti rezervuojamos bent 24 valandas iš anksto.",
-
-      rule2: "Atšaukimai turi būti padaryti bent 48 valandas prieš sesiją, kad išvengtumėte mokesčių.",
-
-      rule3: "Mokėjimas reikalingas rezervacijos patvirtinimui.",
-
+    
+    client: {
+      title: "1. Klientas",
+      definition: "Asmuo, atlikęs paslaugos rezervaciją ir apmokėjimą elektroninėje sistemoje, nurodantis savo vardą, pavardę ir kontaktus registracijos metu.",
     },
-
-    conduct: {
-
-      title: "Elgesys Studijoje",
-
-      rule1: "Visada palaikykite profesionalią ir pagarbią atmosferą.",
-
-      rule2: "Išlaikykite tinkamą triukšmo lygį, kai vyksta kitos sesijos.",
-
-      rule3: "Maksimalus žmonių skaičius studijoje per sesiją: 6 žmonės.",
-
+    
+    subject: {
+      title: "2. SUTARTIES DALYKAS",
+      point1: "Paslaugos teikėjas suteikia klientui teisę naudotis garso įrašinėjimo studija su visa joje esančia įranga, inventoriumi ir baldais.",
+      point2: "Inventoriaus sąrašas pateikiamas kaip Sutarties priedas Nr. 1.",
+      point3: "Paslauga suteikiama kūrybos veiklai, garso įrašams, repeticijoms ar kitai teisėtai veiklai.",
     },
-
+    
+    reservation: {
+      title: "3. REZERVACIJA IR MOKĖJIMO TVARKA",
+      point1: "Rezervacija laikoma patvirtinta tik gavus patvirtinimo laišką apie paslaugos teikimą.",
+      point2: "Klientas turi teisę atšaukti rezervaciją, jei rezervacija atšaukiama ne vėliau kaip 12 valandų iki rezervacijos pradžios.",
+      point3: "Jeigu apie neatvykimą ar atšaukimą nepranešama laiku, taikomas 10EUR \"simbolinis\" mokestis, kuris bus pridėtas prie kito jūsų įsigyjamo studijos paketo.",
+    },
+    
+    usage: {
+      title: "4. NAUDOJIMO TAISYKLĖS",
+      prohibited: {
+        title: "Studijoje draudžiama:",
+        animals: "laikyti gyvūnus;",
+        effects: "naudotis konfeti, dirbtinio sniego, dūmų generatoriaus ar kitus teršiančius studijos ir jos aplinką efektais;",
+        noise: "LR ANK 488 straipsnis. Viešosios rimties trikdymas - Šauksmai, švilpimas, garsus dainavimas arba grojimas muzikos instrumentais, kitokiais garsiniais aparatais ar kiti triukšmą keliantys veiksmai muzikos studijoje vakaro (nuo 19 val. iki 22 val.) ir nakties (nuo 22 val. iki 7 val.) metu, kai tai trikdo kitų asmenų ramybę, poilsį ar darbą, užtraukia baudą asmenims nuo aštuoniasdešimt iki dviejų šimtų eurų;",
+        weapons: "į studiją atsinešti, laikyti ar naudoti ginklus ir neteisėtas saviginos priemones;",
+        parties: "rengti vakarėlius, masines susibūrimų veiklas;",
+        fire: "naudoti bet kokius gyvos ugnies šaltinius;",
+        settings: "savavališkai keisti elektros jungčių lokaciją, kompiuterio ir/ar garso įrangos nustatymus.",
+      },
+      maxPeople: "Maksimalus asmenų skaičius studijoje - iki dešimties f.a;",
+      properUse: "Klientas privalo naudoti įrangą ir inventorių tik pagal paskirtį;",
+      cleanliness: "Klientas privalo palikti studiją tvarkingą - tokios būklės, kokios ją rado atvykus. Sugadinus studijos inventorių nedelsiant privaloma pranešti apie įvykį paslaugų teikėjui;",
+      ventilation: "Po kiekvienos sesijos viena valanda skiriama studijos vėdinimui ir patikrinimui - tuo laikotarpiu studija negali būti naudojama;",
+    },
+    
+    liability: {
+      title: "5. ATSAKOMYBĖ IR BAUDOS",
+      point1: "Studijos nuomininkas atsako už savo ir kartu esančių asmenų veiksmus paslaugos suteikimo metu;",
+      point2: "Nuomininkas įsipareigoja atlyginti visą padarytą žalą studijai ir inventoriui pagal faktinę rinkos kainą;",
+      fines: {
+        title: "Už taisyklių pažeidimus taikomos šios baudos:",
+        smoking: "Rūkymas muzikos studijoje - 300EUR;",
+        substances: "Alkoholio ar narkotinių medžiagų vartojimas - 300EUR;",
+        late: "Vėlavimas išsikelti iš studijos po sesijos laiko - 15min = 10EUR;",
+        cleaning: "Jei studijoje buvo atliekama veikla kuri galėjo darytį įtaką studijos švarai ir studija nebuvo palikta tokios būklės kokios radote - priklausomai nuo situacijos gali būti taikomas papildomas valymo mokestis iki 100EUR;",
+      },
+      point4: "Visi papildomi mokesčiai taikomi nedelsiant, nustačius žalą studijos aplinkai;",
+    },
+    
+    surveillance: {
+      title: "6. VAIZDO STEBĖJIMAS",
+      point1: "Studijos patalpose gali būti vykdomas vaizdo stebėjimas vaizdo kameromis (apie tai būsite informuojami rašytiniais pranešimais atvykus į patalpą);",
+      point2: "Vaizdo įrašai renkami siekiant: apsisaugoti nuo turtinės žalos; nustatyti galimus pažeidimus ar žalą, ginčo tarp Šalių atveju;",
+      point3: "Duomenys saugomi vadovaujantis ir taikant Lietuvos Respublikos teisės aktus, naudojami tik teisėtiems tikslams ir neišduodami tretiesiems asmenims be jokio teisinio pagrindo.",
+    },
+    
+    confirmation: {
+      title: "7. PATVIRTINIMAS SUSIPAŽINUS SU STUDIJOS NAUDOJIMO SĄLYGOMIS/SUTIKIMAS ELEKTRONINIU BŪDU",
+      checkbox: {
+        intro: "Pažymėdamas varnelę (\"checkbox\") rezervacijos metu, klientas patvirtina, kad:",
+        point1: "susipažino su Sutartimi ir taikomomis taisyklėmis;",
+        point2: "sutinka su visomis sąlygomis;",
+        point3: "sudaro Sutartį elektroniniu būdu;",
+        point4: "ginčo atveju sutinka, jog LR teisiniai pagrindai ir šioje sutartyje nurodomų taisyklių pažeidimai gali būti panaudotos paslaugos teikėjo naudai.",
+      },
+      legalForce: "Elektroninis sutikimas turi tokią pačią teisinę galią kaip ir fizinis parašas (LR Elektroninio parašo įstatymas 8 str.).",
+    },
+    
+    disputes: {
+      title: "8. GINČŲ SPRENDIMAS",
+      point1: "Ginčai gali būti sprendžiami derybomis;",
+      point2: "Nepavykus susitarti - ginčai nagrinėjami Lietuvos Respublikos teismuose;",
+      point3: "Jurisdikcija - teisena - Kauno miesto regiono teismai.",
+    },
+    
+    final: {
+      title: "9. BAIGIAMOSIOS NUOSTATOS",
+      point1: "Sutartis galioja nuo kliento elektroninio sutikimo momento.",
+      point2: "Paslaugos teikėjas turi teisę keisti taisykles, tačiau pakeitimai netaikomi jau atliktoms rezervacijoms.",
+      point3: "Klientas patvirtina, kad išsamiai susipažino su Sutarties sąlygomis ir su jomis sutinka.",
+    },
+    
     note: {
-
       title: "Svarbi Pastaba",
-
       description: "Pažeidus šias taisykles, jūsų sesija gali būti nutraukta be pinigų grąžinimo. Pasiliekame teisę atsisakyti teikti paslaugas bet kam, kuris nesilaiko mūsų studijos politikos.",
-
     },
-
   },
 
   

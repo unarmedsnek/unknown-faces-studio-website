@@ -521,70 +521,115 @@ export default {
   
 
   rules: {
-
     title: "Studio Rules",
-
-    subtitle: "Please read and follow these guidelines",
-
-    general: {
-
-      title: "General Rules",
-
-      rule1: "Arrive on time for your session. Late arrivals may result in reduced session time.",
-
-      rule2: "Please keep the studio clean and tidy during your session.",
-
-      rule3: "No smoking, vaping, or alcoholic beverages inside the studio.",
-
-      rule4: "Respect the equipment and facilities at all times.",
-
+    subtitle: "Please read and comply with these rules",
+  
+    header: {
+      title: "CONSENT OF A NATURAL PERSON TO THE PROVISION OF \"UNKNOWNFACES STUDIO\" PREMISES RENTAL SERVICES AGREEMENT",
+      location: "Kaunas",
     },
-
-    equipment: {
-
-      title: "Equipment Usage",
-
-      rule1: "Only use equipment that you have been authorized to use by studio staff.",
-
-      rule2: "Report any equipment malfunctions or damage immediately.",
-
-      rule3: "Do not move or adjust equipment without permission.",
-
+  
+    provider: {
+      title: "Service Provider:",
+      name: "Service Provider",
+      nameValue: "Natural person Laurynas Bendžaitis",
+      address: "Registered address",
+      addressValue: "Laisvės ave. 99 6B-1, Kaunas",
+      email: "Email address",
+      emailValue: "unknownfacesnotes@gmail.com",
+      phone: "Mobile phone No.",
+      phoneValue: "+37060623373",
     },
-
-    booking: {
-
-      title: "Booking & Cancellation",
-
-      rule1: "Sessions must be booked at least 24 hours in advance.",
-
-      rule2: "Cancellations must be made at least 48 hours before your session to avoid charges.",
-
-      rule3: "Payment is required to confirm your booking.",
-
+  
+    client: {
+      title: "1. Client",
+      definition: "A person who has made a service reservation and payment through the electronic system and who provides their first name, last name, and contact details during registration.",
     },
-
-    conduct: {
-
-      title: "Studio Conduct",
-
-      rule1: "Maintain a professional and respectful atmosphere at all times.",
-
-      rule2: "Keep noise levels appropriate when other sessions are in progress.",
-
-      rule3: "Maximum number of people allowed in the studio per session: 6 people.",
-
+  
+    subject: {
+      title: "2. SUBJECT OF THE AGREEMENT",
+      point1: "The Service Provider grants the Client the right to use the sound recording studio together with all equipment, inventory, and furniture located therein.",
+      point2: "The list of inventory is provided as Annex No. 1 to this Agreement.",
+      point3: "The service is provided for creative activities, sound recording, rehearsals, or other lawful activities.",
     },
-
+  
+    reservation: {
+      title: "3. RESERVATION AND PAYMENT TERMS",
+      point1: "A reservation is considered confirmed only upon receipt of a confirmation email regarding service provision.",
+      point2: "The Client has the right to cancel the reservation provided that the cancellation is made no later than 12 hours before the start of the reservation.",
+      point3: "If failure to attend or cancellation is not reported in time, a symbolic fee of 10 EUR shall be applied and added to the next studio package purchased by the Client.",
+    },
+  
+    usage: {
+      title: "4. RULES OF USE",
+      prohibited: {
+        title: "It is prohibited in the studio to:",
+        animals: "keep animals;",
+        effects: "use confetti, artificial snow, smoke machines, or other effects that contaminate the studio or its surroundings;",
+        noise: "Article 488 of the Code of Administrative Offences of the Republic of Lithuania. Disturbance of public peace – shouting, whistling, loud singing, playing musical instruments or other sound devices, or other noise-generating actions in a music studio during evening hours (from 7:00 PM to 10:00 PM) and night hours (from 10:00 PM to 7:00 AM), when such actions disturb the peace, rest, or work of others, shall result in a fine from eighty to two hundred euros;",
+        weapons: "bring into, store, or use weapons or illegal self-defense tools in the studio;",
+        parties: "organize parties or mass gatherings;",
+        fire: "use any sources of open flame;",
+        settings: "arbitrarily change electrical connection locations, computer and/or audio equipment settings.",
+      },
+      maxPeople: "Maximum number of persons in the studio – up to ten natural persons;",
+      properUse: "The Client must use all equipment and inventory strictly for their intended purpose;",
+      cleanliness: "The Client must leave the studio tidy and in the same condition as found upon arrival. In the event of damage to studio inventory, the Client must immediately inform the Service Provider;",
+      ventilation: "After each session, one hour is allocated for studio ventilation and inspection – during this period, the studio may not be used;",
+    },
+  
+    liability: {
+      title: "5. LIABILITY AND PENALTIES",
+      point1: "The studio tenant is responsible for their own actions and the actions of accompanying persons during the provision of the service;",
+      point2: "The tenant undertakes to compensate all damage caused to the studio and its inventory at actual market value;",
+      fines: {
+        title: "The following fines apply for violations of the rules:",
+        smoking: "Smoking in the music studio – 300 EUR;",
+        substances: "Consumption of alcohol or narcotic substances – 300 EUR;",
+        late: "Failure to vacate the studio after the session time – 15 minutes = 10 EUR;",
+        cleaning: "If activities were carried out in the studio that could affect cleanliness and the studio was not left in the condition in which it was found, an additional cleaning fee of up to 100 EUR may be applied depending on the situation;",
+      },
+      point4: "All additional fees are applied immediately upon detection of damage to the studio environment;",
+    },
+  
+    surveillance: {
+      title: "6. VIDEO SURVEILLANCE",
+      point1: "Video surveillance may be carried out in the studio premises using video cameras (you will be informed of this by written notices upon entering the premises);",
+      point2: "Video recordings are collected for the purposes of: protection against property damage; identification of potential violations or damage in the event of a dispute between the Parties;",
+      point3: "Data is stored in accordance with the laws of the Republic of Lithuania, used only for lawful purposes, and is not disclosed to third parties without a legal basis.",
+    },
+  
+    confirmation: {
+      title: "7. CONFIRMATION OF FAMILIARIZATION WITH STUDIO USAGE CONDITIONS / ELECTRONIC CONSENT",
+      checkbox: {
+        intro: "By checking the checkbox during the reservation process, the Client confirms that:",
+        point1: "has read and understood the Agreement and applicable rules;",
+        point2: "agrees to all conditions;",
+        point3: "enters into the Agreement electronically;",
+        point4: "in the event of a dispute, agrees that the legal basis of the Republic of Lithuania and violations of the rules specified in this Agreement may be used in favor of the Service Provider.",
+      },
+      legalForce: "Electronic consent has the same legal force as a handwritten signature (Article 8 of the Law on Electronic Signature of the Republic of Lithuania).",
+    },
+  
+    disputes: {
+      title: "8. DISPUTE RESOLUTION",
+      point1: "Disputes may be resolved through negotiations;",
+      point2: "If no agreement is reached, disputes shall be resolved in the courts of the Republic of Lithuania;",
+      point3: "Jurisdiction and venue – courts of the Kaunas city region.",
+    },
+  
+    final: {
+      title: "9. FINAL PROVISIONS",
+      point1: "The Agreement enters into force from the moment of the Client’s electronic consent.",
+      point2: "The Service Provider has the right to amend the rules; however, amendments do not apply to reservations already made.",
+      point3: "The Client confirms that they have thoroughly reviewed and agree to the terms of the Agreement.",
+    },
+  
     note: {
-
-      title: "Important Note",
-
-      description: "Violation of these rules may result in termination of your session without refund. We reserve the right to refuse service to anyone who does not comply with our studio policies.",
-
+      title: "Important Notice",
+      description: "In the event of violation of these rules, your session may be terminated without a refund. We reserve the right to refuse service to any person who does not comply with our studio policy.",
     },
-
-  },
+  },  
 
   
 
