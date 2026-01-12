@@ -152,7 +152,7 @@ export default {
 
       rulesLink: "studijos taisyklėmis",
 
-      privacyAgreement: "Aš perskaičiau ir sutinku su",
+      privacyAgreement: "Patvirtindami rezervaciją sutinkate, kad Unknownfaces studio tvarkytų Jūsų pateiktus asmens duomenis (vardą, pavardę, el. pašto adresą ir mobilaus telefono numerį)  paslaugų užsakymui ir administravimui, susisiekimui su klientais dėl įrašų sesijų ar kitų paslaugų, informacijos apie paslaugas, laikus ar pakeitimus pateikimui, teisinių prievolių vykdymui. Duomenys nebus perduodami tretiesiems asmenims ir bus saugomi tik tiek, kiek būtina paslaugoms suteikti bei teisės aktų reikalavimams įvykdyti.",
 
       privacyLink: "privatumo politika",
 

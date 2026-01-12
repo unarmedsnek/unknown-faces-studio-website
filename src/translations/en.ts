@@ -152,7 +152,7 @@ export default {
 
       rulesLink: "studio rules",
 
-      privacyAgreement: "I have read and agree to the",
+      privacyAgreement: "y confirming the reservation, you agree that Unknownfaces Studio will process the personal data you have provided (first name, last name, email address, and mobile phone number) for the purposes of service booking and administration, contacting clients regarding recording sessions or other services, providing information about services, schedules, or changes, and fulfilling legal obligations. The data will not be transferred to third parties and will be retained only for as long as necessary to provide the services and to comply with legal requirements.",
 
       privacyLink: "privacy policy",
 
