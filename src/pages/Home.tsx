@@ -66,9 +66,9 @@ export default function Home() {
             </div>
             
             {/* Geometric manga panels */}
-            <div className="absolute left-10 top-10 h-32 w-32 border-3 border-accent-foreground/30 shadow-[4px_4px_0_rgba(255,255,255,0.1)]" />
-            <div className="absolute right-20 bottom-20 h-24 w-48 border-3 border-accent-foreground/30 shadow-[4px_4px_0_rgba(255,255,255,0.1)]" />
-            <div className="absolute left-1/4 bottom-10 h-16 w-16 rotate-45 border-3 border-accent-foreground/30 shadow-[4px_4px_0_rgba(255,255,255,0.1)]" />
+            <div className="absolute left-10 top-10 h-32 w-32 border-3 border-accent-foreground/30 shadow-[4px_4px_0_rgba(255,255,255,0.1)] pointer-events-none" />
+            <div className="absolute right-20 bottom-20 h-24 w-48 border-3 border-accent-foreground/30 shadow-[4px_4px_0_rgba(255,255,255,0.1)] pointer-events-none" />
+            <div className="absolute left-1/4 bottom-10 h-16 w-16 rotate-45 border-3 border-accent-foreground/30 shadow-[4px_4px_0_rgba(255,255,255,0.1)] pointer-events-none" />
           </div>
         </section>
 
