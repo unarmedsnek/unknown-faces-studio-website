@@ -41,9 +41,9 @@ const Discord = ({ className }: { className?: string }) => (
 
 const socialLinks = [
   { icon: Youtube, href: "https://www.youtube.com/channel/UCPBinwqK0M6lQ_ifx7BU5fA", label: "YouTube" },
-  { icon: Instagram, href: "https://www.instagram.com/unknownfacesofficial/?hl=en", label: "Instagram" },
-  { icon: Facebook, href: "https://www.facebook.com/unknownfaceso?locale=lt_LT", label: "Facebook" },
-  { icon: TikTok, href: "https://www.tiktok.com/@unknownfaces38", label: "TikTok" },
+  { icon: Instagram, href: "https://www.instagram.com/unknownfacesstudio/", label: "Instagram" },
+  { icon: Facebook, href: "https://www.facebook.com/groups/2115003292662573?locale=lt_LT", label: "Facebook" },
+  { icon: TikTok, href: "https://www.tiktok.com/@unknownfacesstudio", label: "TikTok" },
   { icon: Send, href: "https://t.me/UFOSTUDIJA", label: "Telegram" },
   { icon: Discord, href: "https://discord.gg/XY5kYjk4", label: "Discord" },
 ];

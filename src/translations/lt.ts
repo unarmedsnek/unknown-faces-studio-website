@@ -93,6 +93,8 @@ export default {
   booking: {
 
     title: "Rezervuok Savo Sesiją",
+    titleLine1: "REZERVUOK",
+    titleLine2: "SAVO SESIJĄ",
 
     subtitle: "Pasirink paketą ir užpildyk formą",
 

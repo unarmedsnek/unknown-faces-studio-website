@@ -479,7 +479,11 @@ export default function Booking() {
         <div className="mx-auto max-w-7xl px-6">
           <div className="mb-12 text-center py-8">
             <h1 className="mb-4 text-5xl font-bold">
-              <span className="manga-caption-strip">{t("booking.title")}</span>
+              <span className="manga-caption-strip">
+                {t("booking.titleLine1")}
+                <br />
+                <span className="whitespace-nowrap">{t("booking.titleLine2")}</span>
+              </span>
             </h1>
             <p className="text-xl text-muted-foreground font-mono">
               {t("booking.subtitle")}
