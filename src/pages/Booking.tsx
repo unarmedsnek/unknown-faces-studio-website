@@ -47,8 +47,8 @@ const PACKAGE_KEYS = {
   TWO_HOUR: "2 hour session",
   FOUR_HOUR: "4 hour session",
   SIX_HOUR: "6 hour session",
-  EIGHT_HOUR: "8 hour Session",
-  TEN_HOUR: "10 hour Session",
+  EIGHT_HOUR: "8 hour session",
+  TEN_HOUR: "10 hour session",
 } as const;
 
 export default function Booking() {
