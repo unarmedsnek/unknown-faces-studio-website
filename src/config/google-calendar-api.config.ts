@@ -29,8 +29,8 @@ export const PACKAGE_DURATIONS: Record<string, number> = {
   "2 hour session": 120,
   "4 hour session": 240,
   "6 hour session": 360,
-  "8 hour Session": 480,
-  "10 hour Session": 600,
+  "8 hour session": 480,
+  "10 hour session": 600,
 };
 
 // Map frontend package keys to script package IDs
