@@ -33,7 +33,7 @@ export const LanguageProvider = ({ children }: LanguageProviderProps) => {
   const [language, setLanguageState] = useState<Language>(() => {
     // Get saved language from localStorage or default to English
     const saved = localStorage.getItem("language");
-    return (saved === "lt" ? "lt" : "en") as Language;
+    return (saved === "en" ? "en" : "lt") as Language;
   });
 
   const setLanguage = (lang: Language) => {
