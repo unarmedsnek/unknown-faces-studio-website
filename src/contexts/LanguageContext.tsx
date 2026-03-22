@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, ReactNode } from "react";
+import { createContext, useContext, useEffect, useState, ReactNode } from "react";
 import en from "../translations/en";
 import lt from "../translations/lt";
 
@@ -40,6 +40,10 @@ export const LanguageProvider = ({ children }: LanguageProviderProps) => {
     setLanguageState(lang);
     localStorage.setItem("language", lang);
   };
+
+  useEffect(() => {
+    document.documentElement.lang = language;
+  }, [language]);
 
   // Translation function
   const t = (key: string): string => {

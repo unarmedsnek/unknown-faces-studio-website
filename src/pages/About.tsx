@@ -1,11 +1,13 @@
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { SEO } from "@/components/SEO";
 
 export default function About() {
   const { t } = useLanguage();
   return (
     <div className="min-h-screen w-full">
+      <SEO page="about" />
       <Navbar />
       
       <main className="py-16">

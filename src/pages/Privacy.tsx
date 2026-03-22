@@ -2,12 +2,14 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { Card, CardContent } from "@/components/ui/card";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { SEO } from "@/components/SEO";
 
 export default function Privacy() {
   const { t } = useLanguage();
   
   return (
     <div className="min-h-screen w-full">
+      <SEO page="privacy" />
       <Navbar />
       
       <main className="py-16">

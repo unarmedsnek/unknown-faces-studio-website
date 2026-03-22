@@ -6,6 +6,8 @@ import { Footer } from "@/components/Footer";
 import { PromoBanner } from "@/components/PromoBanner";
 import { FloatingPromoBadge } from "@/components/FloatingPromoBadge";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { SEO } from "@/components/SEO";
+import { LocalBusinessJsonLd } from "@/components/LocalBusinessJsonLd";
 
 export default function Home() {
   const { t } = useLanguage();
@@ -37,6 +39,8 @@ export default function Home() {
   ];
   return (
     <div className="min-h-screen w-full">
+      <SEO page="home" />
+      <LocalBusinessJsonLd />
       <Navbar />
       
       <main>

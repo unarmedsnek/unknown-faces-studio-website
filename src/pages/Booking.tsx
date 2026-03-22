@@ -25,6 +25,7 @@ import {
 import { parseISO, addMonths } from "date-fns";
 import { formatInTimeZone, fromZonedTime } from "date-fns-tz";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { SEO } from "@/components/SEO";
 
 // Helper to format time in Lithuanian timezone
 function formatLithuanianTime(date: Date): string {
@@ -473,6 +474,7 @@ export default function Booking() {
 
   return (
     <div className="min-h-screen w-full">
+      <SEO page="booking" />
       <Navbar />
       
       <main className="py-16">

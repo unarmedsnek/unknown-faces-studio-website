@@ -7,6 +7,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { SEO } from "@/components/SEO";
 
 export default function FAQ() {
   const { t } = useLanguage();
@@ -75,6 +76,7 @@ export default function FAQ() {
   
   return (
     <div className="min-h-screen w-full">
+      <SEO page="faq" />
       <Navbar />
       
       <main className="py-16">

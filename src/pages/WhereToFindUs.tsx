@@ -3,11 +3,13 @@ import { Footer } from "@/components/Footer";
 import { Card, CardContent } from "@/components/ui/card";
 import { MapPin, Clock, Mail, Phone } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { SEO } from "@/components/SEO";
 
 export default function WhereToFindUs() {
   const { t } = useLanguage();
   return (
     <div className="min-h-screen w-full">
+      <SEO page="location" />
       <Navbar />
       
       <main className="py-16">
