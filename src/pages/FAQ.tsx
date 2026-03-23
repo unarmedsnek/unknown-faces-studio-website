@@ -8,9 +8,11 @@ import {
 } from "@/components/ui/accordion";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { SEO } from "@/components/SEO";
+import { Helmet } from "react-helmet-async";
 
 export default function FAQ() {
   const { t } = useLanguage();
+  const stripHtml = (value: string) => value.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
 
   const getAnswer = (index: number): { isHtml: boolean; content: string | string[] } => {
     // Check for HTML answer first
@@ -73,10 +75,37 @@ export default function FAQ() {
       ...getAnswer(7),
     },
   ];
+
+  const faqJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqs.map((faq) => {
+      const answerText = faq.isHtml
+        ? stripHtml(faq.content as string)
+        : Array.isArray(faq.content)
+          ? faq.content.join("\n\n")
+          : (faq.content as string);
+
+      return {
+        "@type": "Question",
+        name: faq.question,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: answerText,
+        },
+      };
+    }),
+  };
   
   return (
     <div className="min-h-screen w-full">
       <SEO page="faq" />
+      <Helmet>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+        />
+      </Helmet>
       <Navbar />
       
       <main className="py-16">

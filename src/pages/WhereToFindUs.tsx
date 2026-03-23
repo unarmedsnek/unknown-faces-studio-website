@@ -4,12 +4,14 @@ import { Card, CardContent } from "@/components/ui/card";
 import { MapPin, Clock, Mail, Phone } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { SEO } from "@/components/SEO";
+import { LocalBusinessJsonLd } from "@/components/LocalBusinessJsonLd";
 
 export default function WhereToFindUs() {
   const { t } = useLanguage();
   return (
     <div className="min-h-screen w-full">
       <SEO page="location" />
+      <LocalBusinessJsonLd />
       <Navbar />
       
       <main className="py-16">
