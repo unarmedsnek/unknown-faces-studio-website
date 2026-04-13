@@ -81,7 +81,7 @@ export default function Booking() {
   const [hasFetchedMonthAvailability, setHasFetchedMonthAvailability] = useState(false);
   const [bookingResult, setBookingResult] = useState<BookingResponse | null>(null);
   const [showSuccessDialog, setShowSuccessDialog] = useState(false);
-  const [formLoadTime, setFormLoadTime] = useState<string>("");
+  const [formLoadTime, setFormLoadTime] = useState<string>(() => new Date().toISOString());
   const [honeypot, setHoneypot] = useState({
     website: "",
     url: "",
@@ -310,7 +310,6 @@ export default function Booking() {
   // Track when modal opens (form load time)
   useEffect(() => {
     if (isModalOpen) {
-      setFormLoadTime(new Date().toISOString());
       setHoneypot({ website: "", url: "", honeypot: "" });
       setHasReadRules(false);
       setHasReadPrivacy(false);
@@ -447,7 +446,6 @@ export default function Booking() {
       setSelectedDate(undefined);
       setSelectedTimeSlot(null);
       setAvailableSlots([]);
-      setFormLoadTime("");
       setHoneypot({ website: "", url: "", honeypot: "" });
 
     } catch (error: any) {
