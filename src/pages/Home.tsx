@@ -162,15 +162,15 @@ export default function Home() {
             
             <div className="grid grid-cols-2 gap-4 lg:grid-cols-3">
               {[
-                "https://www.instagram.com/p/C8KTNkSsroG/?hl=en",
-                null, // Add links here when you add more images
-                null,
-                null,
-                null,
-                null,
+                "https://www.instagram.com/p/DVdiEA-jNOu/?img_index=1",
+                "https://www.instagram.com/p/DVdiEA-jNOu/?img_index=2", // Add links here when you add more images
+                "https://www.instagram.com/p/DTAye3cDMVh/",
+                "https://www.instagram.com/p/DV0bAW7sooO/",
+                "https://www.instagram.com/p/DS2eC-HDCpm/",
+                "https://www.instagram.com/p/DTgDDkdDQMC/",
               ].map((instagramLink, i) => {
                 const imageNumber = i + 1;
-                const hasImage = imageNumber === 1; // Update this when you add more images
+                const hasImage = Boolean(instagramLink);
                 
                 return (
                   <div
