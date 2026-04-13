@@ -218,7 +218,7 @@ export default {
 
       title: "Papildomos Paslaugos su prodiuseriu EDTA",
 
-      vocalRecording: "Vokalų Įrašymas (+25€)",
+      vocalRecording: "Vokalų Įrašymas (+25€/val.)",
 
       mixMaster: "Mix/Master (+70€)",
 

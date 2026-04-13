@@ -218,7 +218,7 @@ export default {
 
       title: "Additional Services with producer EDTA",
 
-      vocalRecording: "Vocal Recording (+25€)",
+      vocalRecording: "Vocal Recording (+25€/hour)",
 
       mixMaster: "Mix/Master (+70€)",
 

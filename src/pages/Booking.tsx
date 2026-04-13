@@ -133,7 +133,7 @@ export default function Booking() {
   // Price constants for extras (in euros)
   const PRICES = {
     extraHour: 10,
-    vocalRecording: 25,
+    vocalRecordingPerHour: 25,
     mixMaster: 70,
     instrumental: 150,
   };
@@ -149,12 +149,16 @@ export default function Booking() {
   const calculatePrice = (): { base: number; extras: { name: string; price: number }[]; total: number } => {
     const base = getBasePrice();
     const extras: { name: string; price: number }[] = [];
+    const totalHours = getTotalDurationMinutes() / 60;
 
     if (extraHour) {
       extras.push({ name: t("booking.priceBreakdown.extraHour"), price: PRICES.extraHour });
     }
     if (extraServices.vocalRecording) {
-      extras.push({ name: t("booking.priceBreakdown.vocalRecording"), price: PRICES.vocalRecording });
+      extras.push({
+        name: t("booking.priceBreakdown.vocalRecording"),
+        price: PRICES.vocalRecordingPerHour * totalHours,
+      });
     }
     if (extraServices.mixMaster) {
       extras.push({ name: t("booking.priceBreakdown.mixMaster"), price: PRICES.mixMaster });
